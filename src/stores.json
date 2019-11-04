@@ -1,0 +1,14 @@
+[
+  {
+    "url": "www.hugoboss.com",
+    "inject": "storeInjectFiles/hugoboss.js"
+  },
+  {
+    "url": "shop.nordstrom.com",
+    "inject": "storeInjectFiles/nordstrom.js"
+  },
+  {
+    "url": "www.pacsun.com",
+    "inject": "storeInjectFiles/pacsun.js"
+  }
+]

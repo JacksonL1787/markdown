@@ -1,0 +1,31 @@
+{
+  "name": "Markdown",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Automatically interprets the clothing you are viewing and presents you with alternatives from other online clothing stores.",
+  "author": "Jackson Lawrence",
+  "icons": {
+    "128": "icons/markdown-logo128.png"
+  },
+  "permissions": [
+    "http://shop.nordstrom.com/*",
+    "https://shop.nordstrom.com/*",
+    "tabs",
+    "*://*/*",
+    "webNavigation",
+    "storage"
+  ],
+  "background": {
+    "page": "src/background.html"
+  },
+  "browser_action": {
+    "default_icon": {
+      "128": "icons/markdown-logo128.png"
+    },
+    "default_title": "Markdown",
+    "default_popup": "/src/popup.html"
+  },
+  "web_accessible_resources": [
+    "src/keywords.json"
+  ]
+}
