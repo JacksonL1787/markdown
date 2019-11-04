@@ -1,10 +1,9 @@
 
-const handleIcon = (active) => {
-  console.log(active)
+const handleIcon = (active, tabId) => {
   if(active) {
-    chrome.browserAction.setIcon({path: "/icons/markdown-logo-active128.png"});
+    chrome.browserAction.setIcon({path: "/icons/markdown-logo-active128.png", tabId: tabId});
   } else {
-    chrome.browserAction.setIcon({path: "/icons/markdown-logo128.png"});
+    chrome.browserAction.setIcon({path: "/icons/markdown-logo128.png", tabId: tabId});
   }
 }
 
@@ -39,12 +38,13 @@ const compareFavoritesToProducts = (products) => {
 const getAllProducts = async (data) => {
   let products = [];
   if(data.stores.includes("nordstrom")) products = [...products, ...await getNordstromProducts(data.keywords)]
+  if(data.stores.includes("hugoboss")) products = [...products, ...await getHugoBossProducts(data.keywords)]
   products = await compareFavoritesToProducts(products)
   console.log(products)
   return products
 }
 
-const handleURL = (url) => {
+const handleURL = (url, tabId) => {
   chrome.tabs.executeScript(null, {file: '/src/jquery.js'}, () => {
     chrome.tabs.executeScript(null,{file:`/src/inject.js`});
   })
@@ -57,11 +57,11 @@ const handleURL = (url) => {
       }
     })
     if(!currentStore) {
-      if(!window.initDone) handleIcon(false)
+      if(!window.initDone) handleIcon(false, tabId)
       return;
     }
     runInject(currentStore.inject)
-    handleIcon(true)
+    handleIcon(true, tabId)
     window.initDone = true
   });
 }
@@ -70,17 +70,17 @@ const handleURL = (url) => {
 
 chrome.webNavigation.onHistoryStateUpdated.addListener(function(tab) {
     window.initDone = false
-    handleURL(tab.url)
+    handleURL(tab.url, tab.tabId)
 });
 
 chrome.webNavigation.onDOMContentLoaded.addListener(function(tab) {
-    handleURL(tab.url)
+    handleURL(tab.url, tab.tabId)
 })
 
 chrome.tabs.onActivated.addListener(function(tab) {
   chrome.tabs.getSelected(null, function(tab) {
     window.initDone = false
-    handleURL(tab.url)
+    handleURL(tab.url, tab.tabId)
   })
 });
 
