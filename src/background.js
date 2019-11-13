@@ -12,8 +12,11 @@ const getRefinedURL = (url) => {
 }
 
 const runInject = (path) => {
+  console.log(path)
   chrome.tabs.executeScript(null, {file: '/src/jquery.js'}, () => {
-    chrome.tabs.executeScript(null,{file:`/src/${path}`});
+    chrome.tabs.executeScript(null, {file:`/src/storeInjectFiles/main.js`}, () => {
+      chrome.tabs.executeScript(null,{file:`/src/${path}`});
+    })
   })
 }
 
@@ -39,6 +42,9 @@ const getAllProducts = async (data) => {
   let products = [];
   if(data.stores.includes("nordstrom")) products = [...products, ...await getNordstromProducts(data.keywords)]
   if(data.stores.includes("hugoboss")) products = [...products, ...await getHugoBossProducts(data.keywords)]
+  if(data.stores.includes("pacsun")) products = [...products, ...await getPacsunProducts(data.keywords)]
+  if(data.stores.includes("hollister")) products = [...products, ...await getHollisterProducts(data.keywords)]
+  if(data.stores.includes("vans")) products = [...products, ...await getVansProducts(data.keywords)]
   products = await compareFavoritesToProducts(products)
   console.log(products)
   return products
