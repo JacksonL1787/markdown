@@ -4,51 +4,54 @@ if(!window.mainStoreInject) {
   function getSearchKeywords (string, keywords) {
     const search = [];
     console.log(keywords)
-    keywords.gender.forEach((i) => {
+    keywords.gender.some((i) => {
       if(string.includes(i)) {
         search.push(i)
-        return;
+        return true;
       }
     })
-    keywords.shade.forEach((i) => {
+    keywords.shade.some((i) => {
       if(string.includes(i)) {
         search.push(i)
-        return;
+        return true;
       }
     })
-    keywords.color.forEach((i) => {
+    keywords.color.some((i) => {
       if(string.includes(i)) {
         search.push(i)
-        return;
+        return true;
       }
     })
-    keywords.material.forEach((i) => {
+    keywords.material.some((i) => {
       if(string.includes(i)) {
         search.push(i)
-        return;
+        return true;
       }
     })
-    keywords.pattern.forEach((i) => {
+    keywords.pattern.some((i) => {
       if(string.includes(i)) {
         search.push(i)
-        return;
+        return true;
       }
     })
-    keywords.sport.forEach((i) => {
+    keywords.sport.some((i) => {
       if(string.includes(i)) {
         search.push(i)
-        return;
+        return true;
       }
     })
-    keywords.type.forEach((i) => {
+    keywords.type.some((i) => {
       if(string.includes(i)) {
         let add = true;
-        search.forEach((ew) => {
-          if(ew.includes(i)) {
+        keywords.type.forEach((ew) => {
+          if(ew.includes(i) && ew != i) {
             add = false;
           }
         })
-        if(add) search.push(i)
+        if(add) {
+          search.push(i)
+          return true;
+        }
       }
     })
     return search

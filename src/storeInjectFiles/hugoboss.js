@@ -1,6 +1,12 @@
 if(!window.initDone) {
   window.initDone = true
-  let allProducts = [];
+
+  var storeInformation = {
+    nordstrom: {id: "nordstrom", url: "https://shop.nordstrom.com/", name: "Nordstrom"},
+    vans: {id: "vans", url: "https://vans.com/", name: "Vans"},
+    pacsun: {id: "pacsun", url: "https://pacsun.com/", name: "Pacsun"},
+    hollister: {id: "hollister", url: "https://hollister.com/", name: "Hollister"}
+  }
 
   const getKeywords = async () => {
     let string = ''
@@ -15,16 +21,17 @@ if(!window.initDone) {
     return getSearchKeywords(string, keywords)
   }
 
-  const getProducts = async () => {
-    const keywords = await getKeywords()
-    chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: ["nordstrom"], keywords: keywords}}, function(response) {
-      allProducts = response
-    });
-  }
-  getProducts()
-  chrome.runtime.onMessage.addListener((request, sender, response) => {
-    if(request.from === "popup" && request.subject === "productInfo") {
-      response(allProducts);
-    }
-  });
+  $(async () => {
+    console.log(storeInformation)
+    getProducts([
+      storeInformation.nordstrom,
+      storeInformation.vans,
+      storeInformation.pacsun,
+      storeInformation.hollister
+    ], await getKeywords())
+  })
+
+  $(document).on('click', '.swatch-list__container .swatch-list__button', function() {
+    window.location.replace($(this).children().attr('href'))
+  })
 }

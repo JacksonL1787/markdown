@@ -1,4 +1,6 @@
 if(!window.mainInjectInit) {
+  let allProducts = [];
+
   window.mainInjectInit = true;
   console.log('RUN123')
   var getProductsMessage = (data) => {
@@ -10,8 +12,45 @@ if(!window.mainInjectInit) {
     })
   }
 
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  const appendModal = (products, stores) => {
+    products.forEach((p) => {
+      stores.forEach((s, i) => {
+        console.log(p.storeName)
+        console.log(s.name)
+        if(p.storeName == s.name) stores[i].show = true
+      })
+    })
+    $(document).on('click', '.markdown-close-modal', function() {
+      $(this).parent().remove()
+    })
+    $('body').append(`
+      <div class="markdown-similar-item-modal">
+        <div class="markdown-logo"></div>
+        <p class="markdown-close-modal">&#10005</p>
+        <div class="markdown-modal-content">
+          <h1 class="markdown-similar-item-count">${products.length}<h1>
+          <p class="markdown-similar-item-count-desc">Similar clothing items found from ${stores.filter((i) => {
+            if(!i.show) {
+              return false;
+            }
+            return true;
+          }).map((i) => `<a class="markdown-store-link" href="${i.url}" target="_blank">${i.name}</a>`).join(", ")}</p>
+        </div>
+      </div>
+    `)
+  }
 
+  function getProducts(stores, keywords)  {
+    chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: stores.map((s) => s.id), keywords: keywords}}, function(response) {
+      appendModal(response, stores)
+      allProducts = response
+    });
+  }
+
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if(request.from === "popup" && request.subject === "productInfo") {
+      sendResponse(allProducts);
+    }
     if(request.from === 'popup' && request.subject === 'setFavorite') {
       if(!window.init) {
         window.init = true

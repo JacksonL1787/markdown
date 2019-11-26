@@ -111,9 +111,11 @@
     "cotton"
   ],
   "sport": [
+    "running",
     "basketball",
     "baseball",
     "football",
-    "soccer"
+    "soccer",
+    "run"
   ]
 }

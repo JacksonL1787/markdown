@@ -182,80 +182,6 @@ body
       font-weight 700
       text-transform uppercase
 
-.search-stores
-  .content-header
-    width calc(100% - 30px)
-    height fit-content
-    margin 0 auto 0
-    text-align center
-    padding 15px 0
-    .content-title
-      color #333
-      font-size 19px
-      margin 0
-      font-weight 600
-  .search-bar
-    display flex
-    width 90%
-    margin 0 auto 0
-    justify-content left
-    height fit-content
-    border-radius .3em
-    .search-inpt
-      border 1px solid #e8eaea
-      border-right none
-      outline none
-      border-top-left-radius .3em
-      border-bottom-left-radius .3em
-      height 32px
-      padding 0 12px
-      font-size 14px
-      color #333
-      width calc(100% - 35px)
-      font-family 'Open Sans' !important
-    .search-btn
-      width 35px
-      height 32px
-      border 1px solid #1ac773
-      border-left none
-      background #1ac773
-      border-top-right-radius .3em
-      border-bottom-right-radius .3em
-      position relative
-      cursor pointer
-      transition border-color .3s, background .3s
-      &:hover
-        background #21e083
-        border-color #21e083
-      .icon
-        background-image url('../img/white-search-icon.svg')
-        background-size cover
-        background-position center
-        background-repeat no-repeat
-        width 20px
-        height 21px
-        position absolute
-        top calc(50% + 3px)
-        left 50%
-        transform translate(-50%, -50%)
-  .change-stores-btn
-    color #1ac773
-    font-size 14px
-    margin 10px auto
-    display inline-block
-    cursor pointer
-    text-align center
-    &:hover
-      text-decoration underline
-  .all-products
-    .no-results
-      color grey
-      margin 30px auto 0
-      font-size 15px
-      text-align center
-      max-width 90%
-
-
 .your-favorites
   .content-header
     width calc(100% - 30px)
@@ -276,7 +202,7 @@ body
       text-align center
       max-width 90%
 
-.search-select-stores
+.search-stores
   .content-header
     width calc(100% - 30px)
     height fit-content
@@ -297,52 +223,38 @@ body
     margin 20px auto 35px
     height fit-content
     position relative
-    display flex
-    justify-content space-between
-    flex-flow row wrap
-    .store-select
-      display flex
-      justify-content left
-      align-items center
-      flex-basis 50%
+    .alphabetic-store-wrap
+      width 100%
       margin-bottom 20px
-      &.active
-        .store-label
+      .alphabetic-title
+        margin 0
+        font-size 20px
+        font-weight 700
+        text-align left
+        color lightgrey
+      .store-links
+        display flex
+        justify-content left
+        flex-flow row wrap
+      .store-label-wrap
+        display flex
+        justify-content left
+        align-items center
+        flex-basis 50%
+        margin-bottom 10px
+        &.active
+          .store-label
+            color #1ad278 !important
+        .store-link
+          color #333
+          font-size 14px
+          text-align left
+          font-weight 600
+          cursor pointer
+          text-decoration none
+          transition color .2s
+        .store-link:hover
           color #1ad278 !important
-      .store-label
-        color #333
-        font-size 14px
-        margin 0 0 0 5px
-        font-weight 600
-        cursor pointer
-        transition color .2s
-      .store-label:hover
-        color #1ad278 !important
-  .continue-to-search-btn
-    background #1ad278
-    padding 7px 20px
-    color white
-    font-size 13.5px
-    font-weight 600
-    border-radius .3em
-    position fixed
-    outline none
-    cursor pointer
-    bottom 55px
-    letter-spacing 0.3px
-    border none
-    left 50%
-    transform translate(-50%)
-    font-family 'Open Sans' !important
-    opacity 0
-    visibility hidden
-    transition opacity .3s, visibility .3s, bottom .4s, background .3s
-    &.active
-      opacity 1
-      visibility visible
-      bottom 60px
-    &:hover
-      background #38ef95
 
 
 .similar-items-content
@@ -356,3 +268,25 @@ body
       font-size 19px
       margin 0
       font-weight 600
+  .return-to-top-btn
+    position fixed
+    width 100%
+
+    height 0
+    overflow hidden
+    top 50px
+    z-index 10
+    background black
+    cursor pointer
+    transition background .3s, height .3s
+    &:hover
+      background #171717
+    &.active
+      height 30px
+      box-shadow 0 0 12px 4px rgba(0,0,0,0.1)
+    p
+      color white
+      font-size 15px
+      font-weight 800
+      margin 5px 0 0
+      text-align center

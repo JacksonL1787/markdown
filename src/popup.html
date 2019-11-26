@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>GTmetrix Analyzer</title>
+    <title>Markdown</title>
     <link rel="stylesheet" href="static/css/popup.css">
     <script src="jquery.js"></script>
     <script src="fa.js"></script>
@@ -21,6 +21,9 @@
           <div class="content-header">
             <h1 class="content-title">Similar Items</h1>
           </div>
+          <div class="return-to-top-btn">
+            <p>Back to Top</p>
+          </div>
           <div class="all-products">
             <div class="loader"></div>
           </div>
@@ -37,52 +40,13 @@
         </div>
       </div>
 
-      <div class="content-wrap search-select-stores active-search-page active">
+      <div class="content-wrap search-stores active">
         <div>
           <div class="content-header">
-            <h1 class="content-title">Select Stores</h1>
-            <p class="content-subtitle">These stores will be included in your search</p>
+            <h1 class="content-title">All Stores</h1>
+            <p class="content-subtitle">These are all the stores that Markdown supports.</p>
           </div>
-          <div class="stores">
-
-            <div class="store-select" data-store="nordstrom">
-              <p class="store-label">Nordstrom</p>
-            </div>
-            <div class="store-select" data-store="hugoboss">
-              <p class="store-label">Hugo Boss</p>
-            </div>
-            <div class="store-select" data-store="pacsun">
-              <p class="store-label">Pacsun</p>
-            </div>
-            <div class="store-select" data-store="hollister">
-              <p class="store-label">Hollister</p>
-            </div>
-            <div class="store-select" data-store="vans">
-              <p class="store-label">Vans</p>
-            </div>
-            <div class="store-select" data-store="forever21">
-              <p class="store-label">Forever 21</p>
-            </div>
-
-          </div>
-        </div>
-        <button class="continue-to-search-btn">Continue</button>
-      </div>
-
-      <div class="content-wrap search-stores">
-        <div class="content-header">
-          <h1 class="content-title">Search</h1>
-        </div>
-        <div class="search-bar">
-          <input class="search-inpt" type="text" placeholder="Search">
-          <div class="search-btn">
-            <div class="icon"></div>
-          </div>
-        </div>
-        <p class="change-stores-btn">Change Stores</p>
-        <div class="all-products">
-          <div class="loader" style="display: none;"></div>
-          <p class="no-results" style="display: none;">No results for "<span class="search-text"></span>"</p>
+          <div class="stores"></div>
         </div>
       </div>
 

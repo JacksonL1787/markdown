@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap')
+
+.markdown-similar-item-modal
+  font-family 'Open Sans', sans-serif !important
+  position fixed
+  width 325px
+  height fit-content
+  min-height 175px
+  background white
+  top 10px
+  right 10px
+  z-index 10000000000000
+  box-shadow 0 0 12px 3px rgba(0,0,0,0.07)
+  border 1px solid lightgrey
+  border-radius .5em
+  .markdown-logo
+    background-image url('https://i.ibb.co/10Y6J3K/markdown-logo900.png')
+    width 25px
+    height 25px
+    margin 10px auto
+    background-size cover
+    background-position center
+    background-repeat no-repeat
+  .markdown-close-modal
+    all initial
+    position absolute
+    top 12.5px
+    right 13px
+    cursor pointer
+    color grey
+    font-size 15px
+    transition color .3s
+    &:hover
+      color black
+  .markdown-modal-content
+    width 90%
+    margin 15px auto 0
+    h1,
+    p,
+    a
+      all initial
+      font-family 'Open Sans', sans-serif !important
+    .markdown-similar-item-count
+      display block
+      font-size 35px
+      text-align center
+      color #333
+      font-weight 800
+    .markdown-similar-item-count-desc
+      color grey
+      text-align center
+      display block
+      max-width 90%
+      margin 5px auto
+      font-size 13px
+    .markdown-store-link
+      text-decoration none
+      font-size 13px
+      color #1ac773
+      cursor pointer
+      &:hover
+        text-decoration underline

@@ -108,3 +108,663 @@ const getVansProducts = async (keywords) => {
   })
   return products
 }
+
+const getForever21Products = async (keywords) => {
+  const products = []
+  await $.get(`https://www.forever21.com/us/shop/Search/#brm-search?request_type=search&search_type=keyword&q=${keywords.join('%20')}&l=${keywords.join('%20')}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('#product_list').find('.pi_container')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('.p_name').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find('.p_sale').length > 0 ? $(this).find('.p_sale').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") : $(this).find('.p_price').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,""),
+        img: $(this).find('.product_image').attr('src'),
+        link: $(this).find('.product_link').attr('href'),
+        storeName: 'Forever 21'
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getNikeProducts = async (keywords) => {
+  const products = []
+  await $.get(`https://www.nike.com/w?q=${keywords.join('%20')}&vst=${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('.product-grid__items .product-card__body')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('.product-card__title').text().replace(/(\r\n|\n|\r)/gm,"") + $(this).find('.product-card__subtitle').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('.product-card__link-overlay').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getAmericanEagleProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getAdidasProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getUrbanOutfittersProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getVictoriaSecretProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getBrandyMelvilleProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getAbercrombieFitchProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getHotTopicProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getOldNavyProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getZumiezProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getGapProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getBananaRepublicProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getJCrewProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getHMProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getBloomingDaleProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getBillabongProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getNordstromRackProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getZafulProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getZaraProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getNorthFaceProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getStussyProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getLeviProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getPaulSmithProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getLouisVuittonProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getChampionProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getPinkProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getChanelProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getFendiProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getPradaProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getGuessProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+const getAsosProducts = async (keywords) => {
+  const products = []
+  await $.get(`${keywords.join('%20')}}`, function(data) {
+    console.log($(data))
+    let elements = $(data).find('')
+    console.log(elements)
+    elements.each(function() {
+      const tempObj = {
+        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find(''),
+        img: $(this).find('').attr(''),
+        link: $(this).find('').attr('href'),
+        storeName: ''
+      }
+      products.push(tempObj)
+    })
+  })
+  return products
+}
+
+// const getProducts = async (keywords) => {
+//   const products = []
+//   await $.get(`${keywords.join('%20')}}`, function(data) {
+//     console.log($(data))
+//     let elements = $(data).find('')
+//     console.log(elements)
+//     elements.each(function() {
+//       const tempObj = {
+//         name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
+//         price: $(this).find(''),
+//         img: $(this).find('').attr(''),
+//         link: $(this).find('').attr('href'),
+//         storeName: ''
+//       }
+//       products.push(tempObj)
+//     })
+//   })
+//   return products
+// }

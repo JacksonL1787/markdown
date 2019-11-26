@@ -2,15 +2,55 @@ let _data = {};
 
 let getProductsTimer;
 
+const allStores = [
+  {name: "Nordstrom", url: "https://shop.nordstrom.com"},
+  {name: "Hugo Boss", url: "https://hugoboss.com"},
+  {name: "Pacsun", url: "https://pacsun.com"},
+  {name: "Hollister", url: "https://hollister.com"},
+  {name: "Vans", url: "https://vans.com"},
+  {name: "Forever 21", url: "https://forever21.com"},
+  {name: "Nike", url: "https://www.nike.com"},
+  {name: "American Eagle", url: "https://www.ae.com"},
+  {name: "Adidas", url: "https://www.adidas.com"},
+  {name: "Urban Outfitters", url: "https://www.urbanoutfitters.com"},
+  {name: "Victoria's Secret", url: "https://www.victoriassecret.com/"},
+  {name: "Brandy Melville", url: "https://www.brandymelvilleusa.com"},
+  {name: "Abercrombie & Fitch", url: "https://www.abercrombie.com"},
+  {name: "Hot Topic", url: "https://www.hottopic.com"},
+  {name: "Old Navy", url: "https://oldnavy.gap.com"},
+  {name: "Zumiez", url: "https://www.zumiez.com"},
+  {name: "Gap", url: "https://www.gap.com"},
+  {name: "Banana Republic", url: "https://bananarepublic.gap.com"},
+  {name: "J.Crew", url: "https://www.jcrew.com"},
+  {name: "H&M", url: "https://www2.hm.com"},
+  {name: "Blooming Dale's", url: "https://www.bloomingdales.com"},
+  {name: "Billabong", url: "https://www.billabong.com"},
+  {name: "Nordstrom Rack", url: "https://www.nordstromrack.com"},
+  {name: "Zaful", url: "https://www.zaful.com"},
+  {name: "Zara", url: "https://www.zara.com"},
+  {name: "North Face", url: "https://www.thenorthface.com"},
+  {name: "Stussy", url: "https://www.stussy.com"},
+  {name: "Levi's", url: "https://www.levi.com"},
+  {name: "Paul Smith", url: "https://www.paulsmith.com"},
+  {name: "Louis Vuitton", url: "https://www.louisvuitton.com"},
+  {name: "Champion", url: "https://www.champion.com"},
+  {name: "PINK", url: "https://www.victoriassecret.com/pink"},
+  {name: "Chanel", url: "https://www.chanel.com"},
+  {name: "FENDI", url: "https://www.fendi.com"},
+  {name: "Prada", url: "https://www.prada.com"},
+  {name: "Guess", url: "https://shop.guess.com"},
+  {name: "ASOS", url: "https://www.asos.com/us"},
+]
+
 const appendProduct = (data, container) => {
-  data.name = data.name.length > 40 ? data.name.slice(0,40) + "..." : data.name
+  data.shortenName = data.name.length > 40 ? data.name.slice(0,40) + "..." : data.name
   $(container).append(`
     <div class="product-wrap">
       <div class="favorite-btn ${data.favorite ? 'active' : ''}"><i class="fas fa-star fa-lg"></i></div>
       <div class="product-data">
         <img class="product-img" src="${data.img}">
         <div class="basic-product-info">
-          <a href="${data.link}" target="_blank" class="product-name">${data.name}</a>
+          <a href="${data.link}" target="_blank" class="product-name" title="${data.name}">${data.shortenName}</a>
           <p class="product-price ${data.price == "SOLD OUT" ? "sold-out" : ""}">${(data.price != "SOLD OUT" ? "$" : "") + data.price}</p>
         </div>
       </div>
@@ -18,6 +58,33 @@ const appendProduct = (data, container) => {
     </div>
   `)
 }
+
+const appendStoresAlphabetically = (stores) => {
+  stores.sort((a,b) => {
+    if(a.name < b.name) { return -1; }
+    if(a.name > b.name) { return 1; }
+    return 0;
+  })
+  stores.forEach((s) => {
+    let letter = s.name[0]
+    console.log(letter)
+    if($(`#${letter}`).length <= 0) {
+      $('.search-stores .stores').append(`
+        <div class="alphabetic-store-wrap" id="${letter}">
+          <h2 class="alphabetic-title">${letter}</h2>
+          <div class="store-links"></div>
+        </div>
+      `)
+    }
+    $(`#${s.name[0]} .store-links`).append(`
+      <div class="store-label-wrap" data-store="${s.name.toLowerCase()}">
+        <a class="store-link" href="${s.url}" target="_blank">${s.name}</a>
+      </div>
+    `)
+  })
+}
+
+appendStoresAlphabetically(allStores)
 
 const setSimilarItems = (products) => {
   if(products.length === 0) return;
@@ -38,41 +105,6 @@ const setSearchProducts = (data) => {
     appendProduct(p, '.search-stores .all-products')
   })
 }
-
-const showSearch = () => {
-  $('.main').addClass('similar-items-active')
-  if($('.search-select-stores').hasClass('active-search-page')) {
-    $('.content-wrap').removeClass('active')
-    $('.search-select-stores').addClass('active')
-  } else {
-    $('.content-wrap').removeClass('active')
-    $('.search-stores').addClass('active')
-    $('.search-stores .search-bar .search-inpt').focus()
-  }
-}
-
-const searchProductsByStore = (search, stores) => {
-  if(search.trim().length < 1) return;
-  $('.search-stores .all-products .product-wrap').remove()
-  $('.search-stores .all-products .loader').show()
-  $('.search-stores .all-products .no-results').hide()
-  chrome.tabs.query({
-    active: true,
-    currentWindow: true
-  }, tabs => {
-    chrome.tabs.sendMessage(
-      tabs[0].id,
-      {
-        from: 'popup',
-        subject: 'getProductsByStore',
-        data: {
-          stores: stores,
-          keywords: search
-        }
-      },
-      setSearchProducts);
-  });
-};
 
 const getSimilarProductInfo = () => {
   if(_data.currentPageProducts) {
@@ -114,28 +146,6 @@ window.addEventListener('DOMContentLoaded', () => {
   getProductsTimer = setInterval(getSimilarProductInfo, 100)
 });
 
-$(document).on('click', '.search-select-stores .store-select .store-label', function() {
-  $(this).parent().toggleClass('active')
-  if($('.search-select-stores .store-select.active').length > 0) {
-    $('.search-select-stores .continue-to-search-btn').addClass('active')
-  } else {
-    $('.search-select-stores .continue-to-search-btn').removeClass('active')
-  }
-})
-
-$('.search-select-stores .continue-to-search-btn').click(function() {
-  if(!$(this).hasClass('active')) return;
-  let dataStores = ''
-  $('.search-select-stores .stores .store-select.active').each(function() {
-    dataStores += $(this).attr('data-store') + ','
-  })
-  $('.search-stores .search-bar').attr('data-stores', dataStores)
-  console.log($('.search-stores .search-bar .search-inpt'))
-  $('.search-select-stores').removeClass('active-search-page')
-  $('.search-stores').addClass('active-search-page')
-  showSearch()
-})
-
 $('.view-similar-items-wrap p').click(function() {
   $('.main').removeClass('similar-items-active')
   $('.content-wrap').removeClass('active')
@@ -143,7 +153,9 @@ $('.view-similar-items-wrap p').click(function() {
 })
 
 $('.footer .nav-item-search').click(function() {
-  showSearch()
+  $('.main').addClass('similar-items-active')
+  $('.content-wrap').removeClass('active')
+  $('.search-stores').addClass('active')
 })
 
 $('.footer .nav-item-favorites').click(function() {
@@ -152,27 +164,32 @@ $('.footer .nav-item-favorites').click(function() {
   $('.your-favorites').addClass('active')
 })
 
-$('.search-stores .search-bar .search-btn').click(function() {
-  const search = $('.search-stores .search-bar .search-inpt').val()
-  const stores = $('.search-stores .search-bar').attr('data-stores').split(',')
-  searchProductsByStore(search, stores)
-})
-
-$('.search-stores .search-bar .search-inpt').keypress(function(e) {
-  if(e.keyCode == 13) {
-    const search = $('.search-stores .search-bar .search-inpt').val()
-    const stores = $('.search-stores .search-bar').attr('data-stores').split(',')
-    searchProductsByStore(search, stores)
+$('.similar-items-content').scroll(function(e) {
+  if($(this).scrollTop() > 350) {
+    $('.similar-items-content .return-to-top-btn').addClass('active')
+  } else {
+    $('.similar-items-content .return-to-top-btn').removeClass('active')
   }
 })
 
-$('.search-stores .change-stores-btn').click(function(e) {
-  $('.search-stores .all-products .product-wrap').remove()
-  $('.search-stores .search-bar .search-inpt').val("")
-  $('.search-select-stores').addClass('active-search-page')
-  $('.search-stores').removeClass('active-search-page')
-  showSearch()
+$(() => {
+  var animatedScrollActive = false;
+
+  $('.similar-items-content .return-to-top-btn').click(function(e) {
+    if(animatedScrollActive) {
+      return;
+    }
+    animatedScrollActive = true;
+
+    $('.similar-items-content').animate({
+      scrollTop: 0
+    }, 1000, () => {
+      animatedScrollActive = false;
+    })
+  })
 })
+
+
 
 
 const updateFavoriteItems = (data) => {
@@ -191,6 +208,10 @@ const updateFavoriteItems = (data) => {
     appendProduct({...p, favorite: true}, '.your-favorites .all-products')
   })
 }
+
+$(document).ready(() => {
+  $('.search-stores .content-header .content-title').text(`All Stores (${allStores.length})`)
+})
 
 $(document).on('click', '.product-wrap .favorite-btn', function() {
   const wrap = $(this).parent()
