@@ -8,7 +8,6 @@ const allStores = [
   {name: "Pacsun", url: "https://pacsun.com"},
   {name: "Hollister", url: "https://hollister.com"},
   {name: "Vans", url: "https://vans.com"},
-  {name: "Forever 21", url: "https://forever21.com"},
   {name: "Nike", url: "https://www.nike.com"},
   {name: "American Eagle", url: "https://www.ae.com"},
   {name: "Adidas", url: "https://www.adidas.com"},
@@ -26,8 +25,6 @@ const allStores = [
   {name: "Blooming Dale's", url: "https://www.bloomingdales.com"},
   {name: "Billabong", url: "https://www.billabong.com"},
   {name: "Nordstrom Rack", url: "https://www.nordstromrack.com"},
-  {name: "Zaful", url: "https://www.zaful.com"},
-  {name: "Zara", url: "https://www.zara.com"},
   {name: "North Face", url: "https://www.thenorthface.com"},
   {name: "Stussy", url: "https://www.stussy.com"},
   {name: "Levi's", url: "https://www.levi.com"},
@@ -43,15 +40,19 @@ const allStores = [
 ]
 
 const appendProduct = (data, container) => {
-  data.shortenName = data.name.length > 40 ? data.name.slice(0,40) + "..." : data.name
+  data.shortenName = data.name.length > 30 ? data.name.slice(0,40) + "..." : data.name
   $(container).append(`
     <div class="product-wrap">
       <div class="favorite-btn ${data.favorite ? 'active' : ''}"><i class="fas fa-star fa-lg"></i></div>
       <div class="product-data">
-        <img class="product-img" src="${data.img}">
+        <img class="product-img" src="${data.img}" onerror='this.onerror = null; this.src="https://anf.scene7.com/is/image/anf/anf_208178_07_prod1?$grid-anf-v1$"'>
         <div class="basic-product-info">
           <a href="${data.link}" target="_blank" class="product-name" title="${data.name}">${data.shortenName}</a>
-          <p class="product-price ${data.price == "SOLD OUT" ? "sold-out" : ""}">${(data.price != "SOLD OUT" ? "$" : "") + data.price}</p>
+          ${data.sale ?
+            `<p class="product-price "><span class="strikethrough-price">$${data.price}</span><br><span class="sale-price">$${parseFloat(data.sale).toFixed(2)}</span></p>` :
+            `<p class="product-price ${data.price == "SOLD OUT" ? "sold-out" : ""}">${(data.price != "SOLD OUT" ? "$" : "") + parseFloat(data.price).toFixed(2)}</p>`
+          }
+
         </div>
       </div>
       <h2 class="store-name">${data.storeName}</h2>
@@ -88,6 +89,7 @@ appendStoresAlphabetically(allStores)
 
 const setSimilarItems = (products) => {
   if(products.length === 0) return;
+  $('.similar-items-content .all-products .product-wrap').remove()
   _data.currentPageProducts = products
   console.log(products)
   products.forEach((p) => {
@@ -149,6 +151,7 @@ window.addEventListener('DOMContentLoaded', () => {
 $('.view-similar-items-wrap p').click(function() {
   $('.main').removeClass('similar-items-active')
   $('.content-wrap').removeClass('active')
+  $('.footer .nav .nav-item').removeClass('active')
   $('.similar-items-content').addClass('active')
 })
 
@@ -189,7 +192,10 @@ $(() => {
   })
 })
 
-
+$('.footer .nav .nav-item').click(function() {
+  $('.footer .nav .nav-item').removeClass('active')
+  $(this).addClass('active')
+})
 
 
 const updateFavoriteItems = (data) => {
@@ -219,7 +225,8 @@ $(document).on('click', '.product-wrap .favorite-btn', function() {
     img: wrap.find('.product-img').attr('src'),
     link: wrap.find('.product-name').attr('href'),
     name: wrap.find('.product-name').text(),
-    price: wrap.find('.product-price').text().slice(1),
+    price: wrap.find('.sale-price').length > 0 ? wrap.find('.strikethrough-price').text().slice(1) : wrap.find('.product-price').text().slice(1),
+    sale: wrap.find('.sale-price').length > 0 ? wrap.find('.sale-price').text().slice(1) : false,
     storeName: wrap.find('.store-name').text()
   }
   const subject = $(this).hasClass('active') ? 'removeFavorite' : 'setFavorite'

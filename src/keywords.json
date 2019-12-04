@@ -1,20 +1,20 @@
 {
   "gender": [
+    "female",
+    "woman",
+    "girl",
+    "womens",
+    "women",
     "boys",
     "boy",
-    "girl",
     "children",
     "child",
     "kids",
     "kid",
     "mens",
-    "womens",
-    "women",
     "men",
     "man",
-    "woman",
-    "male",
-    "female"
+    "male"
   ],
   "type": [
     "boardshort",
@@ -35,6 +35,7 @@
     "hoodie",
     "jogger",
     "sweatpant",
+    "skirt",
     "shorts",
     "athletic",
     "swimtrunks",
@@ -67,7 +68,9 @@
     "coat",
     "shoe",
     "pants",
-    "chino"
+    "chino",
+    "top",
+    "bottom"
   ],
   "shade": [
     "dark",
@@ -78,7 +81,7 @@
     "snow",
     "ivory",
     "winter",
-
+    "charcoal",
     "black",
     "brown",
     "blue",

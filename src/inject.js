@@ -17,7 +17,7 @@ if(!window.mainInjectInit) {
       stores.forEach((s, i) => {
         console.log(p.storeName)
         console.log(s.name)
-        if(p.storeName == s.name) stores[i].show = true
+        if(p.storeName.toLowerCase() == s.name.toLowerCase()) stores[i].show = true
       })
     })
     $(document).on('click', '.markdown-close-modal', function() {
@@ -29,7 +29,7 @@ if(!window.mainInjectInit) {
         <p class="markdown-close-modal">&#10005</p>
         <div class="markdown-modal-content">
           <h1 class="markdown-similar-item-count">${products.length}<h1>
-          <p class="markdown-similar-item-count-desc">Similar clothing items found from ${stores.filter((i) => {
+          <p class="markdown-similar-item-count-desc">Similar clothing items found${products.length > 0 ? ' from ' : ''}${stores.filter((i) => {
             if(!i.show) {
               return false;
             }
@@ -44,6 +44,7 @@ if(!window.mainInjectInit) {
     chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: stores.map((s) => s.id), keywords: keywords}}, function(response) {
       appendModal(response, stores)
       allProducts = response
+      console.log(allProducts)
     });
   }
 
