@@ -10,5 +10,113 @@
   {
     "url": "www.pacsun.com",
     "inject": "storeInjectFiles/pacsun.js"
+  },
+  {
+    "url": "vans.com",
+    "inject": "storeInjectFiles/vans.js"
+  },
+  {
+    "url": "hollister.com",
+    "inject": "storeInjectFiles/hollister.js"
+  },
+  {
+    "url": "www.nike.com",
+    "inject": "storeInjectFiles/nike.js"
+  },
+  {
+    "url": "www.ae.com",
+    "inject": "storeInjectFiles/americanEagle.js"
+  },
+  {
+    "url": "www.adidas.com",
+    "inject": "storeInjectFiles/adidas.js"
+  },
+  {
+    "url": "www.urbanoutfitters.com",
+    "inject": "storeInjectFiles/urbanOutfitters.js"
+  },
+  {
+    "url": "www.victoriassecret.com",
+    "inject": "storeInjectFiles/victoriasSecret.js"
+  },
+  {
+    "url": "www.brandymelvilleusa.com",
+    "inject": "storeInjectFiles/brandyMelville.js"
+  },
+  {
+    "url": "www.abercrombie.com",
+    "inject": "storeInjectFiles/abercrombieFitch.js"
+  },
+  {
+    "url": "www.hottopic.com",
+    "inject": "storeInjectFiles/hotTopic.js"
+  },
+  {
+    "url": "oldnavy.gap.com",
+    "inject": "storeInjectFiles/oldNavy.js"
+  },
+  {
+    "url": "www.zumiez.com",
+    "inject": "storeInjectFiles/zumiez.js"
+  },
+  {
+    "url": "www.gap.com",
+    "inject": "storeInjectFiles/gap.js"
+  },
+  {
+    "url": "bananarepublic.gap.com",
+    "inject": "storeInjectFiles/bananaRepublic.js"
+  },
+  {
+    "url": "www.jcrew.com",
+    "inject": "storeInjectFiles/jCrew.js"
+  },
+  {
+    "url": "www2.hm.com",
+    "inject": "storeInjectFiles/hm.js"
+  },
+  {
+    "url": "www.bloomingdales.com",
+    "inject": "storeInjectFiles/bloomingDales.js"
+  },
+  {
+    "url": "www.billabong.com",
+    "inject": "storeInjectFiles/billabong.js"
+  },
+  {
+    "url": "www.nordstromrack.com",
+    "inject": "storeInjectFiles/nordstromRack.js"
+  },
+  {
+    "url": "www.thenorthface.com",
+    "inject": "storeInjectFiles/theNorthFace.js"
+  },
+  {
+    "url": "www.levi.com",
+    "inject": "storeInjectFiles/levi.js"
+  },
+  {
+    "url": "www.louisvuitton.com",
+    "inject": "storeInjectFiles/louisVuitton.js"
+  },
+  {
+    "url": "www.champion.com",
+    "inject": "storeInjectFiles/champion.js"
+  },
+  {
+    "url": "www.victoriassecret.com/pink",
+    "inject": "storeInjectFiles/pink.js"
+  },
+  {
+    "url": "shop.guess.com",
+    "inject": "storeInjectFiles/guess.js"
+  },
+  {
+    "url": "www.asos.com",
+    "inject": "storeInjectFiles/asos.js"
+  },
+  {
+    "url": "www.target.com",
+    "inject": "storeInjectFiles/target.js"
   }
 ]

@@ -26,17 +26,13 @@ const allStores = [
   {name: "Billabong", url: "https://www.billabong.com"},
   {name: "Nordstrom Rack", url: "https://www.nordstromrack.com"},
   {name: "North Face", url: "https://www.thenorthface.com"},
-  {name: "Stussy", url: "https://www.stussy.com"},
   {name: "Levi's", url: "https://www.levi.com"},
-  {name: "Paul Smith", url: "https://www.paulsmith.com"},
   {name: "Louis Vuitton", url: "https://www.louisvuitton.com"},
   {name: "Champion", url: "https://www.champion.com"},
   {name: "PINK", url: "https://www.victoriassecret.com/pink"},
-  {name: "Chanel", url: "https://www.chanel.com"},
-  {name: "FENDI", url: "https://www.fendi.com"},
-  {name: "Prada", url: "https://www.prada.com"},
   {name: "Guess", url: "https://shop.guess.com"},
-  {name: "ASOS", url: "https://www.asos.com/us"},
+  {name: "ASOS", url: "https://www.asos.com"},
+  {name: "Target", url: "https://www.target.com"}
 ]
 
 const appendProduct = (data, container) => {

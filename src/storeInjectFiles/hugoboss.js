@@ -24,17 +24,13 @@ if(!window.initDone) {
     billabong: {id: "billabong", name: "Billabong", url: "https://www.billabong.com"},
     nordstromrack: {id: "nordstromrack", name: "Nordstrom Rack", url: "https://www.nordstromrack.com"},
     northface: {id: "northface", name: "North Face", url: "https://www.thenorthface.com"},
-    stussy: {id: "stussy", name: "Stussy", url: "https://www.stussy.com"},
     levis: {id: "levis", name: "Levi's", url: "https://www.levi.com"},
-    paulsmith: {id: "paulsmith", name: "Paul Smith", url: "https://www.paulsmith.com"},
     louisvuitton: {id: "louisvuitton", name: "Louis Vuitton", url: "https://www.louisvuitton.com"},
     champion: {id: "champion", name: "Champion", url: "https://www.champion.com"},
     pink: {id: "pink", name: "PINK", url: "https://www.victoriassecret.com/pink"},
-    chanel: {id: "chanel", name: "Chanel", url: "https://www.chanel.com"},
-    fendi: {id: "fendi", name: "FENDI", url: "https://www.fendi.com"},
-    prada: {id: "prada", name: "Prada", url: "https://www.prada.com"},
     guess: {id: "guess", name: "Guess", url: "https://shop.guess.com"},
-    asos: {id: "asos", name: "ASOS", url: "https://www.asos.com/us"},
+    asos: {id: "asos", name: "ASOS", url: "https://www.asos.com"},
+    target: {id: "target", name: "Target", url: "https://www.target.com"}
   }
 
   const getKeywords = async () => {
@@ -51,9 +47,14 @@ if(!window.initDone) {
   }
 
   $(async () => {
-    console.log(storeInformation)
     getProducts([
-      storeInformation.northface
+      storeInformation.target,
+      storeInformation.jcrew,
+      storeInformation.nordstromrack,
+      storeInformation.nordstrom,
+      storeInformation.americaneagle,
+      storeInformation.gap,
+      storeInformation.oldnavy
     ], await getKeywords())
   })
 

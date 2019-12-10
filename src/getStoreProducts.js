@@ -25,7 +25,8 @@ const getHugoBossProducts = async (keywords) => {
     elements.each(function() {
       const tempObj = {
         name: $(this).find('.product-tile__productInfoWrapper').text().replace(/BOSS|HUGO|by|(\r\n|\n|\r)/gm,""),
-        price: $(this).find('.product-tile__offer .price-sales').text().replace('$', ''),
+        price: $(this).find('.product-tile__offer .price-sales.price-sales--red').length > 0 ? $(this).find('.product-tile__offer .price-standard s').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") : $(this).find('.product-tile__offer .price-sales').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,""),
+        sale: $(this).find('.product-tile__offer .price-sales.price-sales--red').length > 0 ? $(this).find('.product-tile__offer .price-sales.price-sales--red').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") : false,
         img: $(this).find('.product-tile__image').attr('data-src').replace(/({width})/g, '240').replace(/({quality})/g, '45'),
         link: `https://www.hugoboss.com${$(this).find('.product-tile__link').attr('data-url')}`,
         storeName: 'Hugo Boss'
@@ -74,8 +75,9 @@ const getHollisterProducts = async (keywords) => {
       const tempObj = {
         name: $(this).find('.product-card__name').text().replace(/(\r\n|\n|\r)/gm,""),
         price: $(this).find('.product-price-text[data-state="discount"]').length > 0 ?
-               $(this).find('.product-price-text[data-state="discount"]').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") :
+               $(this).find('.product-price-text[data-state="original"]').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") :
                $(this).find('.product-price-text').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,""),
+        sale: $(this).find('.product-price-text[data-state="discount"]').length > 0 ? $(this).find('.product-price-text[data-state="discount"]').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") : false,
         img: $(this).find('.product-card__image-wrap .product-card__image').attr('data-src').replace('imageType', 'prod1'),
         link: $(this).find('.product-card__name').attr('href'),
         storeName: 'Hollister'
@@ -481,59 +483,19 @@ const getNorthFaceProducts = async (keywords) => {
   return products
 }
 
-const getStussyProducts = async (keywords) => {
-  const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
-    elements.each(function() {
-      const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
-      }
-      products.push(tempObj)
-    })
-  })
-  return products
-}
-
 const getLeviProducts = async (keywords) => {
   const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
+  await $.get(`https://www.levi.com/US/en_US/search/${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
+    let elements = $(data).find('.product__listing .product-item')
     elements.each(function() {
+      console.log($(this).find('.thumb-link source').first())
       const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
-      }
-      products.push(tempObj)
-    })
-  })
-  return products
-}
-
-const getPaulSmithProducts = async (keywords) => {
-  const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
-    elements.each(function() {
-      const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
+        name: $(this).find('.thumb-link').attr('title').replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find('.price .regular').text().split('-')[0].replace(/(\t|\r\n|\n|\r)|[$| ]/gm,""),
+        sale: $(this).find('.price .hard-sale').length > 0 || $(this).find('.price .soft-sale').length > 0 ? $(this).find('.price .hard-sale').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") || $(this).find('.price .soft-sale').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") : false,
+        img: $(this).find('.thumb-link source').first().attr('data-srcset') || $(this).find('.thumb-link source').first().attr('srcset'),
+        link: 'https://www.levi.com'+$(this).find('.thumb-link').attr('href'),
+        storeName: 'Levi\'s'
       }
       products.push(tempObj)
     })
@@ -543,17 +505,17 @@ const getPaulSmithProducts = async (keywords) => {
 
 const getLouisVuittonProducts = async (keywords) => {
   const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
+  await $.get(`https://us.louisvuitton.com/eng-us/search/${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
+    let elements = $(data).find('.productsList .productItem')
     console.log(elements)
     elements.each(function() {
       const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
+        name: $(this).find('.productName').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find('.productPrice .notCrawlableContent').attr('data-htmlContent').replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,""),
+        sale: false,
+        img: $(this).find('.product-img source').attr('data-src').replace('{IMG_WIDTH}', '1600').replace('{IMG_HEIGHT}', '1600'),
+        link: 'https://us.louisvuitton.com'+$(this).find('.productCTA').attr('href'),
+        storeName: 'Louis Vuitton'
       }
       products.push(tempObj)
     })
@@ -563,17 +525,18 @@ const getLouisVuittonProducts = async (keywords) => {
 
 const getChampionProducts = async (keywords) => {
   const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
+  await $.get(`https://www.champion.com/shop/SearchDisplay?categoryId=411552&doorId=3&storeId=10704&catalogId=11053&langId=-1&sType=SimpleSearch&resultCatEntryType=2&showResultsPage=true&searchSource=Q&pageView=&beginIndex=0&pageSize=20&searchTerm=${'hoodie'/*keywords.join('+').replace(/ /g, '+')*/}#facet:&productBeginIndex:0&orderBy:&pageView:grid&minPrice:&maxPrice:&pageSize:20&`, function(data) {
+    let elements = $(data).find('.product-search-result-container .each-product')
     console.log(elements)
     elements.each(function() {
+      $(this).find('.visuallyhidden').remove()
       const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
+        name: $(this).find('.item-name').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find('.list_price').text().trim().length > 0 &&  $(this).find('.current_price').text().trim().length > 0 ? $(this).find('.list_price').text().replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,"") : $(this).find('.current_price').text().replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,""),
+        sale: $(this).find('.list_price').text().trim().length > 0 &&  $(this).find('.current_price').text().trim().length > 0 ? $(this).find('.current_price').text().replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,"") : false,
+        img: $(this).find('.product-listing-image').attr('data-src'),
+        link: $(this).find('.link-image-holder').attr('href').split('?')[0],
+        storeName: 'Champion'
       }
       products.push(tempObj)
     })
@@ -581,79 +544,19 @@ const getChampionProducts = async (keywords) => {
   return products
 }
 
-const getPinkProducts = async (keywords) => {
+const getPinkProducts = async (keywords) => { // COME BACK TO THIS STORE
   const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
-    elements.each(function() {
+  if(keywords.includes('men' || 'male' || 'man' || 'mens' || 'kid' || 'boy' || 'boys' || 'child' || 'children')) return []
+  await $.get(`https://api.victoriassecret.com/keywordsearch/v4/search?brand=pink&q=${keywords.join('%20').replace(/ /g, '%20')}&searchLocation=header`, function(data) {
+    data.products.forEach((i) => {
+      console.log(i)
       const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
-      }
-      products.push(tempObj)
-    })
-  })
-  return products
-}
-
-const getChanelProducts = async (keywords) => {
-  const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
-    elements.each(function() {
-      const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
-      }
-      products.push(tempObj)
-    })
-  })
-  return products
-}
-
-const getFendiProducts = async (keywords) => {
-  const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
-    elements.each(function() {
-      const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
-      }
-      products.push(tempObj)
-    })
-  })
-  return products
-}
-
-const getPradaProducts = async (keywords) => {
-  const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
-    elements.each(function() {
-      const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
+        name: i.name.replace(/(\r\n|\n|\r)|  /gm,""),
+        price: i.price.replace(/(\t|\r\n|\n|\r)|[$| ]/gm,""),
+        sale: i.salePrice ? i.salePrice.replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") : false,
+        img: 'https://www.victoriassecret.com/p/220x293/' + i.productImages[0] + '.jpg' ,
+        link: i.url.split('?')[0],
+        storeName: 'Victoria\'s Secret'
       }
       products.push(tempObj)
     })
@@ -663,17 +566,37 @@ const getPradaProducts = async (keywords) => {
 
 const getGuessProducts = async (keywords) => {
   const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
+  await $.get(`https://recs.richrelevance.com/rrserver/api/find/v1/199c81c05e473265?findCallType=overlay&lang=en&log=true&placement=search_page.find&query=${keywords.join('+').replace(/ /g, '+')}&rcs=eF5j4cotK8lM4TOzMNU11DVkKU32MEwyNjVNMzPTTUq2NNU1MTY20bU0SzTVNTIwTbIwT0lKSjRNAgB-_g4I&region=undefined&rows=24&sessionId=d8cf1765-d197-46b9-9d1e-6ff0d9bb5a14&ssl=true&start=48`, function(data) {
+    console.log(data)
+    data.placements[0].docs.forEach((p) => {
+      const tempObj = {
+        name: p.name.replace(/(\r\n|\n|\r)/gm,""),
+        price: p.priceCents/100,
+        sale: p.salePriceCents != -1 ? p.salePriceCents/100 : false,
+        img: p.imageId,
+        link: 'https://shop.guess.com'+p.linkId,
+        storeName: 'Guess'
+      }
+      products.push(tempObj)
+    })
+
+  })
+  return products
+}
+
+const getAsosProducts = async (keywords) => {
+  const products = []
+  await $.get(`https://www.asos.com/us/search/?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
+    let elements = $(data).find('._3-pEc3l ._2oHs74P')
     console.log(elements)
     elements.each(function() {
       const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
+        name: $(this).find('._10-bVn6 p').text().replace(/(\r\n|\n|\r)/gm,""),
+        price: $(this).find('._3b3kqA8').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,""),
+        sale: $(this).find('._2ZHtSZZ').length > 0 ? $(this).find('._2ZHtSZZ').text().replace(/(\t|\r\n|\n|\r)|[$| ]/gm,"") : false,
+        img: $(this).find('._9n6j7z7 img').attr('srcset').split(',')[0].replace('//', 'https://'),
+        link: $(this).find('._3x-5VWa').attr('href').split('&')[0],
+        storeName: 'ASOS'
       }
       products.push(tempObj)
     })
@@ -681,22 +604,21 @@ const getGuessProducts = async (keywords) => {
   return products
 }
 
-const getAsosProducts = async (keywords) => {
+const getTargetProducts = async (keywords) => {
   const products = []
-  await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
-    console.log($(data))
-    let elements = $(data).find('')
-    console.log(elements)
-    elements.each(function() {
+  await $.get(`https://redsky.target.com/v2/plp/search/?channel=web&count=24&default_purchasability_filter=true&facet_recovery=false&isDLP=false&keyword=${keywords.join('+').replace(/ /g, '+')}&offset=0&pageId=%2Fs%2F${keywords.join('+').replace(/ /g, '+')}&pricing_store_id=1122&scheduled_delivery_store_id=1122&store_ids=1122%2C321%2C1054%2C3265%2C2185&visitorId=016E9B667F74020198F0BF97718A7F1F&include_sponsored_search_v2=true&ppatok=AOxT33a&platform=desktop&useragent=Mozilla%2F5.0+%28Macintosh%3B+Intel+Mac+OS+X+10_14_5%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F78.0.3904.108+Safari%2F537.36&key=eb2551e4accc14f38cc42d32fbc2b2ea`, function(data) {
+    console.log(data)
+    data.search_response.items.Item.forEach((p) => {
       const tempObj = {
-        name: $(this).find('').text().replace(/(\r\n|\n|\r)/gm,""),
-        price: $(this).find(''),
-        img: $(this).find('').attr(''),
-        link: $(this).find('').attr('href'),
-        storeName: ''
+        name: p.title.replace(/(\t|\r\n|\n|\r)|&#174|;/gm,""),
+        price: p.price.reg_retail_min,
+        img: p.images[0].base_url + p.images[0].primary,
+        link: 'https://www.target.com'+p.url,
+        storeName: 'Target'
       }
       products.push(tempObj)
     })
+
   })
   return products
 }
