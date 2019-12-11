@@ -52,7 +52,6 @@ if(!window.initDone) {
       storeInformation.jcrew,
       storeInformation.nordstromrack,
       storeInformation.nordstrom,
-      storeInformation.americaneagle,
       storeInformation.gap,
       storeInformation.oldnavy
     ], await getKeywords())

@@ -41,11 +41,9 @@ if(!window.mainInjectInit) {
   }
 
   function getProducts(stores, keywords)  {
-    console.log(stores)
-    chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: stores.map((s) => s.id), keywords: keywords}}, function(response) {
+    chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: stores.map((s) => s.id), ...keywords}}, function(response) {
       appendModal(response, stores)
       allProducts = response
-      console.log(allProducts)
     });
   }
 

@@ -38,56 +38,63 @@ const compareFavoritesToProducts = (products) => {
   })
 }
 
-const sortProducts = (products) => {
-  let allProducts = 0;
-  products.forEach((p) => {
-    allProducts += p.length
+const sortProducts = (products, string, keywords) => {
+  let newProducts = [];
+  products.forEach((s) => {
+    s.forEach((p) => {
+      newProducts.push(p)
+    })
   })
-  const newProducts = [];
-  for(var i = 0; i < allProducts; i++) {
-    let randomStore = Math.floor(Math.random() * products.length);
-    while(!products[randomStore][0]) {
-      randomStore = Math.floor(Math.random() * products.length);
-    }
-    newProducts.push(products[randomStore][0])
-    products[randomStore].splice(0, 1)
-  }
+  newProducts.forEach((p, i) => {
+    let productSimilarity = 0;
+    string.split(' ').forEach((s) => {
+      if(p.name.toLowerCase().includes(s.toLowerCase())) {
+        productSimilarity++
+      }
+    })
+    p.productSimilarity = productSimilarity
+  })
+  newProducts.filter(p => p.productSimilarity > 0)
+  newProducts.sort((a, b) => {
+    return b.productSimilarity - a.productSimilarity
+  })
   return newProducts
 }
 
 const getAllProducts = async (data) => {
   let products = [];
-  if(data.stores.includes("nordstrom")) products.push(await getNordstromProducts(data.keywords))
-  if(data.stores.includes("hugoboss")) products.push(await getHugoBossProducts(data.keywords))
-  if(data.stores.includes("pacsun")) products.push(await getPacsunProducts(data.keywords))
-  if(data.stores.includes("hollister")) products.push(await getHollisterProducts(data.keywords))
-  if(data.stores.includes("vans")) products.push(await getVansProducts(data.keywords))
-  if(data.stores.includes("nike")) products.push(await getNikeProducts(data.keywords))
-  if(data.stores.includes("americaneagle")) products.push(await getAmericanEagleProducts(data.keywords))
-  if(data.stores.includes("adidas")) products.push(await getAdidasProducts(data.keywords))
-  if(data.stores.includes("urbanoutfitters")) products.push(await getUrbanOutfittersProducts(data.keywords))
-  if(data.stores.includes("victoriassecret")) products.push(await getVictoriaSecretProducts(data.keywords))
-  if(data.stores.includes("brandymelville")) products.push(await getBrandyMelvilleProducts(data.keywords))
-  if(data.stores.includes("abercrombiefitch")) products.push(await getAbercrombieFitchProducts(data.keywords))
-  if(data.stores.includes("hottopic")) products.push(await getHotTopicProducts(data.keywords))
-  if(data.stores.includes("oldnavy")) products.push(await getOldNavyProducts(data.keywords))
-  if(data.stores.includes("zumiez")) products.push(await getZumiezProducts(data.keywords))
-  if(data.stores.includes("gap")) products.push(await getGapProducts(data.keywords))
-  if(data.stores.includes("bananarepublic")) products.push(await getBananaRepublicProducts(data.keywords))
-  if(data.stores.includes("jcrew")) products.push(await getJCrewProducts(data.keywords))
-  if(data.stores.includes("hm")) products.push(await getHMProducts(data.keywords))
-  if(data.stores.includes("bloomingdales")) products.push(await getBloomingDaleProducts(data.keywords))
-  if(data.stores.includes("billabong")) products.push(await getBillabongProducts(data.keywords))
-  if(data.stores.includes("nordstromrack")) products.push(await getNordstromRackProducts(data.keywords))
-  if(data.stores.includes("northface")) products.push(await getNorthFaceProducts(data.keywords))
-  if(data.stores.includes("levis")) products.push(await getLeviProducts(data.keywords))
-  if(data.stores.includes("louisvuitton")) products.push(await getLouisVuittonProducts(data.keywords))
-  if(data.stores.includes("champion")) products.push(await getChampionProducts(data.keywords))
-  if(data.stores.includes("pink")) products.push(await getPinkProducts(data.keywords))
-  if(data.stores.includes("guess")) products.push(await getGuessProducts(data.keywords))
-  if(data.stores.includes("asos")) products.push(await getAsosProducts(data.keywords))
-  if(data.stores.includes("target")) products.push(await getTargetProducts(data.keywords))
-  products = await sortProducts(products)
+  console.log(data)
+  if(data.stores.includes("nordstrom")) products.push(await getNordstromProducts(data.search))
+  if(data.stores.includes("hugoboss")) products.push(await getHugoBossProducts(data.search))
+  if(data.stores.includes("pacsun")) products.push(await getPacsunProducts(data.search))
+  if(data.stores.includes("hollister")) products.push(await getHollisterProducts(data.search))
+  if(data.stores.includes("vans")) products.push(await getVansProducts(data.search))
+  if(data.stores.includes("nike")) products.push(await getNikeProducts(data.search))
+  if(data.stores.includes("americaneagle")) products.push(await getAmericanEagleProducts(data.search))
+  if(data.stores.includes("adidas")) products.push(await getAdidasProducts(data.search))
+  if(data.stores.includes("urbanoutfitters")) products.push(await getUrbanOutfittersProducts(data.search))
+  if(data.stores.includes("victoriassecret")) products.push(await getVictoriaSecretProducts(data.search))
+  if(data.stores.includes("brandymelville")) products.push(await getBrandyMelvilleProducts(data.search))
+  if(data.stores.includes("abercrombiefitch")) products.push(await getAbercrombieFitchProducts(data.search))
+  if(data.stores.includes("hottopic")) products.push(await getHotTopicProducts(data.search))
+  if(data.stores.includes("oldnavy")) products.push(await getOldNavyProducts(data.search))
+  if(data.stores.includes("zumiez")) products.push(await getZumiezProducts(data.search))
+  if(data.stores.includes("gap")) products.push(await getGapProducts(data.search))
+  if(data.stores.includes("bananarepublic")) products.push(await getBananaRepublicProducts(data.search))
+  if(data.stores.includes("jcrew")) products.push(await getJCrewProducts(data.search))
+  if(data.stores.includes("hm")) products.push(await getHMProducts(data.search))
+  if(data.stores.includes("bloomingdales")) products.push(await getBloomingDaleProducts(data.search))
+  if(data.stores.includes("billabong")) products.push(await getBillabongProducts(data.search))
+  if(data.stores.includes("nordstromrack")) products.push(await getNordstromRackProducts(data.search))
+  if(data.stores.includes("northface")) products.push(await getNorthFaceProducts(data.search))
+  if(data.stores.includes("levis")) products.push(await getLeviProducts(data.search))
+  if(data.stores.includes("louisvuitton")) products.push(await getLouisVuittonProducts(data.search))
+  if(data.stores.includes("champion")) products.push(await getChampionProducts(data.search))
+  if(data.stores.includes("pink")) products.push(await getPinkProducts(data.search))
+  if(data.stores.includes("guess")) products.push(await getGuessProducts(data.search))
+  if(data.stores.includes("asos")) products.push(await getAsosProducts(data.search))
+  if(data.stores.includes("target")) products.push(await getTargetProducts(data.search))
+  products = await sortProducts(products, data.string, data.keywords)
   products = await compareFavoritesToProducts(products)
   return products;
 }

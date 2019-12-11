@@ -1,6 +1,5 @@
 if(!window.mainStoreInject) {
   window.mainStoreInject = true;
-  console.log('RUNNNNNNNN')
   function getSearchKeywords (string, keywords) {
     const search = [];
     console.log(keywords)
@@ -54,6 +53,6 @@ if(!window.mainStoreInject) {
         }
       }
     })
-    return search
+    return {search: search, string: string, keywords: keywords}
   }
 }
