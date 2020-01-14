@@ -36,7 +36,9 @@ const allStores = [
 ]
 
 const appendProduct = (data, container) => {
-  data.shortenName = data.name.length > 30 ? data.name.slice(0,40) + "..." : data.name
+  data.shortenName = data.name.length > 30 ? data.name.slice(0,30) + "..." : data.name
+  let salePrice = sale = data.sale ? `$${parseFloat(data.sale).toFixed(2)}` : false
+  let price = isNaN(parseFloat(data.price)) ? "Unknown" : `$${parseFloat(data.price).toFixed(2)}`
   $(container).append(`
     <div class="product-wrap">
       <div class="favorite-btn ${data.favorite ? 'active' : ''}"><i class="fas fa-star fa-lg"></i></div>
@@ -44,9 +46,9 @@ const appendProduct = (data, container) => {
         <img class="product-img" src="${data.img}" onerror='this.onerror = null; this.src="https://anf.scene7.com/is/image/anf/anf_208178_07_prod1?$grid-anf-v1$"'>
         <div class="basic-product-info">
           <a href="${data.link}" target="_blank" class="product-name" title="${data.name}">${data.shortenName}</a>
-          ${data.sale ?
-            `<p class="product-price "><span class="strikethrough-price">$${data.price}</span><br><span class="sale-price">$${parseFloat(data.sale).toFixed(2)}</span></p>` :
-            `<p class="product-price ${data.price == "SOLD OUT" ? "sold-out" : ""}">${(data.price != "SOLD OUT" ? "$" : "") + parseFloat(data.price).toFixed(2)}</p>`
+          ${salePrice ?
+            `<p class="product-price "><span class="strikethrough-price">${price}</span><br><span class="sale-price">${salePrice}</span></p>` :
+            `<p class="product-price">${price}</p>`
           }
 
         </div>
@@ -58,8 +60,8 @@ const appendProduct = (data, container) => {
 
 const appendStoresAlphabetically = (stores) => {
   stores.sort((a,b) => {
-    if(a.name < b.name) { return -1; }
-    if(a.name > b.name) { return 1; }
+    if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+    if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
     return 0;
   })
   stores.forEach((s) => {
@@ -85,22 +87,12 @@ appendStoresAlphabetically(allStores)
 
 const setSimilarItems = (products) => {
   if(products.length === 0) return;
+  $('.similar-items-content .sort-by-wrap').addClass('active')
   $('.similar-items-content .all-products .product-wrap').remove()
   _data.currentPageProducts = products
   console.log(products)
   products.forEach((p) => {
     appendProduct(p, '.similar-items-content .all-products')
-  })
-}
-
-const setSearchProducts = (data) => {
-  $('.search-stores .all-products .loader').hide()
-  if(data.products.length < 1) {
-    $('.search-stores .all-products .no-results').show()
-    $('.search-stores .all-products .no-results span').text(data.search)
-  }
-  data.products.forEach((p) => {
-    appendProduct(p, '.search-stores .all-products')
   })
 }
 
@@ -211,6 +203,41 @@ const updateFavoriteItems = (data) => {
   })
 }
 
+const sortSimilarProducts = (filter) => {
+  if(_data.currentPageProducts) {
+    let currArr = Array.from(_data.currentPageProducts)
+    if (filter == "Highest Price") {
+      currArr.sort((a, b) => {
+        let priceA = a.sale ? parseFloat(a.sale) : parseFloat(a.price)
+        let priceB = b.sale ? parseFloat(b.sale) : parseFloat(b.price)
+        return (isNaN(priceB) ? 0 : priceB)  - (isNaN(priceA) ? 0 : priceA)
+      })
+      console.log(currArr)
+    } else if (filter == "Lowest Price") {
+      currArr.sort((a, b) => {
+        let priceA = a.sale ? parseFloat(a.sale) : parseFloat(a.price)
+        let priceB = b.sale ? parseFloat(b.sale) : parseFloat(b.price)
+        return (isNaN(priceA) ? Math.pow(10, 1000) : priceA)  - (isNaN(priceB) ? Math.pow(10, 1000) : priceB)
+      })
+      console.log(currArr)
+    }
+    $('.similar-items-content .all-products .product-wrap').remove()
+    currArr.forEach((p) => {
+      appendProduct(p, '.similar-items-content .all-products')
+    })
+  }
+}
+
+$('.similar-items-content .sort-by-btn').click(function() {
+  $('.sort-by-menu').toggleClass('active')
+})
+
+$('.similar-items-content .sort-by-menu .option').click(function() {
+  $('.similar-items-content .sort-by-btn .selected-option').text($(this).children('span').text())
+  $('.sort-by-menu').removeClass('active')
+  sortSimilarProducts($(this).children('span').text())
+})
+
 $(document).ready(() => {
   $('.search-stores .content-header .content-title').text(`All Stores (${allStores.length})`)
 })
@@ -220,13 +247,18 @@ $(document).on('click', '.product-wrap .favorite-btn', function() {
   const favoriteData = {
     img: wrap.find('.product-img').attr('src'),
     link: wrap.find('.product-name').attr('href'),
-    name: wrap.find('.product-name').text(),
+    name: wrap.find('.product-name').attr('title'),
     price: wrap.find('.sale-price').length > 0 ? wrap.find('.strikethrough-price').text().slice(1) : wrap.find('.product-price').text().slice(1),
     sale: wrap.find('.sale-price').length > 0 ? wrap.find('.sale-price').text().slice(1) : false,
     storeName: wrap.find('.store-name').text()
   }
   const subject = $(this).hasClass('active') ? 'removeFavorite' : 'setFavorite'
   const data = $(this).hasClass('active') ? favoriteData.link : favoriteData
+  _data.currentPageProducts.forEach((p)=> {
+    if(p.link == favoriteData.link) {
+      p.favorite = (subject === 'removeFavorite' ? false : true)
+    }
+  })
   if(subject === 'removeFavorite') {
     $(`.all-products .product-wrap .product-name[href="${favoriteData.link}"]`).parent().parent().siblings('.favorite-btn').removeClass('active')
   } else if (subject === 'setFavorite') {

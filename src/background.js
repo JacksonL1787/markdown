@@ -48,22 +48,25 @@ const sortProducts = (products, string, keywords) => {
   newProducts.forEach((p, i) => {
     let productSimilarity = 0;
     string.split(' ').forEach((s) => {
+      console.log(p.name.toLowerCase(), s.toLowerCase())
       if(p.name.toLowerCase().includes(s.toLowerCase())) {
         productSimilarity++
       }
     })
     p.productSimilarity = productSimilarity
   })
+  console.log(newProducts)
   newProducts.filter(p => p.productSimilarity > 0)
   newProducts.sort((a, b) => {
+    console.log(a, b)
     return b.productSimilarity - a.productSimilarity
   })
+  console.log('sorted', newProducts)
   return newProducts
 }
 
 const getAllProducts = async (data) => {
-  let products = [];
-  console.log(data)
+  let products = []
   if(data.stores.includes("nordstrom")) products.push(await getNordstromProducts(data.search))
   if(data.stores.includes("hugoboss")) products.push(await getHugoBossProducts(data.search))
   if(data.stores.includes("pacsun")) products.push(await getPacsunProducts(data.search))
@@ -97,6 +100,15 @@ const getAllProducts = async (data) => {
   products = await sortProducts(products, data.string, data.keywords)
   products = await compareFavoritesToProducts(products)
   return products;
+}
+
+async function testGetStore(store, search) {
+  let data = {
+    stores: [store],
+    search: search.split(' '),
+    string: search.toLowerCase()
+  }
+  console.log(await getAllProducts(data))
 }
 
 const handleURL = (url, tabId) => {
