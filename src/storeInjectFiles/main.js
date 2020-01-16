@@ -43,11 +43,13 @@ if(!window.mainStoreInject) {
       if(string.includes(i)) {
         let add = true;
         keywords.type.forEach((ew) => {
-          if(ew.includes(i) && ew != i) {
+          if(ew.includes(i) && ew != i && string.includes(ew)) {
             add = false;
           }
         })
+        console.log(i, add)
         if(add) {
+          console.log(i)
           search.push(i)
           return true;
         }

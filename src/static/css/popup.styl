@@ -1,364 +1,219 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap')
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap');
 body
   width 360px
   height 600px
   background white
-  font-family 'Open Sans', sans-serif !important
-  text-align center
+  font-family 'Poppins', sans-serif !important
   overflow-y hidden
   overflow-x hidden
   position relative
   margin 0
 
-.main
-  overflow-y hidden
-  overflow-x hidden
-  &.similar-items-active
-    .view-similar-items-wrap
-      display block !important
-    .content-wrap
-      height 460px !important
-    .search-select-stores
-      .continue-to-search-btn
-        bottom 95px
-        &.active
-          bottom 100px
+#main
+  overflow-y auto
+  height 600px
+  width 360px
 
 .header
+  background #ececec
+  height 60px
   width 100%
-  height 49px
-  border-bottom 1px solid #e8eaea
-  position relative
-  overflow-y hidden
-  overflow-x hidden
-  .markdown-logo
-    position absolute
-    top 50%
-    left 50%
-    transform translate(-50%, -50%)
-    background-image url('../img/markdown-logo900.png')
-    background-size cover
-    background-position center
-    background-repeat no-repeat
-    width 25px
-    height 25px
-
-
-.view-similar-items-wrap
-  height 39px
-  width 100%
-  border-top solid 1px #e8eaea
-  position relative
-  display none
-  p
-    margin 0
-    position absolute
-    top 50%
-    left 50%
-    font-size 15px
-    font-weight 600
-    transform translate(-50%, -50%)
-    text-align center
-    color #167cda
-    cursor pointer
-    transition color .3s
-    &:hover
-      color #0C5AA1
-
-.footer
-  height 49px
-  width 100%
-  border-top 1px solid #e8eaea
-  position relative
-  .nav
-    width fit-content
-    height 100%
+  .header-content
+    position relative
+    width calc(100% - 40px)
     margin 0 auto
-    display flex
-    align-items center
-    justify-content center
-    .nav-item
-      height fit-content
+    height 100%
+    h1.header-title
+      color #333
+      margin 0
+      font-size 17px
+      position absolute
+      top 50%
+      left 0
+      letter-spacing 0.3px
+      transform translateY(-50%)
+    .nav-wrap
+      display flex
+      justify-content center
+      align-items center
       width fit-content
-      margin 0 30px
-      &.active
-        .icon
-          opacity 1 !important
-      &.nav-item-search
-        .icon
-          background-image url('../img/search-icon.svg')
-          margin-top 7.5px
-      &.nav-item-favorites
-        .icon
+      position absolute
+      top 50%
+      right -10px
+      transform translateY(-50%)
+      .nav-item
+        margin 0 10px
+        &.active
+          .icon
+            opacity 0.8 !important
+        &.nav-favorites .icon
           background-image url('../img/favorite-icon.svg')
-          margin-top 3.5px
-          height 31px
-          width 28px
-      .icon
-        background-size cover
-        background-position center
-        background-repeat no-repeat
-        width 30px
-        height 30px
-        cursor pointer
-        opacity 0.6
-        transition opacity .3s
-      &:hover
+          margin-top -2px
+          width 20px !important
+          height 20px !important
+        &.nav-stores .icon
+          background-image url('../img/stores-icon.svg')
+          margin-top -2px
+          width 19px !important
+          height 19px !important
+        &.nav-similar-clothing .icon
+          background-image url('../img/clothing-icon.svg')
+        &.nav-info
+          margin-left 5px !important
+          .icon
+            background-image url('../img/info-icon.svg')
+            margin-top -2px
+            width 19px !important
+            height 19px !important
         .icon
-          opacity 1
+          background-position center
+          background-repeat no-repeat
+          background-size cover
+          width 20px
+          height 20px
+          opacity 0.3
+          cursor pointer
+          transition opacity .3s
+          &:hover
+            opacity 0.8
 
-.content-wrap
-  height 500px
-  position relative
-  width 100%
-  overflow-y auto
-  overflow-x hidden
+#container
   display none
+  width 100%
+  position relative
+  padding-top 10px
   &.active
     display block
 
-.all-products
-  .loader
-    margin 10px auto 0
-    width 50px
-    height 50px
-    background-image url('../img/loader.svg')
-    background-size cover
-    background-position center
-    background-repeat no-repeat
-  .product-wrap
-    width 95%
-    margin 15px auto
-    height 110px
-    position relative
-    display flex
-    justify-content left
-    .favorite-btn
-      align-self center
-      margin-right 5px
-      cursor pointer
-      &:hover
-        i
-          color #0C5AA1
-      &.active
-        i
-          color #0C5AA1
-      i
-        color #bdbdbd
-        transition color .3s
-    .product-data
-      align-self center
-      height fit-content
-      display flex
-      justify-content left
-      .product-img
-        max-height 110px !important
-        width 75px !important
-        min-width 75px !important
-        max-width 75px !important
-        border-radius .3em
-        border 1px solid #e8eaea
-      .basic-product-info
-        text-align left
-        margin-left 10px
-        .product-name
-          font-size 12px
-          margin 0
-          color #333
-          text-decoration none
-          &:hover
-            text-decoration underline
-        .product-price
-          font-size 11.5px
-          margin 0
-          color grey
-          span.sale-price
-            color #167cda
-          span.strikethrough-price
-            color #c5c5c5
-            text-decoration line-through
-          &.sold-out
-            color red !important
-            font-size 10px
-    .store-name
-      color grey
-      align-self center
-      font-size 10px
-      width 200px
-      text-align right
-      margin-left auto
-      font-weight 700
-      text-transform uppercase
-
-.your-favorites
-  .content-header
-    width calc(100% - 30px)
-    height fit-content
-    margin 0 auto 0
-    text-align center
-    padding 15px 0
-    .content-title
-      color #333
-      font-size 19px
-      margin 0
-      font-weight 600
-  .all-products
-    .no-favorites
-      color grey
-      margin 30px auto 0
-      font-size 15px
-      text-align center
-      max-width 90%
-
-.search-stores
-  .content-header
-    width calc(100% - 30px)
-    height fit-content
-    margin 0 auto 0
-    text-align left
-    padding 15px 0
-    .content-title
-      color #333
-      font-size 19px
-      margin 0
-      font-weight 600
-    .content-subtitle
-      color grey
-      font-size 11px
-      margin 2px 0 0
-  .stores
-    width calc(100% - 30px)
-    margin 20px auto 35px
-    height fit-content
-    position relative
-    .alphabetic-store-wrap
-      width 100%
-      margin-bottom 20px
-      .alphabetic-title
-        margin 0
-        font-size 20px
-        font-weight 700
-        text-align left
-        color lightgrey
-      .store-links
-        display flex
-        justify-content left
-        flex-flow row wrap
-      .store-label-wrap
-        display flex
-        justify-content left
-        align-items center
-        flex-basis 50%
-        margin-bottom 10px
-        &.active
-          .store-label
-            color #1ad278 !important
-        .store-link
-          color #333
-          font-size 14px
-          text-align left
-          font-weight 600
-          cursor pointer
-          text-decoration none
-          transition color .2s
-        .store-link:hover
-          color #1ad278 !important
-
-
-.similar-items-content
-  .content-header
+.similar-clothing-container
+  .back-to-top-btn
     width 100%
-    height fit-content
-    padding 15px 0
-    .content-title
-      color #333
-      text-align center
-      font-size 19px
-      margin 0
-      font-weight 600
-  .return-to-top-btn
+    height 45px
+    z-index 5
     position fixed
-    width 100%
-
-    height 0
-    overflow hidden
-    top 50px
-    z-index 10
-    background black
+    top -45px
+    left 0
+    background rgb(30, 36, 48)
     cursor pointer
-    transition background .3s, height .3s
-    &:hover
-      background #171717
+    overflow hidden
+    transition background .3s, top .2s
     &.active
-      height 30px
-      box-shadow 0 0 12px 4px rgba(0,0,0,0.1)
+      top 0
+    &:hover
+      background rgb(42, 50, 65)
     p
       color white
-      font-size 15px
-      font-weight 800
-      margin 5px 0 0
-      text-align center
-  .sort-by-wrap
-    position relative
-    width fit-content
-    height fit-content
-    margin 0 auto
-    display none
-    &.active
-      display block
-    .sort-by-btn
-      cursor pointer
-      align-items center
-      display flex
-      justify-content center
-      &:hover
-        .selected-option,
-        .drop-down-icon
-          opacity 1
-      .selected-option
-        font-weight bold
-        opacity 0.8
-        transition opacity .3s
-      .drop-down-icon
-        background-image url('../img/down-arrow.svg')
-        background-position center
-        background-size cover
-        background-repeat no-repeat
-        width 8px
-        height 8px
-        margin-left 5px
-        opacity 0.8
-        margin-top 2px
-        transition opacity .3s
-    .sort-by-menu
-      opacity 0
-      visibility hidden
-      z-index 100000
       position absolute
+      top 50%
       left 50%
-      top 30px
-      transform translateX(-50%)
-      width 100%
-      background white
-      border-radius .2em
-      box-shadow 0 0 12px 3px rgba(0,0,0,0.1)
-      padding 10px 0
+      transform translate(-50%, -50%)
+      margin 0
+      font-size 14px
+      font-weight 600
+      letter-spacing 0.3px
+  h1.container-title
+    color #4d4d4d
+    text-align center
+    margin 0 0 30px
+    font-size 20px
+    font-weight 500
+  .content
+    width calc(100% - 40px)
+    margin 0 auto
+  .product
+    margin 0 auto 50px
+    width fit-content
+    h2.store-name
+      color rgb(167, 167, 167)
+      text-align center
+      font-weight 300
+      margin 0 0 3px
+      font-size 12.5px
+      text-transform uppercase
+    .product-img-wrap
+      max-width 200px
+      position relative
+      cursor pointer
       height fit-content
-      width fit-content
-      transition visibility .3s, opacity .3s, top .3s
-      &.active
-        top 22px
-        opacity 1
-        visibility visible
-      .option
-        width 180px
-        height fit-content
-        padding 5px 0
-        cursor pointer
-        background white
+      margin 0 auto 10px
+      overflow hidden
+      border-radius .2em
+      &:hover
+        .img-darken-overlay
+          background rgba(0,0,20,0.15)
+        .favorite-btn
+          visibility visible
+          opacity 1
+          bottom 20px
+      img
+        width 100%
+      .img-darken-overlay
+        position absolute
+        z-index 1
+        top 0
+        left 0
+        width 100%
+        height calc(100% - 5px)
+        background rgba(0,0,30,0.05)
         transition background .3s
-        &:hover
-          background #f7f7f7
-        span
-          text-align center
-          font-size 13px
+      .favorite-btn
+        background rgb(30, 36, 48)
+        width 40px
+        height 40px
+        z-index 2
+        position absolute
+        left 50%
+        transform translateX(-50%)
+        border-radius 40px
+        cursor pointer
+        visibility hidden
+        opacity 0
+        bottom 10px
+        transition background .3s, bottom .4s, opacity .3s, visibility .3s
+        &:hover,
+        &.active
+          background rgb(27, 189, 126)
+        .icon
+          background-image url('../img/white-favorite-icon.svg')
+          background-position center
+          background-repeat no-repeat
+          background-size cover
+          width 18px
+          height 18px
+          position absolute
+          top 50%
+          left 50%
+          transform translate(-50%, -50%)
+    .product-desc
+      text-align center
+      a.product-title
+        margin 0
+        font-weight 300
+        font-size 14.5px
+        max-width 400px
+        line-height 130%
+        letter-spacing 0.4px
+        color #2c2c37
+        cursor pointer
+        text-decoration none
+      .price-wrap
+        display flex
+        justify-content center
+        align-items center
+        width fit-content
+        margin 5px auto 7.5px
+        .price
+          font-weight 600
+          margin 0
+          font-size 14px
+          letter-spacing 0.2px
+          color #24242d
+          &.strikethrough
+            color #a2a2a2
+            text-decoration line-through
+        .sale-price
+          margin 0 0 0 30px
+          font-weight 700
+          color #21212a
+          font-size 14px
+          letter-spacing 0.2px

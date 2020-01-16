@@ -2,7 +2,6 @@ if(!window.mainInjectInit) {
   let allProducts = [];
 
   window.mainInjectInit = true;
-  console.log('RUN123')
   var getProductsMessage = (data) => {
     return new Promise((resolve, reject) => {
       let products = []
@@ -15,8 +14,6 @@ if(!window.mainInjectInit) {
   const appendModal = (products, stores) => {
     products.forEach((p) => {
       stores.forEach((s, i) => {
-        console.log(p.storeName)
-        console.log(s.name)
         if(p.storeName.toLowerCase() == s.name.toLowerCase()) stores[i].show = true
       })
     })
@@ -41,6 +38,7 @@ if(!window.mainInjectInit) {
   }
 
   function getProducts(stores, keywords)  {
+    console.log(keywords)
     chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: stores.map((s) => s.id), ...keywords}}, function(response) {
       appendModal(response, stores)
       allProducts = response
@@ -93,7 +91,6 @@ if(!window.mainInjectInit) {
         window.init = true
         chrome.storage.sync.get(['favorites'], (data) => {
           allFavorites = data['favorites']?data['favorites']:[];
-          console.log(allFavorites)
           sendResponse(allFavorites)
         })
         setTimeout(() => {
@@ -109,7 +106,6 @@ if(!window.mainInjectInit) {
         const searchText = request.data.keywords
         request.data.stores.pop()
         request.data.keywords = request.data.keywords.split(' ')
-        console.log(request.data)
         getProductsMessage(request.data).then((data) => {
           sendResponse({products: data, search: searchText})
         })

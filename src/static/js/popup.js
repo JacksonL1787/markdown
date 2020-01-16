@@ -38,25 +38,42 @@ const allStores = [
 const appendProduct = (data, container) => {
   data.shortenName = data.name.length > 30 ? data.name.slice(0,30) + "..." : data.name
   let salePrice = sale = data.sale ? `$${parseFloat(data.sale).toFixed(2)}` : false
-  let price = isNaN(parseFloat(data.price)) ? "Unknown" : `$${parseFloat(data.price).toFixed(2)}`
+  let price = isNaN(parseFloat(data.price)) ? "Unknown Price" : `$${parseFloat(data.price).toFixed(2)}`
   $(container).append(`
-    <div class="product-wrap">
-      <div class="favorite-btn ${data.favorite ? 'active' : ''}"><i class="fas fa-star fa-lg"></i></div>
-      <div class="product-data">
-        <img class="product-img" src="${data.img}" onerror='this.onerror = null; this.src="https://anf.scene7.com/is/image/anf/anf_208178_07_prod1?$grid-anf-v1$"'>
-        <div class="basic-product-info">
-          <a href="${data.link}" target="_blank" class="product-name" title="${data.name}">${data.shortenName}</a>
-          ${salePrice ?
-            `<p class="product-price "><span class="strikethrough-price">${price}</span><br><span class="sale-price">${salePrice}</span></p>` :
-            `<p class="product-price">${price}</p>`
-          }
 
-        </div>
-      </div>
+    <div class="product">
       <h2 class="store-name">${data.storeName}</h2>
+      <div class="product-img-wrap" data-link="${data.link}">
+        <img src="${data.img}" alt="${data.name}">
+        <div class="favorite-btn ${data.favorite ? "active" : ""}">
+          <div class="icon"></div>
+        </div>
+        <div class="img-darken-overlay"></div>
+      </div>
+      <div class="product-desc">
+        <a href="${data.link}" target="_blank" class="product-title" title="${data.name}">${data.shortenName}</a>
+        <div class="price-wrap">
+          ${salePrice ?
+            `<p class="price strikethrough">${price}</p><p class="sale-price">${salePrice}</p>` :
+            `<p class="price">${price}</p>`
+          }
+        </div>
+
+      </div>
     </div>
   `)
 }
+
+$(document).on('click', '.product-img-wrap',function(e) {
+  const $elem = $(e.target)
+  console.log($elem)
+  if($elem.hasClass('img-darken-overlay')) {
+    window.open($elem.parent('.product-img-wrap').data('link'), "_blank")
+  }
+  if($elem.hasClass('product-img-wrap')) {
+    window.open($elem.data('link'), "_blank")
+  }
+})
 
 const appendStoresAlphabetically = (stores) => {
   stores.sort((a,b) => {
@@ -83,16 +100,16 @@ const appendStoresAlphabetically = (stores) => {
   })
 }
 
-appendStoresAlphabetically(allStores)
+// appendStoresAlphabetically(allStores)
 
 const setSimilarItems = (products) => {
   if(products.length === 0) return;
-  $('.similar-items-content .sort-by-wrap').addClass('active')
-  $('.similar-items-content .all-products .product-wrap').remove()
+  //$('.similar-items-content .sort-by-wrap').addClass('active')
+  $('.similar-clothing-container .clothing-content .product').remove()
   _data.currentPageProducts = products
   console.log(products)
   products.forEach((p) => {
-    appendProduct(p, '.similar-items-content .all-products')
+    appendProduct(p, '.similar-clothing-container .clothing-content')
   })
 }
 
@@ -132,57 +149,38 @@ const getFavoriteProducts = () => {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  getFavoriteProducts()
+  //getFavoriteProducts()
   getProductsTimer = setInterval(getSimilarProductInfo, 100)
 });
 
-$('.view-similar-items-wrap p').click(function() {
-  $('.main').removeClass('similar-items-active')
-  $('.content-wrap').removeClass('active')
-  $('.footer .nav .nav-item').removeClass('active')
-  $('.similar-items-content').addClass('active')
-})
 
-$('.footer .nav-item-search').click(function() {
-  $('.main').addClass('similar-items-active')
-  $('.content-wrap').removeClass('active')
-  $('.search-stores').addClass('active')
-})
-
-$('.footer .nav-item-favorites').click(function() {
-  $('.main').addClass('similar-items-active')
-  $('.content-wrap').removeClass('active')
-  $('.your-favorites').addClass('active')
-})
-
-$('.similar-items-content').scroll(function(e) {
-  if($(this).scrollTop() > 350) {
-    $('.similar-items-content .return-to-top-btn').addClass('active')
-  } else {
-    $('.similar-items-content .return-to-top-btn').removeClass('active')
-  }
-})
 
 $(() => {
   var animatedScrollActive = false;
 
-  $('.similar-items-content .return-to-top-btn').click(function(e) {
+  $('#main').scroll(function(e) {
+    if(!$('.similar-clothing-container').hasClass('active')) {
+      return;
+    }
+    if($(this).scrollTop() > 350) {
+      $('.similar-clothing-container .back-to-top-btn').addClass('active')
+    } else {
+      $('.similar-clothing-container .back-to-top-btn').removeClass('active')
+    }
+  })
+
+  $('.similar-clothing-container .back-to-top-btn').click(function(e) {
     if(animatedScrollActive) {
       return;
     }
     animatedScrollActive = true;
 
-    $('.similar-items-content').animate({
+    $('#main').animate({
       scrollTop: 0
-    }, 1000, () => {
+    }, 750, () => {
       animatedScrollActive = false;
     })
   })
-})
-
-$('.footer .nav .nav-item').click(function() {
-  $('.footer .nav .nav-item').removeClass('active')
-  $(this).addClass('active')
 })
 
 
@@ -228,19 +226,19 @@ const sortSimilarProducts = (filter) => {
   }
 }
 
-$('.similar-items-content .sort-by-btn').click(function() {
-  $('.sort-by-menu').toggleClass('active')
-})
+// $('.similar-items-content .sort-by-btn').click(function() {
+//   $('.sort-by-menu').toggleClass('active')
+// })
+//
+// $('.similar-items-content .sort-by-menu .option').click(function() {
+//   $('.similar-items-content .sort-by-btn .selected-option').text($(this).children('span').text())
+//   $('.sort-by-menu').removeClass('active')
+//   sortSimilarProducts($(this).children('span').text())
+// })
 
-$('.similar-items-content .sort-by-menu .option').click(function() {
-  $('.similar-items-content .sort-by-btn .selected-option').text($(this).children('span').text())
-  $('.sort-by-menu').removeClass('active')
-  sortSimilarProducts($(this).children('span').text())
-})
-
-$(document).ready(() => {
-  $('.search-stores .content-header .content-title').text(`All Stores (${allStores.length})`)
-})
+// $(document).ready(() => {
+//   $('.search-stores .content-header .content-title').text(`All Stores (${allStores.length})`)
+// })
 
 $(document).on('click', '.product-wrap .favorite-btn', function() {
   const wrap = $(this).parent()

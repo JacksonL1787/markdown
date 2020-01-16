@@ -1,0 +1,19 @@
+if(!window.initDone) {
+  window.initDone = true
+
+  const getKeywords = async () => {
+    //Define product description for search
+    let string = ''
+    string = string.toLowerCase()
+    console.log(string)
+    const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))
+    const keywords = await response.json()
+    return getSearchKeywords(string, keywords)
+  }
+
+  $(async () => {
+    getProducts([
+      storeInformation.store
+    ], await getKeywords())
+  })
+}

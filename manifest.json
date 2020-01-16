@@ -26,6 +26,7 @@
     "default_popup": "/src/popup.html"
   },
   "web_accessible_resources": [
-    "src/keywords.json"
+    "src/keywords.json",
+    "src/fonts/OpenSans-Regular.ttf"
   ]
 }

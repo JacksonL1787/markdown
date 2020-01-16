@@ -7,76 +7,44 @@
     <script src="fa.js"></script>
   </head>
   <body>
-    <div class="main similar-items-active">
+    <div id="main">
+
+
 
 
       <div class="header">
-        <div class="markdown-logo"></div>
-      </div>
-
-
-
-      <div class="content-wrap similar-items-content">
-        <div>
-          <div class="content-header">
-            <h1 class="content-title">Similar Items</h1>
-          </div>
-          <div class="return-to-top-btn">
-            <p>Back to Top</p>
-          </div>
-          <div class="sort-by-wrap">
-            <div class="sort-by-btn">
-              <span class="selected-option">Most Relevant</span>
-              <div class="drop-down-icon"></div>
+        <div class="header-content">
+          <h1 class="header-title">Markdown</h1>
+          <div class="nav-wrap">
+            <div class="nav-item nav-similar-clothing active">
+              <div class="icon"></div>
             </div>
-
-            <div class="sort-by-menu">
-              <div class="option sort-by-most-relevant"><span>Most Relevant</span></div>
-              <div class="option sort-by-lowest-price"><span>Lowest Price</span></div>
-              <div class="option sort-by-highest-price"><span>Highest Price</span></div>
+            <div class="nav-item nav-stores">
+              <div class="icon"></div>
+            </div>
+            <div class="nav-item nav-favorites">
+              <div class="icon"></div>
+            </div>
+            <div class="nav-item nav-info">
+              <div class="icon"></div>
             </div>
           </div>
-          <div class="all-products">
-            <div class="loader"></div>
+        </div>
+      </div>
+
+
+
+      <div id="container" class="similar-clothing-container active">
+        <div class="back-to-top-btn"><p>Back to Top</p></div>
+        <h1 class="container-title">Similar Clothing</h1>
+        <div class="content">
+          <div class="clothing-content">
           </div>
         </div>
       </div>
 
-      <div class="content-wrap your-favorites">
-        <div class="content-header">
-          <h1 class="content-title">Your Favorites</h1>
-        </div>
-
-        <div class="all-products">
-          <p class="no-favorites" style="display: none;">You have no favorites</p>
-        </div>
-      </div>
-
-      <div class="content-wrap search-stores active">
-        <div>
-          <div class="content-header">
-            <h1 class="content-title">All Stores</h1>
-            <p class="content-subtitle">These are all the stores that Markdown supports.</p>
-          </div>
-          <div class="stores"></div>
-        </div>
-      </div>
-
-      <div class="view-similar-items-wrap">
-        <p>View Similar Items</p>
-      </div>
 
 
-      <div class="footer">
-        <div class="nav">
-          <div class="nav-item nav-item-search">
-              <div class="icon"></div>
-          </div>
-          <div class="nav-item nav-item-favorites">
-              <div class="icon"></div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <script type="text/javascript" src="static/js/popup.js"></script>
