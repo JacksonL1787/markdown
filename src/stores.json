@@ -1,122 +1,338 @@
 [
   {
+    "name": "Hugo Boss",
     "url": "www.hugoboss.com",
-    "inject": "storeInjectFiles/hugoboss.js"
+    "inject": "storeInjectFiles/hugoboss.js",
+    "icon": {
+      "imgSrc": "hugoboss.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pt_product-details",
+    "tags": []
   },
   {
+    "name": "Nordstorm",
     "url": "shop.nordstrom.com",
-    "inject": "storeInjectFiles/nordstrom.js"
+    "inject": "storeInjectFiles/nordstrom.js",
+    "icon": {
+      "imgSrc": "nordstrom.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": "#product-page-reviews",
+    "tags": []
   },
   {
+    "name": "Pacsun",
     "url": "www.pacsun.com",
-    "inject": "storeInjectFiles/pacsun.js"
+    "inject": "storeInjectFiles/pacsun.js",
+    "icon": {
+      "imgSrc": "pacsun.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".rwd-pt_product-details",
+    "tags": []
   },
   {
+    "name": "Vans",
     "url": "vans.com",
-    "inject": "storeInjectFiles/vans.js"
+    "inject": "storeInjectFiles/vans.js",
+    "icon": {
+      "imgSrc": "vans.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pdp",
+    "tags": []
   },
   {
-    "url": "hollister.com",
-    "inject": "storeInjectFiles/hollister.js"
+    "name": "Hollister",
+    "url": "hollisterco.com",
+    "inject": "storeInjectFiles/hollister.js",
+    "icon": {
+      "imgSrc": "hollisterco.com",
+      "imgProv": "uplead",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".product-page-v2",
+    "tags": []
   },
   {
+    "name": "Nike",
     "url": "www.nike.com",
-    "inject": "storeInjectFiles/nike.js"
+    "inject": "storeInjectFiles/nike.js",
+    "icon": {
+      "imgSrc": "nike.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": "#PDP",
+    "tags": []
   },
   {
+    "name": "American Eagle",
     "url": "www.ae.com",
-    "inject": "storeInjectFiles/americanEagle.js"
+    "inject": "storeInjectFiles/americanEagle.js",
+    "icon": {
+      "imgSrc": "ae.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".qa-product-detail-page-cartridge",
+    "tags": []
   },
   {
+    "name": "Adidas",
     "url": "www.adidas.com",
-    "inject": "storeInjectFiles/adidas.js"
+    "inject": "storeInjectFiles/adidas.js",
+    "icon": {
+      "imgSrc": "adidas.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pdp___1c9SW",
+    "tags": []
   },
   {
+    "name": "Urban Outfitters",
     "url": "www.urbanoutfitters.com",
-    "inject": "storeInjectFiles/urbanOutfitters.js"
+    "inject": "storeInjectFiles/urbanOutfitters.js",
+    "icon": {
+      "imgSrc": "urbanoutfitters.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".c-product-container__outer",
+    "tags": []
   },
   {
+    "name": "Victoria's Secret",
     "url": "www.victoriassecret.com",
-    "inject": "storeInjectFiles/victoriasSecret.js"
+    "inject": "storeInjectFiles/victoriasSecret.js",
+    "icon": {
+      "imgSrc": "victoriassecret.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".fabric-product-template",
+    "tags": []
   },
   {
+    "name": "Brandy Melville",
     "url": "www.brandymelvilleusa.com",
-    "inject": "storeInjectFiles/brandyMelville.js"
+    "inject": "storeInjectFiles/brandyMelville.js",
+    "icon": {
+      "imgSrc": "brandymelvilleusa.com",
+      "imgProv": "clearbit",
+      "greyscale":true
+    },
+    "productPageIdentifier": "",
+    "tags": []
   },
   {
+    "name": "Abercrombie & Fitch",
     "url": "www.abercrombie.com",
-    "inject": "storeInjectFiles/abercrombieFitch.js"
+    "inject": "storeInjectFiles/abercrombieFitch.js",
+    "icon": {
+      "imgSrc": "abercrombie.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".ProductPage",
+    "tags": []
   },
   {
-    "url": "www.hottopic.com",
-    "inject": "storeInjectFiles/hotTopic.js"
-  },
-  {
+    "name": "Old Navy",
     "url": "oldnavy.gap.com",
-    "inject": "storeInjectFiles/oldNavy.js"
+    "inject": "storeInjectFiles/oldNavy.js",
+    "icon": {
+      "imgSrc": "oldnavy.gap.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": "#pdp-page-content",
+    "tags": []
   },
   {
+    "name": "Zumiez",
     "url": "www.zumiez.com",
-    "inject": "storeInjectFiles/zumiez.js"
+    "inject": "storeInjectFiles/zumiez.js",
+    "icon": {
+      "imgSrc": "zumiez.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".catalog-product-view",
+    "tags": []
   },
   {
+    "name": "Gap",
     "url": "www.gap.com",
-    "inject": "storeInjectFiles/gap.js"
+    "inject": "storeInjectFiles/gap.js",
+    "icon": {
+      "imgSrc": "gap.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": "#pdp-page-content",
+    "tags": []
   },
   {
+    "name": "Banana Republic",
     "url": "bananarepublic.gap.com",
-    "inject": "storeInjectFiles/bananaRepublic.js"
+    "inject": "storeInjectFiles/bananaRepublic.js",
+    "icon": {
+      "imgSrc": "bananarepublic.co.uk",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": "#pdp-page-content",
+    "tags": []
   },
   {
+    "name": "J.Crew",
     "url": "www.jcrew.com",
-    "inject": "storeInjectFiles/jCrew.js"
+    "inject": "storeInjectFiles/jCrew.js",
+    "icon": {
+      "imgSrc": "jcrew.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".c-product__page",
+    "tags": []
   },
   {
+    "name": "H&M",
     "url": "www2.hm.com",
-    "inject": "storeInjectFiles/hm.js"
+    "inject": "storeInjectFiles/hm.js",
+    "icon": {
+      "imgSrc": "hm.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pdp-page",
+    "tags": []
   },
   {
+    "name": "Blooming Dale's",
     "url": "www.bloomingdales.com",
-    "inject": "storeInjectFiles/bloomingDales.js"
+    "inject": "storeInjectFiles/bloomingDales.js",
+    "icon": {
+      "imgSrc": "bloomingdales.com",
+      "imgProv": "uplead",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".product-details-feature",
+    "tags": []
   },
   {
+    "name": "Billabong",
     "url": "www.billabong.com",
-    "inject": "storeInjectFiles/billabong.js"
+    "inject": "storeInjectFiles/billabong.js",
+    "icon": {
+      "imgSrc": "billabong.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pt_productdetails",
+    "tags": []
   },
   {
+    "name": "Nordstrom Rack",
     "url": "www.nordstromrack.com",
-    "inject": "storeInjectFiles/nordstromRack.js"
+    "inject": "storeInjectFiles/nordstromRack.js",
+    "icon": {
+      "imgSrc": "nordstromrack.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".product-page__page-container",
+    "tags": []
   },
   {
+    "name": "North Face",
     "url": "www.thenorthface.com",
-    "inject": "storeInjectFiles/theNorthFace.js"
+    "inject": "storeInjectFiles/theNorthFace.js",
+    "icon": {
+      "imgSrc": "thenorthface.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pdp",
+    "tags": []
   },
   {
+    "name": "Levi's",
     "url": "www.levi.com",
-    "inject": "storeInjectFiles/levi.js"
+    "inject": "storeInjectFiles/levi.js",
+    "icon": {
+      "imgSrc": "levi.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pageType-ProductPage",
+    "tags": []
   },
   {
-    "url": "www.louisvuitton.com",
-    "inject": "storeInjectFiles/louisVuitton.js"
-  },
-  {
+    "name": "Champion",
     "url": "www.champion.com",
-    "inject": "storeInjectFiles/champion.js"
+    "inject": "storeInjectFiles/champion.js",
+    "icon": {
+      "imgSrc": "champion.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".pdp",
+    "tags": []
   },
   {
+    "name": "PINK",
     "url": "www.victoriassecret.com/pink",
-    "inject": "storeInjectFiles/pink.js"
+    "inject": "storeInjectFiles/pink.js",
+    "icon": {
+      "imgSrc": "victoriassecret.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".fabric-product-template",
+    "tags": []
   },
   {
+    "name": "Guess",
     "url": "shop.guess.com",
-    "inject": "storeInjectFiles/guess.js"
+    "inject": "storeInjectFiles/guess.js",
+    "icon": {
+      "imgSrc": "guess.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": "#productDetails",
+    "tags": []
   },
   {
+    "name": "ASOS",
     "url": "www.asos.com",
-    "inject": "storeInjectFiles/asos.js"
+    "inject": "storeInjectFiles/asos.js",
+    "icon": {
+      "imgSrc": "asos.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".single-product",
+    "tags": []
   },
   {
+    "name": "Target",
     "url": "www.target.com",
-    "inject": "storeInjectFiles/target.js"
+    "inject": "storeInjectFiles/target.js",
+    "icon": {
+      "imgSrc": "target.com",
+      "imgProv": "clearbit",
+      "greyscale":false
+    },
+    "productPageIdentifier": ".styles__ProductDetailsTitleRelatedLinks-h3ukx9-0",
+    "tags": []
   }
 ]

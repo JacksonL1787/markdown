@@ -2,16 +2,17 @@ if(!window.initDone) {
   window.initDone = true
 
   const getKeywords = async () => {
-    let string = ''
-    let gender = ''
-    if($('.bc-item span').text().toLowerCase().includes('women')) {
-      gender = 'Womens'
-    } else if($('.bc-item span').text().toLowerCase().includes('men')) {
-      gender = 'Men'
+    let gender = ""
+    console.log('test')
+    if(window.location.pathname.includes('womens_category')) {
+      gender = "women"
+    } else if (window.location.pathname.includes('mens_category')) {
+      gender = "men"
     }
+    let string = ''
     string += gender
-    string += ' ' + $('h1.product-name').text()
-    string += ' ' + $('.qa-product-detail-selection .psp-product-color span').text()
+    string += ' ' + $('.c-product__colors .colors-list__item.is-selected').data('name')
+    string += ' ' + $('#product-name__p').text()
     string = string.toLowerCase()
     console.log(string)
     const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))
@@ -21,7 +22,7 @@ if(!window.initDone) {
 
   $(async () => {
     getProducts([
-      storeInformation.pacsun
+      storeInformation.nordstrom
     ], await getKeywords())
   })
 }

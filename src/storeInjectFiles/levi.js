@@ -3,15 +3,15 @@ if(!window.initDone) {
 
   const getKeywords = async () => {
     let gender = ""
-    if($('').text().toLowerCase().includes('women')) {
+    if($('.breadcrumb-section .breadcrumb li a').text().toLowerCase().includes('women')) {
       gender = "women"
-    } else if ($('').text().toLowerCase().includes('men')) {
+    } else if ($('.breadcrumb-section .breadcrumb li a').text().toLowerCase().includes('men')) {
       gender = "men"
     }
     let string = ''
     string += gender
-    string += ' ' +
-    string += ' ' +
+    string += ' ' + $('.product-swatches .swatch.active img').attr('alt')
+    string += ' ' + $('.product-details .name').text()
     string = string.toLowerCase()
     console.log(string)
     const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))
@@ -21,7 +21,8 @@ if(!window.initDone) {
 
   $(async () => {
     getProducts([
-      storeInformation.
+      storeInformation.target,
+      storeInformation.hm
     ], await getKeywords())
   })
 }

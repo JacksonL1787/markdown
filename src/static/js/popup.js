@@ -2,38 +2,16 @@ let _data = {};
 
 let getProductsTimer;
 
-const allStores = [
-  {name: "Nordstrom", url: "https://shop.nordstrom.com"},
-  {name: "Hugo Boss", url: "https://hugoboss.com"},
-  {name: "Pacsun", url: "https://pacsun.com"},
-  {name: "Hollister", url: "https://hollister.com"},
-  {name: "Vans", url: "https://vans.com"},
-  {name: "Nike", url: "https://www.nike.com"},
-  {name: "American Eagle", url: "https://www.ae.com"},
-  {name: "Adidas", url: "https://www.adidas.com"},
-  {name: "Urban Outfitters", url: "https://www.urbanoutfitters.com"},
-  {name: "Victoria's Secret", url: "https://www.victoriassecret.com/"},
-  {name: "Brandy Melville", url: "https://www.brandymelvilleusa.com"},
-  {name: "Abercrombie & Fitch", url: "https://www.abercrombie.com"},
-  {name: "Hot Topic", url: "https://www.hottopic.com"},
-  {name: "Old Navy", url: "https://oldnavy.gap.com"},
-  {name: "Zumiez", url: "https://www.zumiez.com"},
-  {name: "Gap", url: "https://www.gap.com"},
-  {name: "Banana Republic", url: "https://bananarepublic.gap.com"},
-  {name: "J.Crew", url: "https://www.jcrew.com"},
-  {name: "H&M", url: "https://www2.hm.com"},
-  {name: "Blooming Dale's", url: "https://www.bloomingdales.com"},
-  {name: "Billabong", url: "https://www.billabong.com"},
-  {name: "Nordstrom Rack", url: "https://www.nordstromrack.com"},
-  {name: "North Face", url: "https://www.thenorthface.com"},
-  {name: "Levi's", url: "https://www.levi.com"},
-  {name: "Louis Vuitton", url: "https://www.louisvuitton.com"},
-  {name: "Champion", url: "https://www.champion.com"},
-  {name: "PINK", url: "https://www.victoriassecret.com/pink"},
-  {name: "Guess", url: "https://shop.guess.com"},
-  {name: "ASOS", url: "https://www.asos.com"},
-  {name: "Target", url: "https://www.target.com"}
-]
+let allStores = []
+
+const setLoader = (status, container) => {
+
+  if(status) {
+    $(`.${container}`).addClass('active-loader')
+  } else {
+    $(`.${container}`).removeClass('active-loader')
+  }
+}
 
 const appendProduct = (data, container) => {
   data.shortenName = data.name.length > 30 ? data.name.slice(0,30) + "..." : data.name
@@ -47,6 +25,9 @@ const appendProduct = (data, container) => {
         <img src="${data.img}" alt="${data.name}">
         <div class="favorite-btn ${data.favorite ? "active" : ""}">
           <div class="icon"></div>
+        </div>
+        <div class="favorited-tag ${data.favorite ? "active" : ""}">
+          <p>Favorited</p>
         </div>
         <div class="img-darken-overlay"></div>
       </div>
@@ -75,40 +56,114 @@ $(document).on('click', '.product-img-wrap',function(e) {
   }
 })
 
-const appendStoresAlphabetically = (stores) => {
-  stores.sort((a,b) => {
-    if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
-    if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
-    return 0;
-  })
-  stores.forEach((s) => {
-    let letter = s.name[0]
-    console.log(letter)
-    if($(`#${letter}`).length <= 0) {
-      $('.search-stores .stores').append(`
-        <div class="alphabetic-store-wrap" id="${letter}">
-          <h2 class="alphabetic-title">${letter}</h2>
-          <div class="store-links"></div>
+
+
+/*
+
+  HOME - STORES
+
+*/
+
+$(() => {
+
+  const appendStoresAlphabetically = (stores) => {
+    $('.stores-container .stores-list').empty()
+    stores.sort((a,b) => {
+      if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+      if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+      return 0;
+    })
+    stores.forEach((s, i) => {
+      $(`.stores-container .stores-list`).append(`
+        <div class="store-wrap" data-link="https://${s.url}">
+          <img class="logo" src="https://${s.icon.imgProv === "uplead" ? 'logo.uplead.com': 'logo.clearbit.com'}/${s.icon.imgSrc}${s.icon.greyscale ? '?greyscale=true' : ''}">
+          <h1 class="store-name">${s.name}</h1>
         </div>
+        ${i === (stores.length - 1) ? '' : '<div class="divider"></div>'}
       `)
+    })
+  }
+
+  $('.stores-container .search-bar-wrap .search-bar-inpt').on('input', function() {
+    const search = $(this).val().replace(/ |&|'|\.|/gi, '').toLowerCase()
+    console.log(allStores)
+    console.log(search)
+    const newStores = allStores.filter(s => {
+      return s.name.replace(/ |&|'|\.|/gi, '').toLowerCase().startsWith(search)
+    })
+    $('.stores-container .no-stores-found').hide()
+    $('.stores-container .no-stores-found').text()
+    if(newStores.length === 0) {
+      $('.stores-container .no-stores-found').show()
+      $('.stores-container .no-stores-found .search-text').text($(this).val())
     }
-    $(`#${s.name[0]} .store-links`).append(`
-      <div class="store-label-wrap" data-store="${s.name.toLowerCase()}">
-        <a class="store-link" href="${s.url}" target="_blank">${s.name}</a>
-      </div>
-    `)
+    appendStoresAlphabetically(newStores)
   })
+
+  $(document).on('click', '.stores-container .stores-list .store-wrap', function() {
+    const link = $(this).data('link');
+    console.log(link)
+    window.open(link, "_blank");
+  })
+
+  const getAllStores = async () => {
+    const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
+    const stores = await response.json()
+    return await stores;
+  }
+
+  const handleStores = async (stores) => {
+    allStores = await getAllStores()
+    appendStoresAlphabetically(allStores)
+    setLoader(false, 'stores-container')
+    // TODO: Show Search Bar
+  }
+
+  $(document).ready( async() => {
+    setLoader(true, 'stores-container')
+    handleStores()
+  })
+})
+
+const stopSimilarProductsPoll = () => {
+  clearInterval(getProductsTimer)
+  setLoader(false, 'similar-clothing-container')
 }
 
-// appendStoresAlphabetically(allStores)
+const handleSimilarItems = (similarItems) => {
+  if(!similarItems) return;
+  if(similarItems.status === "not store page") {
+    stopSimilarProductsPoll()
+    $('.similar-clothing-container .container-msg').removeClass('show')
+    $('.similar-clothing-container .not-store-page').addClass('show')
+    return;
+  }
 
-const setSimilarItems = (products) => {
-  if(products.length === 0) return;
+  if(similarItems.status === "not product page") {
+    stopSimilarProductsPoll()
+    $('.similar-clothing-container .container-msg').removeClass('show')
+    $('.similar-clothing-container .go-to-product-page').addClass('show')
+    return;
+  }
+
+  if(similarItems.status === "processing") {
+    $('.similar-clothing-container .container-msg').removeClass('show')
+    $('.similar-clothing-container .loading-products').addClass('show')
+    return;
+  }
+
+  if(similarItems.status === "no products") {
+    stopSimilarProductsPoll()
+    $('.similar-clothing-container .container-msg').removeClass('show')
+    $('.similar-clothing-container .not-store-page').removeClass('show')
+    return;
+  }
   //$('.similar-items-content .sort-by-wrap').addClass('active')
+  $('.similar-clothing-container .container-msg').removeClass('show')
   $('.similar-clothing-container .clothing-content .product').remove()
-  _data.currentPageProducts = products
-  console.log(products)
-  products.forEach((p) => {
+  $('.header .nav-similar-clothing .clothes-active').show()
+  _data.currentPageProducts = similarItems.products
+  similarItems.products.forEach((p) => {
     appendProduct(p, '.similar-clothing-container .clothing-content')
   })
 }
@@ -116,7 +171,7 @@ const setSimilarItems = (products) => {
 const getSimilarProductInfo = () => {
   if(_data.currentPageProducts) {
     clearInterval(getProductsTimer)
-    $('.similar-items-content .all-products .loader').hide()
+    setLoader(false, 'similar-clothing-container')
     return;
   }
   chrome.tabs.query({
@@ -129,27 +184,12 @@ const getSimilarProductInfo = () => {
           from: 'popup',
           subject: 'productInfo'
         },
-        setSimilarItems);
-  });
-}
-
-const getFavoriteProducts = () => {
-  chrome.tabs.query({
-    active: true,
-    currentWindow: true
-  }, tabs => {
-    chrome.tabs.sendMessage(
-        tabs[0].id,
-        {
-          from: 'popup',
-          subject: 'getFavorites'
-        },
-        updateFavoriteItems);
+        handleSimilarItems);
   });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  //getFavoriteProducts()
+  setLoader(true, 'similar-clothing-container')
   getProductsTimer = setInterval(getSimilarProductInfo, 100)
 });
 
@@ -159,17 +199,17 @@ $(() => {
   var animatedScrollActive = false;
 
   $('#main').scroll(function(e) {
-    if(!$('.similar-clothing-container').hasClass('active')) {
+    if(!$('.similar-clothing-container, .favorites-container').hasClass('active')) {
       return;
     }
     if($(this).scrollTop() > 350) {
-      $('.similar-clothing-container .back-to-top-btn').addClass('active')
+      $('.back-to-top-btn').addClass('active')
     } else {
-      $('.similar-clothing-container .back-to-top-btn').removeClass('active')
+      $('.back-to-top-btn').removeClass('active')
     }
   })
 
-  $('.similar-clothing-container .back-to-top-btn').click(function(e) {
+  $('.back-to-top-btn').click(function(e) {
     if(animatedScrollActive) {
       return;
     }
@@ -182,24 +222,6 @@ $(() => {
     })
   })
 })
-
-
-const updateFavoriteItems = (data) => {
-  console.log(data)
-  $('.your-favorites .all-products .product-wrap').remove()
-  if(!data) {
-    $('.your-favorites .all-products .no-favorites').show()
-    return;
-  }
-  if(data.length < 1) {
-    $('.your-favorites .all-products .no-favorites').show()
-    return;
-  }
-  $('.your-favorites .all-products .no-favorites').hide()
-  data.forEach((p) => {
-    appendProduct({...p, favorite: true}, '.your-favorites .all-products')
-  })
-}
 
 const sortSimilarProducts = (filter) => {
   if(_data.currentPageProducts) {
@@ -236,44 +258,159 @@ const sortSimilarProducts = (filter) => {
 //   sortSimilarProducts($(this).children('span').text())
 // })
 
-// $(document).ready(() => {
-//   $('.search-stores .content-header .content-title').text(`All Stores (${allStores.length})`)
-// })
+$(() => {
+  let elemTimeout;
 
-$(document).on('click', '.product-wrap .favorite-btn', function() {
-  const wrap = $(this).parent()
-  const favoriteData = {
-    img: wrap.find('.product-img').attr('src'),
-    link: wrap.find('.product-name').attr('href'),
-    name: wrap.find('.product-name').attr('title'),
-    price: wrap.find('.sale-price').length > 0 ? wrap.find('.strikethrough-price').text().slice(1) : wrap.find('.product-price').text().slice(1),
-    sale: wrap.find('.sale-price').length > 0 ? wrap.find('.sale-price').text().slice(1) : false,
-    storeName: wrap.find('.store-name').text()
-  }
-  const subject = $(this).hasClass('active') ? 'removeFavorite' : 'setFavorite'
-  const data = $(this).hasClass('active') ? favoriteData.link : favoriteData
-  _data.currentPageProducts.forEach((p)=> {
-    if(p.link == favoriteData.link) {
-      p.favorite = (subject === 'removeFavorite' ? false : true)
+  const handleFavoriteItems = (data) => {
+    setTimeout(() => {
+      setLoader(false, 'favorites-container')
+    }, 200)
+
+    $('.favorites-container .clothing-content .product').remove()
+    console.log(data)
+    if(!data) {
+      $('.favorites-container .no-favorites').addClass('show')
+      return;
     }
-  })
-  if(subject === 'removeFavorite') {
-    $(`.all-products .product-wrap .product-name[href="${favoriteData.link}"]`).parent().parent().siblings('.favorite-btn').removeClass('active')
-  } else if (subject === 'setFavorite') {
-    $(`.all-products .product-wrap .product-name[href="${favoriteData.link}"]`).parent().parent().siblings('.favorite-btn').addClass('active')
+    if(data.length < 1) {
+      $('.favorites-container .no-favorites').addClass('show')
+      return;
+    }
+    $('.favorites-container .no-favorites').removeClass('show')
+    data.forEach((p) => {
+      appendProduct({...p, favorite: true}, '.favorites-container .clothing-content')
+    })
   }
-  console.log(favoriteData)
-  chrome.tabs.query({
-    active: true,
-    currentWindow: true
-  }, tabs => {
-    chrome.tabs.sendMessage(
-        tabs[0].id,
-        {
-          from: 'popup',
-          subject: subject,
-          product: data
-        },
-        updateFavoriteItems);
-  });
+
+  const getFavoriteProducts = () => {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(['favorites'], (data) => {
+        console.log('rawData', data['favorites'])
+        const favorites = data['favorites']?data['favorites']:[];
+        console.log(favorites)
+        resolve(favorites)
+      })
+    })
+  }
+
+  const setFavoriteProducts = (product) => {
+    return new Promise((resolve, reject) => {
+      console.log(product)
+      chrome.storage.sync.get(['favorites'], (data) => {
+        let favorites = data['favorites']?data['favorites']:[];
+        favorites.unshift(product)
+        chrome.storage.sync.set({'favorites': favorites})
+        resolve(favorites)
+      })
+    })
+  }
+
+  const removeFavoriteProducts = (product) => {
+    return new Promise((resolve, reject) => {
+      console.log(product)
+      chrome.storage.sync.get(['favorites'], (data) => {
+        let favorites = data['favorites']?data['favorites']:[];
+        favorites.forEach((f, i) => {
+          if(f.link === product.link) {
+            favorites.splice(i, 1)
+          }
+        })
+        chrome.storage.sync.set({'favorites': favorites})
+        resolve(favorites)
+      })
+    })
+  }
+
+  const favoriteMessage = (status) => {
+    if($('.favorite-message-wrap').hasClass('active')) {
+      clearTimeout(elemTimeout)
+    }
+    $('.favorite-message-wrap').empty().removeClass('active').removeClass('red').removeClass('green')
+    setTimeout(() => {
+      $('.favorite-message-wrap').addClass('active')
+      if(status === "added") {
+        $('.favorite-message-wrap').addClass('green')
+        $('.favorite-message-wrap')
+          .append(`
+            <div class="icon-wrap">
+              <div class="icon added"></div>
+            </div>
+            <p class="msg">Added Item to Favorites</p>
+          `)
+      } else if (status === "removed") {
+        $('.favorite-message-wrap').addClass('red')
+        $('.favorite-message-wrap')
+          .append(`
+            <div class="icon-wrap">
+              <div class="icon removed"></div>
+            </div>
+            <p class="msg">Removed Item from Favorites</p>
+          `)
+      }
+      elemTimeout = setTimeout(() => {
+        $('.favorite-message-wrap').removeClass('active')
+      }, 2500)
+    }, 100)
+  }
+
+  $(document).on('click', '.clothing-content .favorite-btn', async function() {
+    const wrap = $(this).parent().parent()
+    const favoriteData = {
+      img: wrap.find('.product-img-wrap img').attr('src'),
+      link: wrap.find('.product-title').attr('href'),
+      name: wrap.find('.product-title').attr('title'),
+      price: wrap.find('.price').text().slice(1),
+      sale: wrap.find('.sale-price').length > 0 ? wrap.find('.sale-price').text().slice(1) : false,
+      storeName: wrap.find('.store-name').text()
+    }
+    const subject = $(this).hasClass('active') ? 'removeFavorite' : 'setFavorite'
+    const data = $(this).hasClass('active') ? favoriteData.link : favoriteData
+    if(_data.currentPageProducts) {
+      _data.currentPageProducts.forEach((p)=> {
+        if(p.link == favoriteData.link) {
+          p.favorite = (subject === 'removeFavorite' ? false : true)
+        }
+      })
+    }
+    let newFavorites = [];
+    if(subject === 'removeFavorite') {
+      favoriteMessage("removed")
+      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').removeClass('active')
+      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').removeClass('active')
+      console.log(favoriteData)
+      newFavorites = await removeFavoriteProducts(favoriteData)
+    } else if (subject === 'setFavorite') {
+      favoriteMessage("added")
+      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').addClass('active')
+      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').addClass('active')
+      console.log(favoriteData)
+      newFavorites = await setFavoriteProducts(favoriteData)
+    }
+    setLoader(true, 'favorites-container')
+    console.log(newFavorites)
+    handleFavoriteItems(newFavorites)
+  })
+
+
+  $(document).ready(async () => {
+    setLoader(true, 'favorites-container')
+    _data.favorites = await getFavoriteProducts()
+    handleFavoriteItems(_data.favorites)
+  })
+})
+
+$('.similar-clothing-container .not-store-page .all-stores-link').click(function() {
+  $('.container').removeClass('active')
+  $('.stores-container').addClass('active')
+  $('.header .nav-wrap .nav-item').removeClass('active')
+  $('.header .nav-wrap .nav-stores').addClass('active')
+});
+
+$(() => {
+  $('.header .nav-wrap .nav-item').click(function() {
+    $('.container').removeClass('active')
+    $(`.${$(this).data('linked-container')}`).addClass('active')
+    $('.header .nav-wrap .nav-item').removeClass('active')
+    $(this).addClass('active')
+  })
 })

@@ -1,14 +1,20 @@
 if(!window.initDone) {
   window.initDone = true
 
+  if($('').length > 0) {
+    console.log("PRODUCT PAGE")
+  } else {
+    console.log("NOT PRODUCT PAGE")
+  }
+
   const getKeywords = async () => {
     let string = ''
     let gender = ''
     console.log($('.breadcrumb-container .breadcrumbs-link').text())
-    if($('.breadcrumb-container .breadcrumbs-link').text().toLowerCase().includes("mens")) {
-      gender = "Mens"
-    } else if ($('.breadcrumb-container .breadcrumbs-link').text().toLowerCase().includes("womens")) {
+    if($('.breadcrumb-container .breadcrumbs-link').text().toLowerCase().includes("womens")) {
       gender = "Womens"
+    } else if ($('.breadcrumb-container .breadcrumbs-link').text().toLowerCase().includes("mens")) {
+      gender = "Mens"
     }
     string += ' ' + gender
     string += ' ' + $('.product-title-main-header').text()

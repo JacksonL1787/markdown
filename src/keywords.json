@@ -17,6 +17,8 @@
     "male"
   ],
   "type": [
+    "button up",
+    "button-up",
     "boardshort",
     "suit",
     "sweater",
@@ -74,8 +76,8 @@
     "bottom"
   ],
   "shade": [
-    "dark",
-    "light"
+    "dark ",
+    "light "
   ],
   "color": [
     "beige",
@@ -117,7 +119,8 @@
   "material": [
     "leather",
     "silk",
-    "cotton"
+    "cotton",
+    "puffy"
   ],
   "sport": [
     "running",

@@ -26,7 +26,9 @@ const compareFavoritesToProducts = (products) => {
       let allFavorites = data['favorites']?data['favorites']:[];
       if(allFavorites.length < 1) resolve(products);
       allFavorites = allFavorites.map(f => f.link)
+      console.log(allFavorites)
       products.forEach((p) => {
+        console.log(p)
         if(allFavorites.includes(p.link)) {
           p.favorite = true
         } else {
@@ -79,7 +81,6 @@ const getAllProducts = async (data) => {
   if(data.stores.includes("victoriassecret")) products.push(await getVictoriaSecretProducts(data.search))
   if(data.stores.includes("brandymelville")) products.push(await getBrandyMelvilleProducts(data.search))
   if(data.stores.includes("abercrombiefitch")) products.push(await getAbercrombieFitchProducts(data.search))
-  if(data.stores.includes("hottopic")) products.push(await getHotTopicProducts(data.search))
   if(data.stores.includes("oldnavy")) products.push(await getOldNavyProducts(data.search))
   if(data.stores.includes("zumiez")) products.push(await getZumiezProducts(data.search))
   if(data.stores.includes("gap")) products.push(await getGapProducts(data.search))
@@ -91,7 +92,6 @@ const getAllProducts = async (data) => {
   if(data.stores.includes("nordstromrack")) products.push(await getNordstromRackProducts(data.search))
   if(data.stores.includes("northface")) products.push(await getNorthFaceProducts(data.search))
   if(data.stores.includes("levis")) products.push(await getLeviProducts(data.search))
-  if(data.stores.includes("louisvuitton")) products.push(await getLouisVuittonProducts(data.search))
   if(data.stores.includes("champion")) products.push(await getChampionProducts(data.search))
   if(data.stores.includes("pink")) products.push(await getPinkProducts(data.search))
   if(data.stores.includes("guess")) products.push(await getGuessProducts(data.search))
@@ -122,7 +122,7 @@ const handleURL = (url, tabId) => {
   $.getJSON( "/src/stores.json", async data => {
     let currentStore;
     data.forEach((store)=> {
-      if(refinedURL === store.url) {
+      if(refinedURL.includes(store.url)) {
         currentStore = store
       }
     })

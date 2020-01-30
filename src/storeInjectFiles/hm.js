@@ -3,15 +3,15 @@ if(!window.initDone) {
 
   const getKeywords = async () => {
     let gender = ""
-    if($('').text().toLowerCase().includes('women')) {
+    if($('.breadcrumbs-list .breadcrumb-list-item span').text().toLowerCase().includes('women')) {
       gender = "women"
-    } else if ($('').text().toLowerCase().includes('men')) {
+    } else if ($('.breadcrumbs-list .breadcrumb-list-item span').text().toLowerCase().includes('men')) {
       gender = "men"
     }
     let string = ''
     string += gender
-    string += ' ' +
-    string += ' ' +
+    string += ' ' + $('.product-detail-info .product-item-headline').text()
+    string += ' ' + $('.product-detail-info .product-colors .group .list-item a.active').attr('title')
     string = string.toLowerCase()
     console.log(string)
     const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))
@@ -21,7 +21,8 @@ if(!window.initDone) {
 
   $(async () => {
     getProducts([
-      storeInformation.
+      storeInformation.asos,
+      storeInformation.urbanoutfitters
     ], await getKeywords())
   })
 }

@@ -1,5 +1,6 @@
 if(!window.mainInjectInit) {
   let allProducts = [];
+  let processingProducts = true;
 
   window.mainInjectInit = true;
   var getProductsMessage = (data) => {
@@ -11,44 +12,87 @@ if(!window.mainInjectInit) {
     })
   }
 
-  const appendModal = (products, stores) => {
-    products.forEach((p) => {
-      stores.forEach((s, i) => {
-        if(p.storeName.toLowerCase() == s.name.toLowerCase()) stores[i].show = true
-      })
+  const isStorePage = async () => {
+    const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
+    const stores = await response.json()
+    let storePage = stores.filter((s) => {
+      if(window.location.host.toLowerCase().includes(s.url.toLowerCase())) {
+        return s;
+      }
     })
-    $(document).on('click', '.markdown-close-modal', function() {
-      $(this).parent().remove()
+    return await storePage.length > 0 ? true : false
+  }
+
+  const isProductPage = async () => {
+    const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
+    const stores = await response.json()
+    let storePage = stores.filter((s) => {
+      if(window.location.host.toLowerCase().includes(s.url.toLowerCase())) {
+        return s;
+      }
+    })
+    if(storePage.length <= 0) {
+      return false
+    }
+
+    return $(storePage[0].productPageIdentifier).length > 0
+  }
+
+  const appendNotification = (products) => {
+    $(document).on('click', '.markdown-close-btn', function() {
+      const elem = $(this).parent()
+      elem.addClass('slide-out')
+      setTimeout(() => {
+        elem.remove()
+      }, 400)
     })
     $('body').append(`
-      <div class="markdown-similar-item-modal">
+      <div class="markdown-similar-item-notification">
         <div class="markdown-logo"></div>
-        <p class="markdown-close-modal">&#10005</p>
-        <div class="markdown-modal-content">
-          <h1 class="markdown-similar-item-count">${products.length}<h1>
-          <p class="markdown-similar-item-count-desc">Similar clothing items found${products.length > 0 ? ' from ' : ''}${stores.filter((i) => {
-            if(!i.show) {
-              return false;
-            }
-            return true;
-          }).map((i) => `<a class="markdown-store-link" href="${i.url}" target="_blank">${i.name}</a>`).join(", ")}</p>
-        </div>
+        <p class="markdown-notification-msg">We found <span>${products.length}</span> clothing items related to what you're looking at.</p>
+        <div class="markdown-close-btn"></div>
       </div>
     `)
   }
 
   function getProducts(stores, keywords)  {
-    console.log(keywords)
-    chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: stores.map((s) => s.id), ...keywords}}, function(response) {
-      appendModal(response, stores)
-      allProducts = response
+    chrome.runtime.sendMessage({subject: 'getProducts', data: {stores: stores.map((s) => s.id), ...keywords}}, async function(response) {
+      if(processingProducts && await isProductPage() && await isStorePage()) {
+        appendNotification(response)
+        allProducts = response
+        processingProducts = false;
+      }
     });
+  }
+
+  const getProductInfoStatus = async () => {
+    if(! await isStorePage()) {
+      processingProducts = false;
+      return ({status: "not store page", products: []})
+    }
+
+    if(! await isProductPage()) {
+      processingProducts = false;
+      return ({status: "not product page", products: []})
+    }
+
+    if(processingProducts) {
+      return ({status: "processing", products: []})
+    }
+
+    if(!allProducts || allProducts.length === 0) {
+      return ({status: "no products", products: []})
+    }
+
+    return ({status: "success", products: allProducts})
   }
 
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.from === "popup" && request.subject === "productInfo") {
-      sendResponse(allProducts);
+      getProductInfoStatus().then(sendResponse)
+      return true;
     }
+
     if(request.from === 'popup' && request.subject === 'setFavorite') {
       if(!window.init) {
         window.init = true
@@ -90,24 +134,9 @@ if(!window.mainInjectInit) {
       if(!window.init) {
         window.init = true
         chrome.storage.sync.get(['favorites'], (data) => {
+          console.log(data['favorites'])
           allFavorites = data['favorites']?data['favorites']:[];
           sendResponse(allFavorites)
-        })
-        setTimeout(() => {
-          window.init = false
-        }, 1)
-        return true;
-      }
-    }
-
-    if(request.from === 'popup' && request.subject === 'getProductsByStore') {
-      if(!window.init) {
-        window.init = true
-        const searchText = request.data.keywords
-        request.data.stores.pop()
-        request.data.keywords = request.data.keywords.split(' ')
-        getProductsMessage(request.data).then((data) => {
-          sendResponse({products: data, search: searchText})
         })
         setTimeout(() => {
           window.init = false

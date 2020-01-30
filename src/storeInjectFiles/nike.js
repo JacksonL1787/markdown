@@ -3,15 +3,8 @@ if(!window.initDone) {
 
   const getKeywords = async () => {
     let string = ''
-    let gender = ''
-    if($('.bc-item span').text().toLowerCase().includes('women')) {
-      gender = 'Womens'
-    } else if($('.bc-item span').text().toLowerCase().includes('men')) {
-      gender = 'Men'
-    }
-    string += gender
-    string += ' ' + $('h1.product-name').text()
-    string += ' ' + $('.qa-product-detail-selection .psp-product-color span').text()
+    string += ' ' + $('.pr12-sm h2[data-test="product-sub-title"]').text()
+    string += ' ' + $('.description-preview .description-preview__features .description-preview__color-description').text().replace('Shown: ', '')
     string = string.toLowerCase()
     console.log(string)
     const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))
@@ -21,7 +14,7 @@ if(!window.initDone) {
 
   $(async () => {
     getProducts([
-      storeInformation.pacsun
+      storeInformation.adidas
     ], await getKeywords())
   })
 }

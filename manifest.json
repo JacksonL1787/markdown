@@ -27,6 +27,8 @@
   },
   "web_accessible_resources": [
     "src/keywords.json",
-    "src/fonts/OpenSans-Regular.ttf"
+    "src/fonts/Poppins-Bold.ttf",
+    "src/fonts/Poppins-Regular.ttf",
+    "src/stores.json"
   ]
 }

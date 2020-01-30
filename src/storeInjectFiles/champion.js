@@ -2,16 +2,18 @@ if(!window.initDone) {
   window.initDone = true
 
   const getKeywords = async () => {
-    let string = ''
+    //Define product description for search
     let gender = ''
-    if($('.bc-item span').text().toLowerCase().includes('women')) {
-      gender = 'Womens'
-    } else if($('.bc-item span').text().toLowerCase().includes('men')) {
-      gender = 'Men'
+    if($('.breadcrumbs-main .breadcrumb li a').text().toLowerCase().includes('women')) {
+      gender = "Women"
+    } else if ($('.breadcrumbs-main .breadcrumb li a').text().toLowerCase().includes('women')) {
+      gender = "Men"
     }
+    let string = ''
     string += gender
-    string += ' ' + $('h1.product-name').text()
-    string += ' ' + $('.qa-product-detail-selection .psp-product-color span').text()
+    string += '' + $('#selectedColor').text()
+    string += '' + $('.prod__details .prod__title').text()
+    console.log(string)
     string = string.toLowerCase()
     console.log(string)
     const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))

@@ -55,6 +55,7 @@ if(!window.mainStoreInject) {
         }
       }
     })
+    console.log(search)
     return {search: search, string: string, keywords: keywords}
   }
 

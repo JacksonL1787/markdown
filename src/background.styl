@@ -1,67 +1,72 @@
-@font-face {
- font-family: "Open Sans";
+@font-face
+ font-family: "Poppins";
+ font-style: normal;
+ font-weight: 500;
+ src: url("chrome-extension://__MSG_@@extension_id__/src/fonts/Poppins-Regular.ttf");
+
+@font-face
+ font-family: "Poppins";
  font-style: normal;
  font-weight: 700;
- src: url("chrome-extension://__MSG_@@extension_id__/src/fonts/OpenSans-Regular.ttf");
-}
-.markdown-similar-item-modal
-  font-family 'Open Sans', sans-serif !important
+ src: url("chrome-extension://__MSG_@@extension_id__/src/fonts/Poppins-Bold.ttf");
+
+
+.markdown-similar-item-notification
+  all initial
+  background #00CA72
+  padding 12px 0
+  width 100%
   position fixed
-  width 325px
-  height fit-content
-  padding 15px 0
-  background white
-  top 10px
-  right 10px
+  top 0
+  left 0
   z-index 10000000000000
-  box-shadow 0 0 12px 3px rgba(0,0,0,0.07)
-  border 1px solid lightgrey
-  border-radius .5em
+  font-family 'Poppins', sans-serif !important
+  box-shadow 0 0 12px 4px rgba(0,0,0,0.1)
+  animation markdownNotificationSlideIn .5s
+  &.slide-out
+    animation markdownNotificationSlideOut .5s
   .markdown-logo
-    background-image url('https://i.ibb.co/10Y6J3K/markdown-logo900.png')
-    width 25px
-    height 25px
-    margin 0 0 0 13px
+    background-image url('https://i.ibb.co/LJMB72D/green-markdown-logo900.png')
     background-size cover
     background-position center
     background-repeat no-repeat
-  .markdown-close-modal
-    all initial
+    width 25px
+    height 25px
+    z-index 1000000000000000000
     position absolute
-    top 18px
-    right 13px
+    top 50%
+    left 10px
+    transform translateY(-50%)
+  .markdown-notification-msg
+    color white
+    margin 0
+    text-align center
+    font-size 15.5px
+    span
+      font-weight 700
+      text-decoration underline
+  .markdown-close-btn
+    background-image url('https://i.ibb.co/cw9hrmS/close.png')
+    background-size cover
+    background-position center
+    background-repeat no-repeat
+    width 20px
+    height 20px
+    z-index 1000000000000000000
+    position absolute
+    top 50%
     cursor pointer
-    color grey
-    font-size 15px
-    transition color .3s
-    &:hover
-      color black
-  .markdown-modal-content
-    width 90%
-    margin -20px auto 0
-    z-index 100
-    h1,
-    p,
-    a
-      all initial
-      font-family 'Open Sans', sans-serif !important
-    .markdown-similar-item-count
-      display block
-      font-size 35px
-      text-align center
-      color #333
-      font-weight 800
-    .markdown-similar-item-count-desc
-      color grey
-      text-align center
-      display block
-      max-width 90%
-      margin 5px auto
-      font-size 13px
-    .markdown-store-link
-      text-decoration none
-      font-size 13px
-      color #167cda
-      cursor pointer
-      &:hover
-        text-decoration underline
+    right 10px
+    transform translateY(-50%)
+
+@keyframes markdownNotificationSlideIn
+  0%
+    top -100px
+  100%
+    top 0
+
+@keyframes markdownNotificationSlideOut
+  0%
+    top 0
+  100%
+    top -100px

@@ -5,10 +5,10 @@ if(!window.initDone) {
     //Define product description for search
     let gender = ''
     console.log($('._1MMuO3r li a').text().toLowerCase().incl)
-    if($('._1MMuO3r li a').text().toLowerCase().includes('men')) {
+    if($('._1MMuO3r li a').text().toLowerCase().includes('women')) {
+      gender = 'Womens'
+    } else if ($('._1MMuO3r li a').text().toLowerCase().includes('men')) {
       gender = 'Men'
-    } else if ($('._1MMuO3r li a').text().toLowerCase().includes('women')) {
-      gender = 'Women'
     }
     let string = ''
     string += ' ' + gender
