@@ -1,6 +1,7 @@
 if(!window.mainInjectInit) {
   let allProducts = [];
   let processingProducts = true;
+  let isClothingPage = true;
 
   window.mainInjectInit = true;
   var getProductsMessage = (data) => {
@@ -10,6 +11,10 @@ if(!window.mainInjectInit) {
         resolve(response)
       });
     })
+  }
+
+  function notClothingPage() {
+    isClothingPage = false;
   }
 
   const isStorePage = async () => {
@@ -72,6 +77,11 @@ if(!window.mainInjectInit) {
     }
 
     if(! await isProductPage()) {
+      processingProducts = false;
+      return ({status: "not product page", products: []})
+    }
+
+    if(!isClothingPage) {
       processingProducts = false;
       return ({status: "not product page", products: []})
     }

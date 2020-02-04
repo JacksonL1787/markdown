@@ -111,6 +111,13 @@ async function testGetStore(store, search) {
   console.log(await getAllProducts(data))
 }
 
+function testAjax() {
+  $.getJSON('http://anyorigin.com/get?url=http://www.google.com&callback=?', function(data){
+    var siteContents = data.contents;
+    alert((/<title>(.*?)<\/title>/m).exec(siteContents)[1]);
+  });
+}
+
 const handleURL = (url, tabId) => {
   chrome.tabs.executeScript(null, {file: '/src/jquery.js'}, () => {
     chrome.tabs.executeScript(null, {file: '/src/fa.js'}, () => {

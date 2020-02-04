@@ -57,7 +57,6 @@ $(document).on('click', '.product-img-wrap',function(e) {
 })
 
 
-
 /*
 
   HOME - STORES
@@ -162,6 +161,8 @@ const handleSimilarItems = (similarItems) => {
   $('.similar-clothing-container .container-msg').removeClass('show')
   $('.similar-clothing-container .clothing-content .product').remove()
   $('.header .nav-similar-clothing .clothes-active').show()
+  $('.container, .nav-wrap .nav-item').removeClass('active')
+  $('.nav-wrap .nav-similar-clothing, .similar-clothing-container').addClass('active')
   _data.currentPageProducts = similarItems.products
   similarItems.products.forEach((p) => {
     appendProduct(p, '.similar-clothing-container .clothing-content')
@@ -188,10 +189,11 @@ const getSimilarProductInfo = () => {
   });
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+$(document).ready(() => {
   setLoader(true, 'similar-clothing-container')
+  getSimilarProductInfo()
   getProductsTimer = setInterval(getSimilarProductInfo, 100)
-});
+})
 
 
 
@@ -223,40 +225,38 @@ $(() => {
   })
 })
 
-const sortSimilarProducts = (filter) => {
-  if(_data.currentPageProducts) {
-    let currArr = Array.from(_data.currentPageProducts)
-    if (filter == "Highest Price") {
-      currArr.sort((a, b) => {
-        let priceA = a.sale ? parseFloat(a.sale) : parseFloat(a.price)
-        let priceB = b.sale ? parseFloat(b.sale) : parseFloat(b.price)
-        return (isNaN(priceB) ? 0 : priceB)  - (isNaN(priceA) ? 0 : priceA)
+$(() => {
+  const sortSimilarProducts = (filter) => {
+    if(_data.currentPageProducts) {
+      let currArr = Array.from(_data.currentPageProducts)
+      if (filter == "expensive") {
+        currArr.sort((a, b) => {
+          let priceA = a.sale ? parseFloat(a.sale) : parseFloat(a.price)
+          let priceB = b.sale ? parseFloat(b.sale) : parseFloat(b.price)
+          return (isNaN(priceB) ? 0 : priceB)  - (isNaN(priceA) ? 0 : priceA)
+        })
+      } else if (filter == "cheapest") {
+        currArr.sort((a, b) => {
+          let priceA = a.sale ? parseFloat(a.sale) : parseFloat(a.price)
+          let priceB = b.sale ? parseFloat(b.sale) : parseFloat(b.price)
+          return (isNaN(priceA) ? Math.pow(10, 1000) : priceA)  - (isNaN(priceB) ? Math.pow(10, 1000) : priceB)
+        })
+      }
+      $('.similar-clothing-container .clothing-content .product').remove()
+      currArr.forEach((p) => {
+        appendProduct(p, '.similar-clothing-container .clothing-content')
       })
-      console.log(currArr)
-    } else if (filter == "Lowest Price") {
-      currArr.sort((a, b) => {
-        let priceA = a.sale ? parseFloat(a.sale) : parseFloat(a.price)
-        let priceB = b.sale ? parseFloat(b.sale) : parseFloat(b.price)
-        return (isNaN(priceA) ? Math.pow(10, 1000) : priceA)  - (isNaN(priceB) ? Math.pow(10, 1000) : priceB)
-      })
-      console.log(currArr)
     }
-    $('.similar-items-content .all-products .product-wrap').remove()
-    currArr.forEach((p) => {
-      appendProduct(p, '.similar-items-content .all-products')
-    })
   }
-}
 
-// $('.similar-items-content .sort-by-btn').click(function() {
-//   $('.sort-by-menu').toggleClass('active')
-// })
-//
-// $('.similar-items-content .sort-by-menu .option').click(function() {
-//   $('.similar-items-content .sort-by-btn .selected-option').text($(this).children('span').text())
-//   $('.sort-by-menu').removeClass('active')
-//   sortSimilarProducts($(this).children('span').text())
-// })
+  $('.similar-clothing-container .sort-by-container .sort-option').click(function() {
+    $('.similar-clothing-container .sort-by-container .sort-option').removeClass('active')
+    $(this).addClass('active')
+    sortSimilarProducts($(this).data('option'))
+  })
+})
+
+
 
 $(() => {
   let elemTimeout;

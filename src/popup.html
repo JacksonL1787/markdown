@@ -33,6 +33,21 @@
         </div>
       </div>
 
+      <div class="container stores-container active">
+        <div class="loader">
+          <div class="loader-runner"></div>
+        </div>
+        <h1 class="container-title">Stores</h1>
+        <div class="search-bar-wrap">
+          <div class="search-icon"></div>
+          <input type="text" class="search-bar-inpt" placeholder="Store Name">
+        </div>
+        <div class="content">
+          <p class="no-stores-found" style="display: none;">No stores found matching "<span class="search-text"></span>"</p>
+          <div class="stores-list"></div>
+        </div>
+      </div>
+
       <div class="container similar-clothing-container">
         <div class="loader">
           <div class="loader-runner"></div>
@@ -61,23 +76,12 @@
             <h2 class="no-similar-clothing-title title">No Similar Clothing</h2>
             <p class="no-clothes desc">Sorry, we couldn't find any clothing related to the product you're looking at.</p>
           </div>
+          <div class="sort-by-container">
+            <p class="sort-option active" data-option="relevant">Relevant</p>
+            <p class="sort-option" data-option="cheapest">Cheapest</p>
+            <p class="sort-option" data-option="expensive">Expensive</p>
+          </div>
           <div class="clothing-content"></div>
-        </div>
-      </div>
-
-
-      <div class="container stores-container active">
-        <div class="loader">
-          <div class="loader-runner"></div>
-        </div>
-        <h1 class="container-title">Stores</h1>
-        <div class="search-bar-wrap">
-          <div class="search-icon"></div>
-          <input type="text" class="search-bar-inpt" placeholder="Store Name">
-        </div>
-        <div class="content">
-          <p class="no-stores-found" style="display: none;">No stores found matching "<span class="search-text"></span>"</p>
-          <div class="stores-list"></div>
         </div>
       </div>
 
