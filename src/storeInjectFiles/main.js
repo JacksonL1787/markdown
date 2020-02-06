@@ -1,62 +1,92 @@
 if(!window.mainStoreInject) {
   window.mainStoreInject = true;
   function getSearchKeywords (string, keywords) {
-    const search = [];
-    console.log(keywords)
+    const searchInfo = [];
     keywords.gender.some((i) => {
       if(string.includes(i)) {
-        search.push(i)
-        return true;
-      }
-    })
-    keywords.shade.some((i) => {
-      if(string.includes(i)) {
-        search.push(i)
+        searchInfo.push({
+          word: i,
+          type: "gender"
+        })
         return true;
       }
     })
     keywords.color.some((i) => {
-      if(string.includes(i)) {
-        search.push(i)
-        return true;
-      }
+      let addedColor = false;
+      i.word.some((w) => {
+        if(string.includes(w)) {
+          addedColor = true
+          searchInfo.push({
+            word: i.pointToDifferentWord ? i.similarTo : w,
+            type: "color"
+          })
+          return true;
+        }
+      })
+      if(addedColor) return true;
     })
     keywords.material.some((i) => {
       if(string.includes(i)) {
-        search.push(i)
+        searchInfo.push({
+          word: i,
+          type: "material"
+        })
         return true;
       }
     })
     keywords.pattern.some((i) => {
       if(string.includes(i)) {
-        search.push(i)
+        searchInfo.push({
+          word: i,
+          type: "pattern"
+        })
         return true;
       }
     })
-    keywords.sport.some((i) => {
+    keywords.descriptor.some((i) => {
       if(string.includes(i)) {
-        search.push(i)
+        searchInfo.push({
+          word: i,
+          type: "descriptor"
+        })
+        return true;
+      }
+    })
+    keywords.bannedWords.some((i) => {
+      if(string.includes(i)) {
+        searchInfo.push({
+          word: '',
+          type: "banned"
+        })
         return true;
       }
     })
     keywords.type.some((i) => {
-      if(string.includes(i)) {
-        let add = true;
-        keywords.type.forEach((ew) => {
-          if(ew.includes(i) && ew != i && string.includes(ew)) {
-            add = false;
-          }
-        })
-        console.log(i, add)
-        if(add) {
-          console.log(i)
-          search.push(i)
+      let addedType = false;
+      i.word.some((w) => {
+        if(w[0] === " " && string.includes(w)) {
+          addedType = true;
+          searchInfo.push({
+            word: i.pointToDifferentWord ? i.similarTo : w,
+            type: "type"
+          })
           return true;
         }
-      }
+        if(string.includes(w || w.replace(/ /g, '') || w.replace(/ /, '-'))) {
+          addedType = true;
+          searchInfo.push({
+            word: i.pointToDifferentWord ? i.similarTo : w,
+            type: "type"
+          })
+          return true;
+        }
+      })
+      if(addedType) return true;
     })
+    console.log(searchInfo)
+    let search = searchInfo.map(i => i.word)
     console.log(search)
-    return {search: search, string: string, keywords: keywords}
+    return {url: window.location.href, search: search, string: string, keywords: keywords, searchInfo: searchInfo}
   }
 
   var storeInformation = {

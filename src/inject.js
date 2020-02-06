@@ -17,6 +17,24 @@ if(!window.mainInjectInit) {
     isClothingPage = false;
   }
 
+  const updateProducts = (products) => {
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.get(['favorites'], (data) => {
+        let allFavorites = data['favorites']?data['favorites']:[];
+        if(allFavorites.length < 1) resolve(products);
+        allFavorites = allFavorites.map(f => f.link)
+        products.forEach((p) => {
+          if(allFavorites.includes(p.link)) {
+            p.favorite = true
+          } else {
+            p.favorite = false
+          }
+        })
+        resolve(products)
+      })
+    })
+  }
+
   const isStorePage = async () => {
     const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
     const stores = await response.json()
@@ -94,7 +112,8 @@ if(!window.mainInjectInit) {
       return ({status: "no products", products: []})
     }
 
-    return ({status: "success", products: allProducts})
+
+    return ({status: "success", products: await updateProducts(allProducts)})
   }
 
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -102,58 +121,5 @@ if(!window.mainInjectInit) {
       getProductInfoStatus().then(sendResponse)
       return true;
     }
-
-    if(request.from === 'popup' && request.subject === 'setFavorite') {
-      if(!window.init) {
-        window.init = true
-        chrome.storage.sync.get(['favorites'], (data) => {
-          const allFavorites = data['favorites']?data['favorites']:[];
-          allFavorites.unshift(request.product)
-          chrome.storage.sync.set({'favorites': allFavorites})
-          sendResponse(allFavorites)
-        })
-        setTimeout(() => {
-          window.init = false
-        }, 1)
-        return true;
-      }
-    }
-
-    if(request.from === 'popup' && request.subject === 'removeFavorite') {
-      if(!window.init) {
-        window.init = true
-        chrome.storage.sync.get(['favorites'], (data) => {
-          if(!data['favorites']) return;
-          allFavorites = data['favorites']
-          allFavorites.forEach((f, i) => {
-            if(f.link === request.product) {
-              allFavorites.splice(i, 1)
-            }
-          })
-          chrome.storage.sync.set({'favorites': allFavorites})
-          sendResponse(allFavorites)
-        })
-        setTimeout(() => {
-          window.init = false
-        }, 1)
-        return true;
-      }
-    }
-
-    if(request.from === 'popup' && request.subject === 'getFavorites') {
-      if(!window.init) {
-        window.init = true
-        chrome.storage.sync.get(['favorites'], (data) => {
-          console.log(data['favorites'])
-          allFavorites = data['favorites']?data['favorites']:[];
-          sendResponse(allFavorites)
-        })
-        setTimeout(() => {
-          window.init = false
-        }, 1)
-        return true;
-      }
-    }
   })
-
 }

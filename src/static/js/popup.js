@@ -101,8 +101,11 @@ $(() => {
 
   $(document).on('click', '.stores-container .stores-list .store-wrap', function() {
     const link = $(this).data('link');
-    console.log(link)
-    window.open(link, "_blank");
+    mixpanel.track(
+      "Clicked store link",
+      {"link": link}
+    );
+    //window.open(link, "_blank");
   })
 
   const getAllStores = async () => {
@@ -129,6 +132,7 @@ const stopSimilarProductsPoll = () => {
   setLoader(false, 'similar-clothing-container')
 }
 
+
 const handleSimilarItems = (similarItems) => {
   if(!similarItems) return;
   if(similarItems.status === "not store page") {
@@ -154,13 +158,14 @@ const handleSimilarItems = (similarItems) => {
   if(similarItems.status === "no products") {
     stopSimilarProductsPoll()
     $('.similar-clothing-container .container-msg').removeClass('show')
-    $('.similar-clothing-container .not-store-page').removeClass('show')
+    $('.similar-clothing-container .no-similar-clothing').addClass('show')
     return;
   }
   //$('.similar-items-content .sort-by-wrap').addClass('active')
   $('.similar-clothing-container .container-msg').removeClass('show')
   $('.similar-clothing-container .clothing-content .product').remove()
   $('.header .nav-similar-clothing .clothes-active').show()
+  $('.similar-clothing-container .sort-by-container').addClass('active')
   $('.container, .nav-wrap .nav-item').removeClass('active')
   $('.nav-wrap .nav-similar-clothing, .similar-clothing-container').addClass('active')
   _data.currentPageProducts = similarItems.products
@@ -267,7 +272,6 @@ $(() => {
     }, 200)
 
     $('.favorites-container .clothing-content .product').remove()
-    console.log(data)
     if(!data) {
       $('.favorites-container .no-favorites').addClass('show')
       return;
@@ -377,13 +381,11 @@ $(() => {
       favoriteMessage("removed")
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').removeClass('active')
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').removeClass('active')
-      console.log(favoriteData)
       newFavorites = await removeFavoriteProducts(favoriteData)
     } else if (subject === 'setFavorite') {
       favoriteMessage("added")
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').addClass('active')
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').addClass('active')
-      console.log(favoriteData)
       newFavorites = await setFavoriteProducts(favoriteData)
     }
     setLoader(true, 'favorites-container')

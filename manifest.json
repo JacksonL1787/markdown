@@ -8,8 +8,6 @@
     "128": "icons/markdown-logo128.png"
   },
   "permissions": [
-    "http://shop.nordstrom.com/*",
-    "https://shop.nordstrom.com/*",
     "tabs",
     "*://*/*",
     "webNavigation",
@@ -30,5 +28,6 @@
     "src/fonts/Poppins-Bold.ttf",
     "src/fonts/Poppins-Regular.ttf",
     "src/stores.json"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://browser.sentry-cdn.com/5.12.0/bundle.min.js https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js; object-src 'self'"
 }

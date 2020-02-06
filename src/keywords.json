@@ -16,93 +16,274 @@
     "man",
     "male"
   ],
-  "type": [
-    "button up",
-    "button-up",
-    "boardshort",
-    "suit",
-    "sweater",
-    "sweatshirt",
-    "sports coat",
-    "turtleneck",
-    "polo",
-    "polo shirt",
-    "tracksuit",
-    "underwear",
-    "nightwear",
-    "swimwear",
-    "bikini",
-    "swimsuit",
-    "long sleeve",
-    "hoodie",
-    "jogger",
-    "dress shirt",
-    "sweatpant",
-    "skirt",
-    "shorts",
-    "athletic",
-    "swimtrunks",
-    "trunks",
-    "sneaker",
-    "boot",
-    "slipper",
-    "cleat",
-    "business shoe",
-    "casual shoe",
-    "sandal",
-    "bag",
-    "belt",
-    "dress",
-    "wallet",
-    "watch",
-    "tie",
-    "sock",
-    "beenie",
-    " cap",
-    " hat",
-    "glove",
+  "bannedWords": [
     "necklace",
-    "tee",
     "jewelry",
-    "t-shirt",
-    "jeans",
-    "shirt",
-    "jacket",
-    "coat",
-    "shoe",
-    "pants",
-    "chino",
-    "top",
-    "bottom"
+    "watch",
+    "wallet",
+    "purse",
+    "hand bag",
+    "back pack",
+    "bag"
+  ],
+  "type": [
+    {
+      "word": ["windbreaker"],
+      "pointToDifferentWord": false,
+      "similarTo": "windbreaker"
+    },
+    {
+      "word": ["button up", "button-up"],
+      "pointToDifferentWord": true,
+      "similarTo": "button up"
+    },
+    {
+      "word": ["boardshort", "swim trunk", "swim suit", "bathing suit", "swim wear", "bikini", "trunk"],
+      "pointToDifferentWord": true,
+      "similarTo": "swim suit"
+    },
+    {
+      "word": ["suit"],
+      "pointToDifferentWord": false,
+      "similarTo": "suit"
+    },
+    {
+      "word": ["sweater", "sweat shirt"],
+      "pointToDifferentWord": true,
+      "similarTo": "sweater"
+    },
+    {
+      "word": ["turtleneck"],
+      "pointToDifferentWord": false,
+      "similarTo": "turtleneck"
+    },
+    {
+      "word": ["polo", "polo shirt"],
+      "pointToDifferentWord": true,
+      "similarTo": "polo"
+    },
+    {
+      "word": ["track suit"],
+      "pointToDifferentWord": false,
+      "similarTo": "track suit"
+    },
+    {
+      "word": ["under wear", "thong", "boxer"],
+      "pointToDifferentWord": true,
+      "similarTo": "under wear"
+    },
+    {
+      "word": ["night wear", "pajamas"],
+      "pointToDifferentWord": false,
+      "similarTo": "pajamas"
+    },
+    {
+      "word": ["long sleeve"],
+      "pointToDifferentWord": false,
+      "similarTo": "long sleeve"
+    },
+    {
+      "word": ["hoodie", "hooded shirt", "hooded tee"],
+      "pointToDifferentWord": true,
+      "similarTo": "hoodie"
+    },
+    {
+      "word": ["jogger"],
+      "pointToDifferentWord": true,
+      "similarTo": "joggers"
+    },
+    {
+      "word": ["sweat pant", "sweats"],
+      "pointToDifferentWord": true,
+      "similarTo": "sweat pants"
+    },
+    {
+      "word": ["dress shirt", "collared shirt", "business shirt"],
+      "pointToDifferentWord": true,
+      "similarTo": "dress shirt"
+    },
+    {
+      "word": ["skirt"],
+      "pointToDifferentWord": false,
+      "similarTo": "skirt"
+    },
+    {
+      "word": ["shorts"],
+      "pointToDifferentWord": false,
+      "similarTo": "shorts"
+    },
+    {
+      "word": ["khakis", "chino"],
+      "pointToDifferentWord": true,
+      "similarTo": "chinos"
+    },
+    {
+      "word": ["sneaker"],
+      "pointToDifferentWord": false,
+      "similarTo": "sneaker"
+    },
+    {
+      "word": ["boot"],
+      "pointToDifferentWord": true,
+      "similarTo": "boots"
+    },
+    {
+      "word": ["slipper"],
+      "pointToDifferentWord": true,
+      "similarTo": "slippers"
+    },
+    {
+      "word": ["cleat"],
+      "pointToDifferentWord": true,
+      "similarTo": "cleats"
+    },
+    {
+      "word": ["sandal"],
+      "pointToDifferentWord": true,
+      "similarTo": "sandals"
+    },
+    {
+      "word": ["flip flop"],
+      "pointToDifferentWord": true,
+      "similarTo": "flip flops"
+    },
+    {
+      "word": ["belt"],
+      "pointToDifferentWord": false,
+      "similarTo": "belt"
+    },
+    {
+      "word": ["dress"],
+      "pointToDifferentWord": false,
+      "similarTo": "dress"
+    },
+    {
+      "word": ["tie"],
+      "pointToDifferentWord": false,
+      "similarTo": "tie"
+    },
+    {
+      "word": ["sock"],
+      "pointToDifferentWord": true,
+      "similarTo": "socks"
+    },
+    {
+      "word": ["beenie"],
+      "pointToDifferentWord": false,
+      "similarTo": "beenie"
+    },
+    {
+      "word": [" cap", " hat"],
+      "pointToDifferentWord": true,
+      "similarTo": "hat"
+    },
+    {
+      "word": ["glove", "mittens"],
+      "pointToDifferentWord": true,
+      "similarTo": "gloves"
+    },
+    {
+      "word": ["tee", "shirt", "t-shirt"],
+      "pointToDifferentWord": true,
+      "similarTo": "shirt"
+    },
+    {
+      "word": ["jeans"],
+      "pointToDifferentWord": false,
+      "similarTo": "jeans"
+    },
+    {
+      "word": ["jacket", "coat", "jacquard"],
+      "pointToDifferentWord": true,
+      "similarTo": "jacket"
+    },
+    {
+      "word": ["shoe"],
+      "pointToDifferentWord": true,
+      "similarTo": "shoes"
+    },
+    {
+      "word": ["pants"],
+      "pointToDifferentWord": false,
+      "similarTo": "pants"
+    }
   ],
   "shade": [
     "dark ",
     "light "
   ],
   "color": [
-    "beige",
-    "snow",
-    "ivory",
-    "winter",
-    "charcoal",
-    "khaki",
-    "navy blue",
-    "navy",
-    "cream",
+    {
+      "word": ["white", "snow", "ivory", "winter", "cream"],
+      "pointToDifferentWord": true,
+      "similarTo": "white"
+    },
+    {
+      "word": ["brown", "khaki"],
+      "pointToDifferentWord": true,
+      "similarTo": "brown"
+    },
+    {
+      "word": ["black", "charcoal"],
+      "pointToDifferentWord": true,
+      "similarTo": "black"
+    },
 
-    "black",
-    "brown",
-    "blue",
-    "green",
-    "purple",
-    " red",
-    "yellow",
-    "white",
-    "pink",
-    "orange",
-    "gray",
-    "grey",
-    "white"
+    {
+      "word": ["blue"],
+      "pointToDifferentWord": true,
+      "similarTo": "blue"
+    },
+    {
+      "word": ["green"],
+      "pointToDifferentWord": true,
+      "similarTo": "green"
+    },
+    {
+      "word": ["purple"],
+      "pointToDifferentWord": true,
+      "similarTo": "purple"
+    },
+    {
+      "word": [" red"],
+      "pointToDifferentWord": true,
+      "similarTo": "red"
+    },
+    {
+      "word": ["yellow"],
+      "pointToDifferentWord": true,
+      "similarTo": "yellow"
+    },
+    {
+      "word": ["pink"],
+      "pointToDifferentWord": true,
+      "similarTo": "pink"
+    },
+    {
+      "word": ["grey", "gray"],
+      "pointToDifferentWord": true,
+      "similarTo": "grey"
+    },
+    {
+      "word": ["orange"],
+      "pointToDifferentWord": true,
+      "similarTo": "orange"
+    },
+
+
+
+
+
+    {
+      "word": ["navy", "navy blue"],
+      "pointToDifferentWord": true,
+      "similarTo": "navy blue"
+    },
+    {
+      "word": ["beige"],
+      "pointToDifferentWord": false,
+      "similarTo": "beige"
+    }
   ],
   "pattern": [
     "floral",
@@ -111,7 +292,7 @@
     "stripe",
     "checkered",
     "checker",
-    "checkers",
+    "checker",
     "pattern",
     "graphic",
     "patterned"
@@ -122,7 +303,7 @@
     "cotton",
     "puffy"
   ],
-  "sport": [
+  "descriptor": [
     "running",
     "basketball",
     "baseball",

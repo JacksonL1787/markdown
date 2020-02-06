@@ -180,19 +180,21 @@ const getAdidasProducts = async (keywords) => {
 const getUrbanOutfittersProducts = async (keywords) => {
   const products = []
   await $.get(`https://www.urbanoutfitters.com/search?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
-    let elements = $(data).find('.s-category-grid .dom-product-tile')
+    let elements = $(data).find('.c-pwa-tile-tiles .c-pwa-tile-grid-inner')
     elements.each(function() {
+      console.log($(this))
       const tempObj = {
-        name: $(this).find('.c-product-tile__h3 span').text().replace(/(\r\n|\n|\r)|  /gm,""),
-        price: $(this).find('.c-product-meta__current-price').text().replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,""),
-        sale: false,
-        img: `http://s7d5.scene7.com/is/image/UrbanOutfitters/${$(this).find('meta[itemprop="productID"]').attr('content')}_${$(this).find('.o-list-swatches__a').attr('data-color-code')}_d?$medium$&qlt=80&fit=constrain`,
-        link: 'https://www.urbanoutfitters.com'+$(this).find('.c-product-tile__title-link').attr('href').split('?category')[0],
+        name: $(this).find('.c-pwa-product-tile__heading').text().replace(/(\r\n|\n|\r)|  /gm,""),
+        price: $(this).find('.c-pwa-product-price__original').length > 0 ? $(this).find('.c-pwa-product-price__original').text().replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,"") : $(this).find('.c-pwa-product-price__current').text().replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,""),
+        sale: $(this).find('.c-pwa-product-price__original').length > 0 ? $(this).find('.c-pwa-product-price__current').text().replace(/(\t|\r\n|\n|\r)|[$| |,]/gm,"") : false,
+        img: `http://s7d5.scene7.com/is/image/UrbanOutfitters/${$(this).find('.c-pwa-swatch__input[name="selectedColor"]').attr('id').split('_')[0]}_${$(this).find('.c-pwa-swatch__input[name="selectedColor"]').attr('value')}_d?$medium$&qlt=80&fit=constrain`,
+        link: 'https://www.urbanoutfitters.com'+$(this).find('.c-pwa-product-tile__link').attr('href').split('?category')[0],
         storeName: 'Urban Outfitters'
       }
       products.push(tempObj)
     })
   })
+  console.log('urban', products)
   return products
 }
 

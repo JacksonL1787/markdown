@@ -359,15 +359,17 @@ body
 
 .similar-clothing-container
   .sort-by-container
-    display flex
     justify-content center
     align-items center
     width 100%
     margin -20px auto 40px
     position relative
+    display none
+    &.active
+      display flex
     .sort-option
       color #9f9f9f
-      font-size 13px
+      font-size 12px
       text-transform uppercase
       margin 0 10px
       cursor pointer

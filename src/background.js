@@ -12,7 +12,6 @@ const getRefinedURL = (url) => {
 }
 
 const runInject = (path) => {
-  console.log(path)
   chrome.tabs.executeScript(null, {file: '/src/jquery.js'}, () => {
     chrome.tabs.executeScript(null, {file:`/src/storeInjectFiles/main.js`}, () => {
       chrome.tabs.executeScript(null,{file:`/src/${path}`});
@@ -26,9 +25,7 @@ const compareFavoritesToProducts = (products) => {
       let allFavorites = data['favorites']?data['favorites']:[];
       if(allFavorites.length < 1) resolve(products);
       allFavorites = allFavorites.map(f => f.link)
-      console.log(allFavorites)
       products.forEach((p) => {
-        console.log(p)
         if(allFavorites.includes(p.link)) {
           p.favorite = true
         } else {
@@ -50,25 +47,57 @@ const sortProducts = (products, string, keywords) => {
   newProducts.forEach((p, i) => {
     let productSimilarity = 0;
     string.split(' ').forEach((s) => {
-      console.log(p.name.toLowerCase(), s.toLowerCase())
       if(p.name.toLowerCase().includes(s.toLowerCase())) {
         productSimilarity++
       }
     })
     p.productSimilarity = productSimilarity
   })
-  console.log(newProducts)
   newProducts.filter(p => p.productSimilarity > 0)
   newProducts.sort((a, b) => {
-    console.log(a, b)
     return b.productSimilarity - a.productSimilarity
   })
-  console.log('sorted', newProducts)
   return newProducts
 }
 
 const getAllProducts = async (data) => {
   let products = []
+  console.log(data)
+  let hasNoType = data.searchInfo.filter(x => x.type === "type").length <= 0
+  let hasDuplicateType = data.searchInfo.filter(x => x.type === "type").length > 1
+  let hasBannedWord = data.searchInfo.filter(x => x.type === "banned").length > 0
+  let hasNoColor = data.searchInfo.filter(x => x.type === "color").length <= 0
+  let tabUrl = data.url;
+  if(hasNoType) {
+    Sentry.withScope(scope => {
+      scope.setExtra("Product Link", tabUrl)
+      scope.setExtra("Product Search", data.searchInfo)
+      scope.setExtra("Product String", data.string)
+      Sentry.captureException(new Error("Found No Type"))
+    });
+    return [];
+  }
+  if(hasDuplicateType) {
+    Sentry.withScope(scope => {
+      scope.setExtra("Product Link", tabUrl)
+      scope.setExtra("Product Search", data.searchInfo)
+      scope.setExtra("Product String", data.string)
+      Sentry.captureException(new Error("Found Duplicate Types"))
+    });
+    return [];
+  }
+  if(hasNoColor) {
+    Sentry.withScope(scope => {
+      scope.setExtra("Product Link", tabUrl)
+      scope.setExtra("Product Search", data.searchInfo)
+      scope.setExtra("Product String", data.string)
+      Sentry.captureException(new Error("Found no product color"))
+    });
+    return [];
+  }
+  if(hasBannedWord) {
+    return [];
+  }
   if(data.stores.includes("nordstrom")) products.push(await getNordstromProducts(data.search))
   if(data.stores.includes("hugoboss")) products.push(await getHugoBossProducts(data.search))
   if(data.stores.includes("pacsun")) products.push(await getPacsunProducts(data.search))
@@ -108,7 +137,6 @@ async function testGetStore(store, search) {
     search: search.split(' '),
     string: search.toLowerCase()
   }
-  console.log(await getAllProducts(data))
 }
 
 function testAjax() {

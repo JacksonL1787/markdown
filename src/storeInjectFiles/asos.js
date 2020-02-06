@@ -4,16 +4,15 @@ if(!window.initDone) {
   const getKeywords = async () => {
     //Define product description for search
     let gender = ''
-    console.log($('._1MMuO3r li a').text().toLowerCase().incl)
-    if($('._1MMuO3r li a').text().toLowerCase().includes('women')) {
+    if($('script').text().includes('"gender":"Women"')) {
       gender = 'Womens'
-    } else if ($('._1MMuO3r li a').text().toLowerCase().includes('men')) {
+    } else if ($('script').text().includes('"gender":"Men"')) {
       gender = 'Men'
     }
     let string = ''
     string += ' ' + gender
+    string += ' ' + $('.asos-product.single-product #aside-content .colour-component .product-colour').text()
     string += ' ' + $('.asos-product.single-product .layout-aside .product-hero h1').text()
-    string += ' ' + $('.asos-product.single-product .colour-component .product-colour').text()
     string = string.toLowerCase()
     console.log(string)
     const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))
@@ -23,8 +22,8 @@ if(!window.initDone) {
 
   $(async () => {
     getProducts([
-      storeInformation.abercrombiefitch,
-      storeInformation.urbanoutfitters
+      storeInformation.urbanoutfitters,
+      storeInformation.abercrombiefitch
     ], await getKeywords())
   })
 }
