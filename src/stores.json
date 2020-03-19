@@ -2,7 +2,7 @@
   {
     "name": "Hugo Boss",
     "url": "www.hugoboss.com",
-    "inject": "storeInjectFiles/hugoboss.js",
+    "getInfoFunction": "productInfoHugoboss()",
     "icon": {
       "imgSrc": "hugoboss.com",
       "imgProv": "clearbit",
@@ -14,7 +14,7 @@
   {
     "name": "Nordstorm",
     "url": "shop.nordstrom.com",
-    "inject": "storeInjectFiles/nordstrom.js",
+    "getInfoFunction": "productInfoNordstrom()",
     "icon": {
       "imgSrc": "nordstrom.com",
       "imgProv": "clearbit",
@@ -26,7 +26,7 @@
   {
     "name": "Pacsun",
     "url": "www.pacsun.com",
-    "inject": "storeInjectFiles/pacsun.js",
+    "getInfoFunction": "productInfoPacsun()",
     "icon": {
       "imgSrc": "pacsun.com",
       "imgProv": "clearbit",
@@ -38,7 +38,7 @@
   {
     "name": "Vans",
     "url": "vans.com",
-    "inject": "storeInjectFiles/vans.js",
+    "getInfoFunction": "productInfoVans()",
     "icon": {
       "imgSrc": "vans.com",
       "imgProv": "clearbit",
@@ -50,7 +50,7 @@
   {
     "name": "Hollister",
     "url": "hollisterco.com",
-    "inject": "storeInjectFiles/hollister.js",
+    "getInfoFunction": "productInfoHollister()",
     "icon": {
       "imgSrc": "hollisterco.com",
       "imgProv": "uplead",
@@ -62,7 +62,7 @@
   {
     "name": "Nike",
     "url": "www.nike.com",
-    "inject": "storeInjectFiles/nike.js",
+    "getInfoFunction": "productInfoNike()",
     "icon": {
       "imgSrc": "nike.com",
       "imgProv": "clearbit",
@@ -74,7 +74,7 @@
   {
     "name": "American Eagle",
     "url": "www.ae.com",
-    "inject": "storeInjectFiles/americanEagle.js",
+    "getInfoFunction": "productInfoAmericanEagle()",
     "icon": {
       "imgSrc": "ae.com",
       "imgProv": "clearbit",
@@ -86,7 +86,7 @@
   {
     "name": "Adidas",
     "url": "www.adidas.com",
-    "inject": "storeInjectFiles/adidas.js",
+    "getInfoFunction": "productInfoAdidas()",
     "icon": {
       "imgSrc": "adidas.com",
       "imgProv": "clearbit",
@@ -98,7 +98,7 @@
   {
     "name": "Urban Outfitters",
     "url": "www.urbanoutfitters.com",
-    "inject": "storeInjectFiles/urbanOutfitters.js",
+    "getInfoFunction": "productInfoUrbanOutfitters()",
     "icon": {
       "imgSrc": "urbanoutfitters.com",
       "imgProv": "clearbit",
@@ -110,7 +110,7 @@
   {
     "name": "Victoria's Secret",
     "url": "www.victoriassecret.com",
-    "inject": "storeInjectFiles/victoriasSecret.js",
+    "getInfoFunction": "productInfoVictoriasSecret()",
     "icon": {
       "imgSrc": "victoriassecret.com",
       "imgProv": "clearbit",
@@ -122,7 +122,7 @@
   {
     "name": "Brandy Melville",
     "url": "www.brandymelvilleusa.com",
-    "inject": "storeInjectFiles/brandyMelville.js",
+    "getInfoFunction": "productInfoBrandyMelville()",
     "icon": {
       "imgSrc": "brandymelvilleusa.com",
       "imgProv": "clearbit",
@@ -134,7 +134,7 @@
   {
     "name": "Abercrombie & Fitch",
     "url": "www.abercrombie.com",
-    "inject": "storeInjectFiles/abercrombieFitch.js",
+    "getInfoFunction": "productInfoAbercrombieFitch()",
     "icon": {
       "imgSrc": "abercrombie.com",
       "imgProv": "clearbit",
@@ -146,7 +146,7 @@
   {
     "name": "Old Navy",
     "url": "oldnavy.gap.com",
-    "inject": "storeInjectFiles/oldNavy.js",
+    "getInfoFunction": "productInfoOldNavy()",
     "icon": {
       "imgSrc": "oldnavy.gap.com",
       "imgProv": "clearbit",
@@ -158,7 +158,7 @@
   {
     "name": "Zumiez",
     "url": "www.zumiez.com",
-    "inject": "storeInjectFiles/zumiez.js",
+    "getInfoFunction": "productInfoZumiez()",
     "icon": {
       "imgSrc": "zumiez.com",
       "imgProv": "clearbit",
@@ -170,9 +170,9 @@
   {
     "name": "Gap",
     "url": "www.gap.com",
-    "inject": "storeInjectFiles/gap.js",
+    "getInfoFunction": "productInfoGap()",
     "icon": {
-      "imgSrc": "gap.com",
+      "imgSrc": "gapcanada.ca",
       "imgProv": "clearbit",
       "greyscale":false
     },
@@ -182,7 +182,7 @@
   {
     "name": "Banana Republic",
     "url": "bananarepublic.gap.com",
-    "inject": "storeInjectFiles/bananaRepublic.js",
+    "getInfoFunction": "productInfoBananaRepublic()",
     "icon": {
       "imgSrc": "bananarepublic.co.uk",
       "imgProv": "clearbit",
@@ -194,7 +194,7 @@
   {
     "name": "J.Crew",
     "url": "www.jcrew.com",
-    "inject": "storeInjectFiles/jCrew.js",
+    "getInfoFunction": "productInfoJCrew()",
     "icon": {
       "imgSrc": "jcrew.com",
       "imgProv": "clearbit",
@@ -206,7 +206,7 @@
   {
     "name": "H&M",
     "url": "www2.hm.com",
-    "inject": "storeInjectFiles/hm.js",
+    "getInfoFunction": "productInfoHm()",
     "icon": {
       "imgSrc": "hm.com",
       "imgProv": "clearbit",
@@ -218,7 +218,7 @@
   {
     "name": "Blooming Dale's",
     "url": "www.bloomingdales.com",
-    "inject": "storeInjectFiles/bloomingDales.js",
+    "getInfoFunction": "productInfoBloomingDales()",
     "icon": {
       "imgSrc": "bloomingdales.com",
       "imgProv": "uplead",
@@ -230,7 +230,7 @@
   {
     "name": "Billabong",
     "url": "www.billabong.com",
-    "inject": "storeInjectFiles/billabong.js",
+    "getInfoFunction": "productInfoBillabong()",
     "icon": {
       "imgSrc": "billabong.com",
       "imgProv": "clearbit",
@@ -242,7 +242,7 @@
   {
     "name": "Nordstrom Rack",
     "url": "www.nordstromrack.com",
-    "inject": "storeInjectFiles/nordstromRack.js",
+    "getInfoFunction": "productInfoNordstromRack()",
     "icon": {
       "imgSrc": "nordstromrack.com",
       "imgProv": "clearbit",
@@ -254,7 +254,7 @@
   {
     "name": "North Face",
     "url": "www.thenorthface.com",
-    "inject": "storeInjectFiles/theNorthFace.js",
+    "getInfoFunction": "productInfoTheNorthFace()",
     "icon": {
       "imgSrc": "thenorthface.com",
       "imgProv": "clearbit",
@@ -266,7 +266,7 @@
   {
     "name": "Levi's",
     "url": "www.levi.com",
-    "inject": "storeInjectFiles/levi.js",
+    "getInfoFunction": "productInfoLevi()",
     "icon": {
       "imgSrc": "levi.com",
       "imgProv": "clearbit",
@@ -278,7 +278,7 @@
   {
     "name": "Champion",
     "url": "www.champion.com",
-    "inject": "storeInjectFiles/champion.js",
+    "getInfoFunction": "productInfoChampion()",
     "icon": {
       "imgSrc": "champion.com",
       "imgProv": "clearbit",
@@ -290,7 +290,7 @@
   {
     "name": "PINK",
     "url": "www.victoriassecret.com/pink",
-    "inject": "storeInjectFiles/pink.js",
+    "getInfoFunction": "productInfoPink()",
     "icon": {
       "imgSrc": "victoriassecret.com",
       "imgProv": "clearbit",
@@ -302,7 +302,7 @@
   {
     "name": "Guess",
     "url": "shop.guess.com",
-    "inject": "storeInjectFiles/guess.js",
+    "getInfoFunction": "productInfoGuess()",
     "icon": {
       "imgSrc": "guess.com",
       "imgProv": "clearbit",
@@ -314,7 +314,7 @@
   {
     "name": "ASOS",
     "url": "www.asos.com",
-    "inject": "storeInjectFiles/asos.js",
+    "getInfoFunction": "productInfoAsos()",
     "icon": {
       "imgSrc": "asos.com",
       "imgProv": "clearbit",
@@ -326,7 +326,7 @@
   {
     "name": "Target",
     "url": "www.target.com",
-    "inject": "storeInjectFiles/target.js",
+    "getInfoFunction": "productInfoTarget()",
     "icon": {
       "imgSrc": "target.com",
       "imgProv": "clearbit",

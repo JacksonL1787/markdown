@@ -203,8 +203,8 @@
       "similarTo": "shoes"
     },
     {
-      "word": ["pants"],
-      "pointToDifferentWord": false,
+      "word": ["pants", " pant"],
+      "pointToDifferentWord": true,
       "similarTo": "pants"
     }
   ],
@@ -265,7 +265,7 @@
       "similarTo": "grey"
     },
     {
-      "word": ["orange"],
+      "word": ["orange", "coral"],
       "pointToDifferentWord": true,
       "similarTo": "orange"
     },

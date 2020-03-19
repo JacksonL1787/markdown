@@ -150,15 +150,14 @@ body
       cursor pointer
       height fit-content
       margin 0 auto 10px
-      overflow hidden
       border-radius .2em
       &:hover
         .img-darken-overlay
           background rgba(0,0,20,0.15)
         .favorite-btn
-          visibility visible
-          opacity 1
-          bottom 20px
+          visibility visible !important
+          opacity 1 !important
+          transform translateY(-20px) !important
       img
         width 100%
       .img-darken-overlay
@@ -173,43 +172,76 @@ body
       .favorited-tag
         position absolute
         top 30px
-        left -60px
-        width 60px
-        padding 3px 0 2px
+        left -10px
         z-index 2
-        background rgb(26, 176, 117)
-        overflow hidden
         transition left .3s
+        &.reverse-transition
+          .corner
+            transition bottom .2s .3s !important
+          .banner
+            transition width .3s !important
         &.active
+          .corner
+            bottom 0 !important
+          .banner
+            width 60px !important
+        .banner
+          background rgb(26, 176, 117)
+          width 0
+          padding 3px 0 2px
+          overflow hidden
           left 0
-        p
-          color white
-          margin 0
-          text-align center
-          font-size 9px
-          letter-spacing 0.3px
-          text-transform uppercase
-      .favorite-btn
-        width 40px
-        height 40px
-        z-index 2
+          transition width .3s .2s
+          p
+            color white
+            margin 0
+            text-align center
+            font-size 9px
+            letter-spacing 0.3px
+            text-transform uppercase
+        .corner-wrap
+          width 10px
+          height 8px
+          overflow hidden
+          clip-path: polygon(100% 0, 0 0, 100% 100%);
+          position relative
+          .corner
+            background #179a67
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            position absolute
+            bottom -8px
+            width 10px
+            height 8px
+            transition bottom .2s
+      .button-wrap
+        display flex
+        justify-content center
+        flex-flow row nowrap
         position absolute
+        bottom 0
         left 50%
+        z-index 2
         transform translateX(-50%)
-        border-radius 40px
-        cursor pointer
-        visibility hidden
-        opacity 0
-        bottom 10px
-        transition background .3s, bottom .4s, opacity .3s, visibility .3s
-        .icon
-          background-position center
-          background-repeat no-repeat
-          background-size cover
-          position absolute
-          top 50%
-          left 50%
-          transform translate(-50%, -50%)
+        .action-btn
+          width 40px
+          height 40px
+          border-radius 40px
+          cursor pointer
+          visibility hidden
+          position relative
+          opacity 0
+          transform translateY(-10px)
+          .tooltip
+        .favorite-btn
+          transition background .3s, transform .4s, opacity .3s, visibility .3s
+          .icon
+            background-position center
+            background-repeat no-repeat
+            background-size cover
+            position absolute
+            top 50%
+            left 50%
+            transform translate(-50%, -50%)
     .product-desc
       text-align center
       a.product-title
@@ -337,10 +369,6 @@ body
     .darken-overlay
       opacity 0 !important
     .favorite-btn
-      visibility visible !important
-      opacity 1 !important
-      bottom 20px !important
-      transition background .3s !important
       &:hover
         background rgb(212, 22, 22) !important
       &.active
@@ -393,17 +421,56 @@ body
         height 0
         background #1bbd7e
         transition height .3s
-
   .clothing-content
-    .favorite-btn
-      background rgb(30, 36, 48)
-      &:hover,
-      &.active
-        background rgb(27, 189, 126)
-      .icon
-        background-image url('../img/white-favorite-icon.svg')
-        width 18px
-        height 18px
+    .product
+      .product-img-wrap
+        &:hover
+          .not-similar-btn,
+          .similar-btn
+            visibility visible
+            opacity 1
+            transform translateY(-20px)
+      .not-similar-btn
+        transition background .3s, transform .4s .2s, opacity .3s .2s, visibility .3s .2s
+        .icon
+          background-image url('../img/thumb-down.svg')
+      .similar-btn
+        margin 0 15px
+        transition background .3s, transform .4s .1s, opacity .3s .1s, visibility .3s .1s
+        .icon
+          background-image url('../img/thumb-up.svg')
+      .not-similar-btn,
+      .similar-btn
+        width 40px
+        height 40px
+        border-radius 40px
+        cursor pointer
+        background rgb(30, 36, 48)
+        transform translateY(-10px)
+        visibility hidden
+        opacity 0
+        bottom 10px
+        &:hover
+          background rgb(62, 73, 97)
+        .icon
+          background-position center
+          background-repeat no-repeat
+          background-size cover
+          position absolute
+          top 50%
+          left 50%
+          width 19px
+          height 19px
+          transform translate(-50%, -50%)
+      .favorite-btn
+        background rgb(30, 36, 48)
+        &:hover,
+        &.active
+          background rgb(27, 189, 126)
+        .icon
+          background-image url('../img/white-favorite-icon.svg')
+          width 18px
+          height 18px
 
 .stores-container
   .container-title

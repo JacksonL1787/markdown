@@ -1,4 +1,69 @@
-const getNordstromProducts = async (keywords) => {
+if(!window.mainInjectInit) {
+  window.mainInjectInit = true;
+var storeInformation = {
+  nordstrom: {id: "nordstrom", name: "Nordstrom", url: "https://shop.nordstrom.com"},
+  vans: {id: "vans", name: "Vans", url: "https://vans.com"},
+  pacsun: {id: "pacsun", name: "Pacsun", url: "https://pacsun.com"},
+  hollister: {id: "hollister", name: "Hollister", url: "https://hollister.com"},
+  nike: {id: "nike", name: "Nike", url: "https://www.nike.com"},
+  americaneagle: {id: "americaneagle", name: "American Eagle", url: "https://www.ae.com"},
+  adidas: {id: "adidas", name: "Adidas", url: "https://www.adidas.com"},
+  urbanoutfitters: {id: "urbanoutfitters", name: "Urban Outfitters", url: "https://www.urbanoutfitters.com"},
+  victoriassecret: {id: "victoriassecret", name: "Victoria's Secret", url: "https://www.victoriassecret.com"},
+  brandymelville: {id: "brandymelville", name: "Brandy Melville", url: "https://www.brandymelvilleusa.com"},
+  abercrombiefitch: {id: "abercrombiefitch", name: "Abercrombie & Fitch", url: "https://www.abercrombie.com"},
+  hottopic: {id: "hottopic", name: "Hot Topic", url: "https://www.hottopic.com"},
+  oldnavy: {id: "oldnavy", name: "Old Navy", url: "https://oldnavy.gap.com"},
+  zumiez: {id: "zumiez", name: "Zumiez", url: "https://www.zumiez.com"},
+  gap: {id: "gap", name: "Gap", url: "https://www.gap.com"},
+  bananarepublic: {id: "bananarepublic", name: "Banana Republic", url: "https://bananarepublic.gap.com"},
+  jcrew: {id: "jcrew", name: "J.Crew", url: "https://www.jcrew.com"},
+  hm: {id: "hm", name: "H&M", url: "https://www2.hm.com"},
+  bloomingdales: {id: "bloomingdales", name: "Bloomingdale's", url: "https://www.bloomingdales.com"},
+  billabong: {id: "billabong", name: "Billabong", url: "https://www.billabong.com"},
+  nordstromrack: {id: "nordstromrack", name: "Nordstrom Rack", url: "https://www.nordstromrack.com"},
+  northface: {id: "northface", name: "North Face", url: "https://www.thenorthface.com"},
+  levis: {id: "levis", name: "Levi's", url: "https://www.levi.com"},
+  champion: {id: "champion", name: "Champion", url: "https://www.champion.com"},
+  pink: {id: "pink", name: "PINK", url: "https://www.victoriassecret.com/pink"},
+  guess: {id: "guess", name: "Guess", url: "https://shop.guess.com"},
+  asos: {id: "asos", name: "ASOS", url: "https://www.asos.com"},
+  target: {id: "target", name: "Target", url: "https://www.target.com"},
+  hugoboss: {id: "hugoboss", name: "Hugo Boss", url: "https://www.hugoboss.com"},
+}
+
+async function productInfoAbercrombieFitch() {
+  let string = ''
+  let gender = ''
+  console.log($('.breadcrumb-container .breadcrumbs-link').text())
+  if($('.breadcrumb-container .breadcrumbs-link').text().toLowerCase().includes("womens")) {
+    gender = "Womens"
+  } else if ($('.breadcrumb-container .breadcrumbs-link').text().toLowerCase().includes("mens")) {
+    gender = "Mens"
+  }
+  string += ' ' + gender
+  string += $('.product-swatches .selected .product-attrs__shown-in span').text().replace('Shown in', '')
+  string += $('.product-page__swatches-attributes .product-attrs__shown-in.selected-swatch__label').text().replace('Shown in', '')
+  string += ' ' + $('.product-title-main-header').text()
+  string += $('.short-description').text()
+  string = string.toLowerCase()
+  console.log(string)
+  const response = await fetch(chrome.runtime.getURL('/src/keywords.json'))
+  const keywords = await response.json()
+  const data = {
+    searchStores: [
+      storeInformation.hollister.id,
+      storeInformation.urbanoutfitters.id,
+      storeInformation.abercrombiefitch.id
+    ],
+    url: window.location.href,
+    search: getSearchKeywords(string, keywords, ),
+    string: string
+  }
+  console.log(data)
+  getProducts(data);
+}
+async function getNordstromProducts(keywords) {
   const products = []
   await $.get(`https://shop.nordstrom.com/sr?origin=keywordsearch&keyword=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('._1AOd3')
@@ -18,7 +83,7 @@ const getNordstromProducts = async (keywords) => {
   return products
 }
 
-const getHugoBossProducts = async (keywords) => {
+async function getHugoBossProducts(keywords) {
   const products = []
   await $.get(`https://www.hugoboss.com/us/search?q=${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
     let elements = $(data).find('.search-result-content .search-result-items__grid-tile')
@@ -37,7 +102,7 @@ const getHugoBossProducts = async (keywords) => {
   return products
 }
 
-const getPacsunProducts = async (keywords) => {
+async function getPacsunProducts(keywords) {
   const products = []
   try {
     await $.get(`https://www.pacsun.com/on/demandware.store/Sites-pacsun-Site/default/Search-Show?stype=snap&etype=submit&q=${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
@@ -60,7 +125,8 @@ const getPacsunProducts = async (keywords) => {
   return products;
 }
 
-const getHollisterProducts = async (keywords) => {
+async function getHollisterProducts(keywords) {
+  console.log(keywords)
   const products = []
   await $.get(`https://www.hollisterco.com/shop/us/search?departmentCategoryId=10006&searchTerm=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('.products-container .product-card--hol')
@@ -81,7 +147,7 @@ const getHollisterProducts = async (keywords) => {
   return products
 }
 
-const getVansProducts = async (keywords) => {
+async function getVansProducts(keywords) {
   const products = []
   await $.get(`https://www.vans.com/webapp/wcs/stores/servlet/VFSearchDisplay?storeId=10153&catalogId=10703&langId=-1&beginIndex=0&searchSource=Q&sType=SimpleSearch&searchTerm=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('#catalog-results .product-block')
@@ -99,7 +165,7 @@ const getVansProducts = async (keywords) => {
   return products
 }
 
-const getNikeProducts = async (keywords) => {
+async function getNikeProducts(keywords) {
   const products = []
   await $.get(`https://www.nike.com/w?q=${keywords.join('%20').replace(/ /g, '%20')}&vst=${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
     let elements = $(data)
@@ -125,7 +191,7 @@ const getNikeProducts = async (keywords) => {
   return products
 }
 
-const getAmericanEagleProducts = async (keywords) => {
+async function getAmericanEagleProducts(keywords) {
   const products = []
   await $.get(`https://www.ae.com/s/${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('.search-products .product-tile')
@@ -146,7 +212,7 @@ const getAmericanEagleProducts = async (keywords) => {
 
 
 
-const getAdidasProducts = async (keywords) => {
+async function getAdidasProducts(keywords) {
   const getPrice = (productID) => {
     return new Promise(resolve => {
       fetch(`https://www.adidas.com/api/search/product/${productID}`).then((body) => {
@@ -177,10 +243,15 @@ const getAdidasProducts = async (keywords) => {
   return await getProducts()
 }
 
-const getUrbanOutfittersProducts = async (keywords) => {
+async function getUrbanOutfittersProducts(keywords) {
   const products = []
+  console.log(keywords)
+  console.log(`https://www.urbanoutfitters.com/search?q=${keywords.join('+').replace(/ /g, '+')}`)
   await $.get(`https://www.urbanoutfitters.com/search?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
+    console.log(data)
     let elements = $(data).find('.c-pwa-tile-tiles .c-pwa-tile-grid-inner')
+    console.log($(data).find('.c-pwa-tile-view-outer'))
+    console.log($(data))
     elements.each(function() {
       console.log($(this))
       const tempObj = {
@@ -198,7 +269,7 @@ const getUrbanOutfittersProducts = async (keywords) => {
   return products
 }
 
-const getVictoriaSecretProducts = async (keywords) => {
+async function getVictoriaSecretProducts(keywords) {
   const products = []
   if(keywords.includes('men' || 'male' || 'man' || 'mens' || 'kid' || 'boy' || 'boys' || 'child' || 'children')) return []
   await $.get(`https://api.victoriassecret.com/keywordsearch/v4/search?brand=vs&q=${keywords.join('%20').replace(/ /g, '%20')}&searchLocation=header`, function(data) {
@@ -217,7 +288,7 @@ const getVictoriaSecretProducts = async (keywords) => {
   return products
 }
 
-const getBrandyMelvilleProducts = async (keywords) => {
+async function getBrandyMelvilleProducts(keywords) {
   const products = []
   if(keywords.includes('men' || 'male' || 'man' || 'mens' || 'kid' || 'boy' || 'boys' || 'child' || 'children')) return []
   await $.get(`https://www.brandymelvilleusa.com/catalogsearch/result/?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
@@ -237,7 +308,7 @@ const getBrandyMelvilleProducts = async (keywords) => {
   return products
 }
 
-const getAbercrombieFitchProducts = async (keywords) => {
+async function getAbercrombieFitchProducts(keywords) {
   const products = []
   await $.get(`https://www.abercrombie.com/shop/us/search?departmentCategoryId=10000&searchTerm=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     if($(data).find('.rs-search-detail__additional-info').text().toLowerCase().replace(/(\r\n|\n|\r)|  /gm,"").includes('no match found')) return;
@@ -257,7 +328,7 @@ const getAbercrombieFitchProducts = async (keywords) => {
   return products
 }
 
-const getHotTopicProducts = async (keywords) => {
+async function getHotTopicProducts(keywords) {
   const products = []
   await $.get(`https://www.hottopic.com/search?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('#search-result-items .grid-tile')
@@ -276,7 +347,7 @@ const getHotTopicProducts = async (keywords) => {
   return products
 }
 
-const getOldNavyProducts = async (keywords) => {
+async function getOldNavyProducts(keywords) {
   const products = []
   await $.get(`https://brm-core-0.brsrvr.com/api/v1/core/?account_id=6063&auth_key=&domain_key=oldnavy&request_id=2803065648391&_br_uid_2=uid%3D3953529282324%3Av%3D12.0%3Ats%3D1574719946739%3Ahc%3D5&url=https://oldnavy.gap.com/index.html%23brm-search%3Frequest_type=search&search_type=keyword&q=${keywords.join('%20').replace(/ /g, '%20')}&l=${keywords.join('%20').replace(/ /g, '%20')}&br_origin=searchbox&realm=prod&ref_url=https://oldnavy.gap.com/&request_type=search&rows=200&start=0&facet.limit=300&fl=pid,title,brand,price,sale_price,price_type,promotions,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description,is_live,score,defaultColorMarketingMessage,styleMarketingMessage&stats.field=sale_price`, function(data) {
     data.response.docs.forEach((p) => {
@@ -294,7 +365,7 @@ const getOldNavyProducts = async (keywords) => {
   return products
 }
 
-const getZumiezProducts = async (keywords) => {
+async function getZumiezProducts(keywords) {
   const products = []
   await $.get(`https://www.zumiez.com/catalogsearch/result/?q=${keywords.join('+').replace(/ /g, '+')}&kw=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('.category-products .column.item')
@@ -313,7 +384,7 @@ const getZumiezProducts = async (keywords) => {
   return products
 }
 
-const getGapProducts = async (keywords) => {
+async function getGapProducts(keywords) {
   const products = []
   await $.get(`https://brm-core-0.brsrvr.com/api/v1/core/?account_id=5468&auth_key=&domain_key=gap&request_id=2803065648391&_br_uid_2=uid%3D3953529282324%3Av%3D12.0%3Ats%3D1574719946739%3Ahc%3D11&url=https://www.gap.com/index.html%23brm-search%3Frequest_type=search&search_type=keyword&q=${keywords.join('%20').replace(/ /g, '%20')}&l=${keywords.join('%20').replace(/ /g, '%20')}&br_origin=searchbox&realm=prod&ref_url=https://www.gap.com/&request_type=search&rows=200&start=0&facet.limit=300&fl=pid,title,brand,price,sale_price,price_type,promotions,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description,is_live,score,defaultColorMarketingMessage,styleMarketingMessage&stats`, function(data) {
     data.response.docs.forEach((p) => {
@@ -331,7 +402,7 @@ const getGapProducts = async (keywords) => {
   return products
 }
 
-const getBananaRepublicProducts = async (keywords) => {
+async function getBananaRepublicProducts(keywords) {
   const products = []
   await $.get(`https://brm-core-0.brsrvr.com/api/v1/core/?account_id=6105&auth_key=&domain_key=bananarepublic&request_id=2803065648391&_br_uid_2=uid%3D3953529282324%3Av%3D12.0%3Ats%3D1574719946739%3Ahc%3D14&url=https://bananarepublic.gap.com/index.html%23brm-search%3Frequest_type=search&search_type=keyword&q=${keywords.join('%20').replace(/ /g, '%20')}&l=${keywords.join('%20').replace(/ /g, '%20')}&br_origin=searchbox&realm=prod&ref_url=https://bananarepublic.gap.com/&request_type=search&rows=200&start=0&facet.limit=300&fl=pid,title,brand,price,sale_price,price_type,promotions,thumb_image,sku_thumb_images,sku_swatch_images,sku_color_group,url,price_range,sale_price_range,description,is_live,score,defaultColorMarketingMessage,styleMarketingMessage&stats.field=sale_price`, function(data) {
     data.response.docs.forEach((p) => {
@@ -349,7 +420,7 @@ const getBananaRepublicProducts = async (keywords) => {
   return products
 }
 
-const getJCrewProducts = async (keywords) => {
+async function getJCrewProducts(keywords) {
   const products = []
   await $.get(`https://www.jcrew.com/r/search/?N=0&Nloc=en&Ntrm=${keywords.join('%20').replace(/ /g, '%20')}&Nsrt=&Npge=1&Nrpp=60`, function(data) {
     let elements = $(data).find('.product__list .c-product-tile')
@@ -368,7 +439,7 @@ const getJCrewProducts = async (keywords) => {
   return products
 }
 
-const getHMProducts = async (keywords) => {
+async function getHMProducts(keywords) {
   const products = []
   await $.get(`https://www2.hm.com/en_us/search-results.html?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('.products-listing .product-item')
@@ -387,7 +458,7 @@ const getHMProducts = async (keywords) => {
   return products
 }
 
-const getBloomingDaleProducts = async (keywords) => {
+async function getBloomingDaleProducts(keywords) {
   const products = []
   await $.get(`https://www.bloomingdales.com/shop/search?keyword=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('.items .productThumbnail')
@@ -406,7 +477,7 @@ const getBloomingDaleProducts = async (keywords) => {
   return products
 }
 
-const getBillabongProducts = async (keywords) => {
+async function getBillabongProducts(keywords) {
   const products = []
   await $.get(`https://www.billabong.com/search/?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('#productssearchresult .producttile')
@@ -425,7 +496,7 @@ const getBillabongProducts = async (keywords) => {
   return products
 }
 
-const getNordstromRackProducts = async (keywords) => {
+async function getNordstromRackProducts(keywords) {
   const products = []
   await $.get(`https://www.nordstromrack.com/api/search2/catalog/search?includeFlash=true&includePersistent=true&limit=99&page=1&query=${keywords.join('%20').replace(/ /g, '%20')}&sort=relevancy&nestedColors=false&site=nordstromrack`, function(data) {
     data._embedded['http://hautelook.com/rels/products'].forEach((p) => {
@@ -443,7 +514,7 @@ const getNordstromRackProducts = async (keywords) => {
   return products
 }
 
-const getNorthFaceProducts = async (keywords) => {
+async function getNorthFaceProducts(keywords) {
   const products = []
   await $.get(`https://www.thenorthface.com/shop/VFSearchDisplay?catalogId=20001&storeId=7001&langId=-1&searchTerm=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('#catalog-results .product-block')
@@ -462,7 +533,7 @@ const getNorthFaceProducts = async (keywords) => {
   return products
 }
 
-const getLeviProducts = async (keywords) => {
+async function getLeviProducts(keywords) {
   const products = []
   await $.get(`https://www.levi.com/US/en_US/search/${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
     let elements = $(data).find('.product__listing .product-item')
@@ -481,7 +552,7 @@ const getLeviProducts = async (keywords) => {
   return products
 }
 
-const getLouisVuittonProducts = async (keywords) => {
+async function getLouisVuittonProducts(keywords) {
   const products = []
   await $.get(`https://us.louisvuitton.com/eng-us/search/${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
     let elements = $(data).find('.productsList .productItem')
@@ -500,7 +571,7 @@ const getLouisVuittonProducts = async (keywords) => {
   return products
 }
 
-const getChampionProducts = async (keywords) => {
+async function getChampionProducts(keywords) {
   const products = []
   await $.get(`https://www.champion.com/shop/SearchDisplay?categoryId=411552&doorId=3&storeId=10704&catalogId=11053&langId=-1&sType=SimpleSearch&resultCatEntryType=2&showResultsPage=true&searchSource=Q&pageView=&beginIndex=0&pageSize=20&searchTerm=${'hoodie'/*keywords.join('+').replace(/ /g, '+')*/}#facet:&productBeginIndex:0&orderBy:&pageView:grid&minPrice:&maxPrice:&pageSize:20&`, function(data) {
     let elements = $(data).find('.product-search-result-container .each-product')
@@ -520,7 +591,7 @@ const getChampionProducts = async (keywords) => {
   return products
 }
 
-const getPinkProducts = async (keywords) => { // COME BACK TO THIS STORE
+async function getPinkProducts(keywords) { // COME BACK TO THIS STORE
   const products = []
   if(keywords.includes('men' || 'male' || 'man' || 'mens' || 'kid' || 'boy' || 'boys' || 'child' || 'children')) return []
   await $.get(`https://api.victoriassecret.com/keywordsearch/v4/search?brand=pink&q=${keywords.join('%20').replace(/ /g, '%20')}&searchLocation=header`, function(data) {
@@ -539,7 +610,7 @@ const getPinkProducts = async (keywords) => { // COME BACK TO THIS STORE
   return products
 }
 
-const getGuessProducts = async (keywords) => {
+async function getGuessProducts(keywords) {
   const products = []
   await $.get(`https://recs.richrelevance.com/rrserver/api/find/v1/199c81c05e473265?findCallType=overlay&lang=en&log=true&placement=search_page.find&query=${keywords.join('+').replace(/ /g, '+')}&rcs=eF5j4cotK8lM4TOzMNU11DVkKU32MEwyNjVNMzPTTUq2NNU1MTY20bU0SzTVNTIwTbIwT0lKSjRNAgB-_g4I&region=undefined&rows=24&sessionId=d8cf1765-d197-46b9-9d1e-6ff0d9bb5a14&ssl=true&start=48`, function(data) {
     data.placements[0].docs.forEach((p) => {
@@ -558,7 +629,7 @@ const getGuessProducts = async (keywords) => {
   return products
 }
 
-const getAsosProducts = async (keywords) => {
+async function getAsosProducts(keywords) {
   const products = []
   await $.get(`https://www.asos.com/us/search/?q=${keywords.join('+').replace(/ /g, '+')}`, function(data) {
     let elements = $(data).find('._3-pEc3l ._2oHs74P')
@@ -577,7 +648,7 @@ const getAsosProducts = async (keywords) => {
   return products
 }
 
-const getTargetProducts = async (keywords) => {
+async function getTargetProducts(keywords) {
   const products = []
   await $.get(`https://redsky.target.com/v2/plp/search/?channel=web&count=24&default_purchasability_filter=true&facet_recovery=false&isDLP=false&keyword=${keywords.join('+').replace(/ /g, '+')}&offset=0&pageId=%2Fs%2F${keywords.join('+').replace(/ /g, '+')}&pricing_store_id=1122&scheduled_delivery_store_id=1122&store_ids=1122%2C321%2C1054%2C3265%2C2185&visitorId=016E9B667F74020198F0BF97718A7F1F&include_sponsored_search_v2=true&ppatok=AOxT33a&platform=desktop&useragent=Mozilla%2F5.0+%28Macintosh%3B+Intel+Mac+OS+X+10_14_5%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F78.0.3904.108+Safari%2F537.36&key=eb2551e4accc14f38cc42d32fbc2b2ea`, function(data) {
     data.search_response.items.Item.forEach((p) => {
@@ -595,7 +666,7 @@ const getTargetProducts = async (keywords) => {
   return products
 }
 
-// const getProducts = async (keywords) => {
+// async function getProducts(keywords) {
 //   const products = []
 //   await $.get(`${keywords.join('%20').replace(/ /g, '%20')}`, function(data) {
 //     console.log($(data))
@@ -614,3 +685,327 @@ const getTargetProducts = async (keywords) => {
 //   })
 //   return products
 // }
+let allProducts = undefined;
+
+function getSearchKeywords (string, keywords) {
+  const searchInfo = [];
+  keywords.gender.some((i) => {
+    if(string.includes(i)) {
+      searchInfo.push({
+        word: i,
+        type: "gender"
+      })
+      return true;
+    }
+  })
+  keywords.color.some((i) => {
+    let addedColor = false;
+    i.word.some((w) => {
+      if(string.includes(w)) {
+        addedColor = true
+        searchInfo.push({
+          word: i.pointToDifferentWord ? i.similarTo : w,
+          type: "color"
+        })
+        return true;
+      }
+    })
+    if(addedColor) return true;
+  })
+  keywords.material.some((i) => {
+    if(string.includes(i)) {
+      searchInfo.push({
+        word: i,
+        type: "material"
+      })
+      return true;
+    }
+  })
+  keywords.pattern.some((i) => {
+    if(string.includes(i)) {
+      searchInfo.push({
+        word: i,
+        type: "pattern"
+      })
+      return true;
+    }
+  })
+  keywords.descriptor.some((i) => {
+    if(string.includes(i)) {
+      searchInfo.push({
+        word: i,
+        type: "descriptor"
+      })
+      return true;
+    }
+  })
+  keywords.bannedWords.some((i) => {
+    if(string.includes(i)) {
+      searchInfo.push({
+        word: '',
+        type: "banned"
+      })
+      return true;
+    }
+  })
+  keywords.type.some((i) => {
+    let addedType = false;
+    i.word.some((w) => {
+      if(w[0] === " " && string.includes(w)) {
+        addedType = true;
+        searchInfo.push({
+          word: i.pointToDifferentWord ? i.similarTo : w,
+          type: "type"
+        })
+        return true;
+      }
+      if(string.includes(w || w.replace(/ /g, '') || w.replace(/ /, '-'))) {
+        addedType = true;
+        searchInfo.push({
+          word: i.pointToDifferentWord ? i.similarTo : w,
+          type: "type"
+        })
+        return true;
+      }
+    })
+    if(addedType) return true;
+  })
+  let search = searchInfo.map(i => i.word)
+  return {string: search, keywords: keywords, info: searchInfo}
+}
+
+const updateProducts = (products) => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(['favorites'], (data) => {
+      let allFavorites = data['favorites']?data['favorites']:[];
+      if(allFavorites.length < 1) resolve(products);
+      allFavorites = allFavorites.map(f => f.link)
+      products.forEach((p) => {
+        if(allFavorites.includes(p.link)) {
+          p.favorite = true
+        } else {
+          p.favorite = false
+        }
+      })
+      resolve(products)
+    })
+  })
+}
+
+const appendNotification = (products) => {
+  if(!products) {
+    console.log(products);
+    return;
+  }
+  $(document).on('click', '.markdown-close-btn', function() {
+    const elem = $(this).parent()
+    elem.addClass('slide-out')
+    setTimeout(() => {
+      elem.remove()
+    }, 400)
+  })
+  $('body').append(`
+    <div class="markdown-similar-item-notification">
+      <div class="markdown-logo"></div>
+      <p class="markdown-notification-msg">We found <span>${products.length}</span> clothing items related to what you're looking at.</p>
+      <div class="markdown-close-btn"></div>
+    </div>
+  `)
+}
+
+const compareFavoritesToProducts = (products) => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get(['favorites'], (data) => {
+      let allFavorites = data['favorites']?data['favorites']:[];
+      if(allFavorites.length < 1) resolve(products);
+      allFavorites = allFavorites.map(f => f.link)
+      products.forEach((p) => {
+        if(allFavorites.includes(p.link)) {
+          p.favorite = true
+        } else {
+          p.favorite = false
+        }
+      })
+      resolve(products)
+    })
+  })
+}
+
+const sortProducts = (products, string, keywords) => {
+  let newProducts = [];
+  products.forEach((s) => {
+    s.forEach((p) => {
+      newProducts.push(p)
+    })
+  })
+  newProducts.forEach((p, i) => {
+    let productSimilarity = 0;
+    string.split(' ').forEach((s) => {
+      if(p.name.toLowerCase().includes(s.toLowerCase())) {
+        productSimilarity++
+      }
+    })
+    p.productSimilarity = productSimilarity
+  })
+  newProducts.filter(p => p.productSimilarity > 0)
+  newProducts.sort((a, b) => {
+    return b.productSimilarity - a.productSimilarity
+  })
+  return newProducts
+}
+
+async function searchSimilarStores(data) {
+  let products = []
+  let hasNoType = data.search.info.filter(x => x.type === "type").length <= 0
+  let hasDuplicateType = data.search.info.filter(x => x.type === "type").length > 1
+  let hasBannedWord = data.search.info.filter(x => x.type === "banned").length > 0
+  let hasNoColor = data.search.info.filter(x => x.type === "color").length <= 0
+  //let tabUrl = data.url;
+  console.log(data)
+  console.log(hasNoType, hasDuplicateType, hasBannedWord, hasNoColor)
+  if(hasNoType) {
+    // Sentry.withScope(scope => {
+    //   scope.setExtra("Product Link", tabUrl)
+    //   scope.setExtra("Product Search", data.search.info)
+    //   scope.setExtra("Product String", data.string)
+    //   Sentry.captureException(new Error("Found No Type"))
+    // });
+    return [];
+  }
+  if(hasDuplicateType) {
+    // Sentry.withScope(scope => {
+    //   scope.setExtra("Product Link", tabUrl)
+    //   scope.setExtra("Product Search", data.search.info)
+    //   scope.setExtra("Product String", data.string)
+    //   Sentry.captureException(new Error("Found Duplicate Types"))
+    // });
+    return [];
+  }
+  if(hasNoColor) {
+    // Sentry.withScope(scope => {
+    //   scope.setExtra("Product Link", tabUrl)
+    //   scope.setExtra("Product Search", data.search.info)
+    //   scope.setExtra("Product String", data.string)
+    //   Sentry.captureException(new Error("Found no product color"))
+    // });
+    return [];
+  }
+  if(hasBannedWord) {
+    return [];
+  }
+  if(data.searchStores.includes("nordstrom")) products.push(await getNordstromProducts(data.search.string))
+  if(data.searchStores.includes("hugoboss")) products.push(await getHugoBossProducts(data.search.string))
+  if(data.searchStores.includes("pacsun")) products.push(await getPacsunProducts(data.search.string))
+  if(data.searchStores.includes("hollister")) products.push(await getHollisterProducts(data.search.string))
+  if(data.searchStores.includes("vans")) products.push(await getVansProducts(data.search.string))
+  if(data.searchStores.includes("nike")) products.push(await getNikeProducts(data.search.string))
+  if(data.searchStores.includes("americaneagle")) products.push(await getAmericanEagleProducts(data.search.string))
+  if(data.searchStores.includes("adidas")) products.push(await getAdidasProducts(data.search.string))
+  if(data.searchStores.includes("urbanoutfitters")) products.push(await getUrbanOutfittersProducts(data.search.string))
+  if(data.searchStores.includes("victoriassecret")) products.push(await getVictoriaSecretProducts(data.search.string))
+  if(data.searchStores.includes("brandymelville")) products.push(await getBrandyMelvilleProducts(data.search.string))
+  if(data.searchStores.includes("abercrombiefitch")) products.push(await getAbercrombieFitchProducts(data.search.string))
+  if(data.searchStores.includes("oldnavy")) products.push(await getOldNavyProducts(data.search.string))
+  if(data.searchStores.includes("zumiez")) products.push(await getZumiezProducts(data.search.string))
+  if(data.searchStores.includes("gap")) products.push(await getGapProducts(data.search.string))
+  if(data.searchStores.includes("bananarepublic")) products.push(await getBananaRepublicProducts(data.search.string))
+  if(data.searchStores.includes("jcrew")) products.push(await getJCrewProducts(data.search.string))
+  if(data.searchStores.includes("hm")) products.push(await getHMProducts(data.search.string))
+  if(data.searchStores.includes("bloomingdales")) products.push(await getBloomingDaleProducts(data.search.string))
+  if(data.searchStores.includes("billabong")) products.push(await getBillabongProducts(data.search.string))
+  if(data.searchStores.includes("nordstromrack")) products.push(await getNordstromRackProducts(data.search.string))
+  if(data.searchStores.includes("northface")) products.push(await getNorthFaceProducts(data.search.string))
+  if(data.searchStores.includes("levis")) products.push(await getLeviProducts(data.search.string))
+  if(data.searchStores.includes("champion")) products.push(await getChampionProducts(data.search.string))
+  if(data.searchStores.includes("pink")) products.push(await getPinkProducts(data.search.string))
+  if(data.searchStores.includes("guess")) products.push(await getGuessProducts(data.search.string))
+  if(data.searchStores.includes("asos")) products.push(await getAsosProducts(data.search.string))
+  if(data.searchStores.includes("target")) products.push(await getTargetProducts(data.search.string))
+  products = await sortProducts(products, data.string, data.search.keywords)
+  products = await compareFavoritesToProducts(products)
+  return products;
+}
+
+async function getPageData() {
+  if(allProducts && allProducts.length > 0) {
+    return await updateProducts(allProducts);
+  }
+
+  const storesRes = await fetch(chrome.runtime.getURL('/src/stores.json'))
+  const keywordsRes = await fetch(chrome.runtime.getURL('/src/keywords.json'))
+  const keywords = await keywordsRes.json()
+  const stores = await storesRes.json()
+  let store = ""
+  stores.forEach((s) => {
+    if(window.location.host.includes(s.url)) {
+      store = s
+    }
+  })
+  console.log(store.getInfoFunction)
+  await eval(store.getInfoFunction)
+}
+
+async function getProducts(data) {
+  let products = await searchSimilarStores(data)
+  allProducts = products
+}
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if(request.from === "popup" && request.subject === "getProducts") {
+    console.log(allProducts)
+    sendResponse(allProducts)
+  }
+})
+$(() => {
+  const isStorePage = async () => {
+    const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
+    const stores = await response.json()
+    let storePage = stores.filter((s) => {
+      if(window.location.host.toLowerCase().includes(s.url.toLowerCase())) {
+        return s;
+      }
+    })
+    return await storePage.length > 0 ? true : false
+  }
+
+  const isProductPage = async () => {
+    const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
+    const stores = await response.json()
+    let storePage = stores.filter((s) => {
+      if(window.location.host.toLowerCase().includes(s.url.toLowerCase())) {
+        return s;
+      }
+    })
+    if(storePage.length <= 0) {
+      return false
+    }
+
+    return $(storePage[0].productPageIdentifier).length > 0
+  }
+
+  const getPageStatus = async () => {
+    if(! await isStorePage()) {
+      return ({status: "not store page"});
+    } else if(! await isProductPage()) {
+      return ({status: "not product page"});
+    } else {
+      return ({status: "processing"});
+    }
+  }
+
+  const setProcessingStatus = async () => {
+    if (await isStorePage() && await isProductPage()) {
+      getPageData()
+    }
+  }
+
+  setProcessingStatus()
+
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if(request.from === "popup" && request.subject === "getPageStatus") {
+      getPageStatus().then(sendResponse);
+      return true;
+    }
+  })
+})
+}

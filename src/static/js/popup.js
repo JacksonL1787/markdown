@@ -23,11 +23,19 @@ const appendProduct = (data, container) => {
       <h2 class="store-name">${data.storeName}</h2>
       <div class="product-img-wrap" data-link="${data.link}">
         <img src="${data.img}" alt="${data.name}">
-        <div class="favorite-btn ${data.favorite ? "active" : ""}">
-          <div class="icon"></div>
+        <div class="button-wrap">
+          <div class="action-btn favorite-btn ${data.favorite ? "active" : ""}">
+            <p class="tooltip">Favorite</p>
+            <div class="icon"></div>
+          </div>
         </div>
-        <div class="favorited-tag ${data.favorite ? "active" : ""}">
-          <p>Favorited</p>
+        <div class="favorited-tag ${data.favorite ? "active reverse-transition" : ""}">
+          <div class="banner">
+            <p>Favorited</p>
+          </div>
+          <div class="corner-wrap">
+            <div class="corner"></div>
+          </div>
         </div>
         <div class="img-darken-overlay"></div>
       </div>
@@ -45,9 +53,10 @@ const appendProduct = (data, container) => {
   `)
 }
 
+
+
 $(document).on('click', '.product-img-wrap',function(e) {
   const $elem = $(e.target)
-  console.log($elem)
   if($elem.hasClass('img-darken-overlay')) {
     window.open($elem.parent('.product-img-wrap').data('link'), "_blank")
   }
@@ -56,6 +65,15 @@ $(document).on('click', '.product-img-wrap',function(e) {
   }
 })
 
+$(document).on('hover', '.product .button-wrap div', function() {
+
+})
+
+const getAllStores = async () => {
+  const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
+  const stores = await response.json()
+  return await stores;
+}
 
 /*
 
@@ -63,68 +81,115 @@ $(document).on('click', '.product-img-wrap',function(e) {
 
 */
 
-$(() => {
+const appendStoresAlphabetically = (stores) => {
+  $('.stores-container .stores-list').empty()
+  stores.sort((a,b) => {
+    if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+    if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+    return 0;
+  })
+  stores.forEach((s, i) => {
+    $(`.stores-container .stores-list`).append(`
+      <div class="store-wrap" data-link="https://${s.url}">
+        <img class="logo" src="https://${s.icon.imgProv === "uplead" ? 'logo.uplead.com': 'logo.clearbit.com'}/${s.icon.imgSrc}${s.icon.greyscale ? '?greyscale=true' : ''}">
+        <h1 class="store-name">${s.name}</h1>
+      </div>
+      ${i === (stores.length - 1) ? '' : '<div class="divider"></div>'}
+    `)
+  })
+}
 
-  const appendStoresAlphabetically = (stores) => {
-    $('.stores-container .stores-list').empty()
-    stores.sort((a,b) => {
-      if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
-      if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
-      return 0;
-    })
-    stores.forEach((s, i) => {
-      $(`.stores-container .stores-list`).append(`
-        <div class="store-wrap" data-link="https://${s.url}">
-          <img class="logo" src="https://${s.icon.imgProv === "uplead" ? 'logo.uplead.com': 'logo.clearbit.com'}/${s.icon.imgSrc}${s.icon.greyscale ? '?greyscale=true' : ''}">
-          <h1 class="store-name">${s.name}</h1>
-        </div>
-        ${i === (stores.length - 1) ? '' : '<div class="divider"></div>'}
-      `)
-    })
+$('.stores-container .search-bar-wrap .search-bar-inpt').on('input', function() {
+  const search = $(this).val().replace(/ |&|'|\.|/gi, '').toLowerCase()
+  const newStores = allStores.filter(s => {
+    return s.name.replace(/ |&|'|\.|/gi, '').toLowerCase().startsWith(search)
+  })
+  $('.stores-container .no-stores-found').hide()
+  $('.stores-container .no-stores-found').text()
+  if(newStores.length === 0) {
+    $('.stores-container .no-stores-found').show()
+    $('.stores-container .no-stores-found .search-text').text($(this).val())
+  }
+  appendStoresAlphabetically(newStores)
+})
+
+$(document).on('click', '.stores-container .stores-list .store-wrap', function() {
+  const link = $(this).data('link');
+  mixpanel.track(
+    "Clicked store link",
+    {"link": link}
+  );
+  window.open(link, "_blank");
+})
+
+
+
+const handlePageStatus = (status) => {
+  if(!status) {
+    setTimeout(() => {
+      getPageStatus()
+    }, 100)
   }
 
-  $('.stores-container .search-bar-wrap .search-bar-inpt').on('input', function() {
-    const search = $(this).val().replace(/ |&|'|\.|/gi, '').toLowerCase()
-    console.log(allStores)
-    console.log(search)
-    const newStores = allStores.filter(s => {
-      return s.name.replace(/ |&|'|\.|/gi, '').toLowerCase().startsWith(search)
-    })
-    $('.stores-container .no-stores-found').hide()
-    $('.stores-container .no-stores-found').text()
-    if(newStores.length === 0) {
-      $('.stores-container .no-stores-found').show()
-      $('.stores-container .no-stores-found .search-text').text($(this).val())
+  if(status.status === "not store page") {
+    stopSimilarProductsPoll()
+    $('.similar-clothing-container .container-msg').removeClass('show')
+    $('.similar-clothing-container .not-store-page').addClass('show')
+    return;
+  }
+
+  if(status.status === "not product page") {
+    stopSimilarProductsPoll()
+    $('.similar-clothing-container .container-msg').removeClass('show')
+    $('.similar-clothing-container .go-to-product-page').addClass('show')
+    return;
+  }
+
+  if(status.status === "processing") {
+    $('.similar-clothing-container .container-msg').removeClass('show')
+    $('.similar-clothing-container .loading-products').addClass('show')
+    getSimilarProductInfo()
+    return;
+  }
+}
+
+const getPageStatus = () => {
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, (tabs) => {
+    if(tabs[0].url.startsWith("chrome://")) {
+      handlePageStatus({status: "not store page"})
+    } else {
+      chrome.tabs.query({
+        active: true,
+        currentWindow: true
+      }, async tabs => {
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          {
+            from: 'popup',
+            subject: 'getPageStatus'
+          }, handlePageStatus);
+      });
     }
-    appendStoresAlphabetically(newStores)
   })
+}
 
-  $(document).on('click', '.stores-container .stores-list .store-wrap', function() {
-    const link = $(this).data('link');
-    mixpanel.track(
-      "Clicked store link",
-      {"link": link}
-    );
-    //window.open(link, "_blank");
-  })
+const handleStores = async (stores) => {
+  allStores = await getAllStores()
+  appendStoresAlphabetically(allStores)
+  setLoader(false, 'stores-container')
+  // TODO: Show Search Bar
+}
 
-  const getAllStores = async () => {
-    const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
-    const stores = await response.json()
-    return await stores;
-  }
-
-  const handleStores = async (stores) => {
-    allStores = await getAllStores()
-    appendStoresAlphabetically(allStores)
-    setLoader(false, 'stores-container')
-    // TODO: Show Search Bar
-  }
-
-  $(document).ready( async() => {
-    setLoader(true, 'stores-container')
-    handleStores()
-  })
+$(document).ready( async() => {
+  setLoader(true, 'stores-container')
+  setLoader(true, 'similar-clothing-container')
+  handleStores()
+  setTimeout(() => {
+    getPageStatus()
+  }, 100)
 })
 
 const stopSimilarProductsPoll = () => {
@@ -132,29 +197,14 @@ const stopSimilarProductsPoll = () => {
   setLoader(false, 'similar-clothing-container')
 }
 
+const startSimilarProductsPoll = () => {
+  setLoader(true, 'similar-clothing-container')
+  getSimilarProductInfo()
+  //getProductsTimer = setInterval(getSimilarProductInfo, 100)
+}
 
 const handleSimilarItems = (similarItems) => {
   if(!similarItems) return;
-  if(similarItems.status === "not store page") {
-    stopSimilarProductsPoll()
-    $('.similar-clothing-container .container-msg').removeClass('show')
-    $('.similar-clothing-container .not-store-page').addClass('show')
-    return;
-  }
-
-  if(similarItems.status === "not product page") {
-    stopSimilarProductsPoll()
-    $('.similar-clothing-container .container-msg').removeClass('show')
-    $('.similar-clothing-container .go-to-product-page').addClass('show')
-    return;
-  }
-
-  if(similarItems.status === "processing") {
-    $('.similar-clothing-container .container-msg').removeClass('show')
-    $('.similar-clothing-container .loading-products').addClass('show')
-    return;
-  }
-
   if(similarItems.status === "no products") {
     stopSimilarProductsPoll()
     $('.similar-clothing-container .container-msg').removeClass('show')
@@ -168,16 +218,16 @@ const handleSimilarItems = (similarItems) => {
   $('.similar-clothing-container .sort-by-container').addClass('active')
   $('.container, .nav-wrap .nav-item').removeClass('active')
   $('.nav-wrap .nav-similar-clothing, .similar-clothing-container').addClass('active')
-  _data.currentPageProducts = similarItems.products
-  similarItems.products.forEach((p) => {
+  setLoader(false, 'similar-clothing-container')
+  _data.currentPageProducts = similarItems
+  similarItems.forEach((p) => {
     appendProduct(p, '.similar-clothing-container .clothing-content')
   })
 }
 
 const getSimilarProductInfo = () => {
   if(_data.currentPageProducts) {
-    clearInterval(getProductsTimer)
-    setLoader(false, 'similar-clothing-container')
+    stopSimilarProductsPoll()
     return;
   }
   chrome.tabs.query({
@@ -188,17 +238,11 @@ const getSimilarProductInfo = () => {
         tabs[0].id,
         {
           from: 'popup',
-          subject: 'productInfo'
+          subject: 'getProducts'
         },
         handleSimilarItems);
   });
 }
-
-$(document).ready(() => {
-  setLoader(true, 'similar-clothing-container')
-  getSimilarProductInfo()
-  getProductsTimer = setInterval(getSimilarProductInfo, 100)
-})
 
 
 
@@ -281,6 +325,7 @@ $(() => {
       return;
     }
     $('.favorites-container .no-favorites').removeClass('show')
+    console.log(data)
     data.forEach((p) => {
       appendProduct({...p, favorite: true}, '.favorites-container .clothing-content')
     })
@@ -289,9 +334,7 @@ $(() => {
   const getFavoriteProducts = () => {
     return new Promise((resolve, reject) => {
       chrome.storage.sync.get(['favorites'], (data) => {
-        console.log('rawData', data['favorites'])
         const favorites = data['favorites']?data['favorites']:[];
-        console.log(favorites)
         resolve(favorites)
       })
     })
@@ -299,7 +342,6 @@ $(() => {
 
   const setFavoriteProducts = (product) => {
     return new Promise((resolve, reject) => {
-      console.log(product)
       chrome.storage.sync.get(['favorites'], (data) => {
         let favorites = data['favorites']?data['favorites']:[];
         favorites.unshift(product)
@@ -311,7 +353,6 @@ $(() => {
 
   const removeFavoriteProducts = (product) => {
     return new Promise((resolve, reject) => {
-      console.log(product)
       chrome.storage.sync.get(['favorites'], (data) => {
         let favorites = data['favorites']?data['favorites']:[];
         favorites.forEach((f, i) => {
@@ -358,7 +399,7 @@ $(() => {
   }
 
   $(document).on('click', '.clothing-content .favorite-btn', async function() {
-    const wrap = $(this).parent().parent()
+    const wrap = $(this).parents('.product')
     const favoriteData = {
       img: wrap.find('.product-img-wrap img').attr('src'),
       link: wrap.find('.product-title').attr('href'),
@@ -380,16 +421,21 @@ $(() => {
     if(subject === 'removeFavorite') {
       favoriteMessage("removed")
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').removeClass('active')
+      setTimeout(() => {
+        $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').removeClass('reverse-transition')
+      }, 600)
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').removeClass('active')
       newFavorites = await removeFavoriteProducts(favoriteData)
     } else if (subject === 'setFavorite') {
       favoriteMessage("added")
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').addClass('active')
+      setTimeout(() => {
+        $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').addClass('reverse-transition')
+      }, 600)
       $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').addClass('active')
       newFavorites = await setFavoriteProducts(favoriteData)
     }
     setLoader(true, 'favorites-container')
-    console.log(newFavorites)
     handleFavoriteItems(newFavorites)
   })
 

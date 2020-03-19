@@ -1,11 +1,11 @@
 {
   "name": "Markdown",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "manifest_version": 2,
   "description": "Automatically interprets the clothing you are viewing and presents you with alternatives from other online clothing stores.",
   "author": "Jackson Lawrence",
   "icons": {
-    "128": "icons/markdown-logo128.png"
+    "128": "icons/display-logo.png"
   },
   "permissions": [
     "tabs",
