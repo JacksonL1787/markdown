@@ -35,9 +35,14 @@ $(() => {
     }
   }
 
+  const loadingProductsMessage = async () => {
+    
+  }
+
   const setProcessingStatus = async () => {
     if (await isStorePage() && await isProductPage()) {
       getPageData()
+      loadingProductsMessage()
     }
   }
 

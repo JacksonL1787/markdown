@@ -1,5 +1,7 @@
 @import url("https://use.typekit.net/jft6rmf.css");
 
+@import "sheets/products.styl"
+
 body
   width 360px
   height 600px
@@ -133,149 +135,6 @@ body
     font-size 20px
     font-weight 500
 
-.clothing-content
-  .product
-    margin 0 auto 50px
-    width fit-content
-    h2.store-name
-      color rgb(167, 167, 167)
-      text-align center
-      font-weight 300
-      margin 0 0 3px
-      font-size 12.5px
-      text-transform uppercase
-    .product-img-wrap
-      max-width 220px
-      position relative
-      cursor pointer
-      height fit-content
-      margin 0 auto 10px
-      border-radius .2em
-      &:hover
-        .img-darken-overlay
-          background rgba(0,0,20,0.15)
-        .favorite-btn
-          visibility visible !important
-          opacity 1 !important
-          transform translateY(-20px) !important
-      img
-        width 100%
-      .img-darken-overlay
-        position absolute
-        z-index 1
-        top 0
-        left 0
-        width 100%
-        height calc(100% - 5px)
-        background rgba(0,0,30,0.05)
-        transition background .3s
-      .favorited-tag
-        position absolute
-        top 30px
-        left -10px
-        z-index 2
-        transition left .3s
-        &.reverse-transition
-          .corner
-            transition bottom .2s .3s !important
-          .banner
-            transition width .3s !important
-        &.active
-          .corner
-            bottom 0 !important
-          .banner
-            width 60px !important
-        .banner
-          background rgb(26, 176, 117)
-          width 0
-          padding 3px 0 2px
-          overflow hidden
-          left 0
-          transition width .3s .2s
-          p
-            color white
-            margin 0
-            text-align center
-            font-size 9px
-            letter-spacing 0.3px
-            text-transform uppercase
-        .corner-wrap
-          width 10px
-          height 8px
-          overflow hidden
-          clip-path: polygon(100% 0, 0 0, 100% 100%);
-          position relative
-          .corner
-            background #179a67
-            clip-path: polygon(100% 0, 0 0, 100% 100%);
-            position absolute
-            bottom -8px
-            width 10px
-            height 8px
-            transition bottom .2s
-      .button-wrap
-        display flex
-        justify-content center
-        flex-flow row nowrap
-        position absolute
-        bottom 0
-        left 50%
-        z-index 2
-        transform translateX(-50%)
-        .action-btn
-          width 40px
-          height 40px
-          border-radius 40px
-          cursor pointer
-          visibility hidden
-          position relative
-          opacity 0
-          transform translateY(-10px)
-          .tooltip
-        .favorite-btn
-          transition background .3s, transform .4s, opacity .3s, visibility .3s
-          .icon
-            background-position center
-            background-repeat no-repeat
-            background-size cover
-            position absolute
-            top 50%
-            left 50%
-            transform translate(-50%, -50%)
-    .product-desc
-      text-align center
-      a.product-title
-        margin 0
-        font-weight 300
-        font-size 14.5px
-        max-width 400px
-        line-height 130%
-        letter-spacing 0.4px
-        color #2c2c37
-        cursor pointer
-        text-decoration none
-      .price-wrap
-        display flex
-        justify-content center
-        align-items center
-        width fit-content
-        margin 5px auto 7.5px
-        .price
-          font-weight 600
-          margin 0
-          font-size 14px
-          letter-spacing 0.2px
-          color #24242d
-          &.strikethrough
-            color #a2a2a2
-            text-decoration line-through
-        .sale-price
-          margin 0 0 0 30px
-          font-weight 700
-          color #21212a
-          font-size 14px
-          letter-spacing 0.2px
-
 .similar-clothing-container,
 .favorites-container
   .content
@@ -364,20 +223,6 @@ body
       font-weight 600
       letter-spacing 0.3px
 
-.favorites-container
-  .clothing-content
-    .darken-overlay
-      opacity 0 !important
-    .favorite-btn
-      &:hover
-        background rgb(212, 22, 22) !important
-      &.active
-        background rgb(30, 36, 48)
-      .icon
-        background-image url('../img/removed.svg')
-        width 16px
-        height 16px
-
 .similar-clothing-container,
 .favorites-container
   .container-msg
@@ -421,56 +266,6 @@ body
         height 0
         background #1bbd7e
         transition height .3s
-  .clothing-content
-    .product
-      .product-img-wrap
-        &:hover
-          .not-similar-btn,
-          .similar-btn
-            visibility visible
-            opacity 1
-            transform translateY(-20px)
-      .not-similar-btn
-        transition background .3s, transform .4s .2s, opacity .3s .2s, visibility .3s .2s
-        .icon
-          background-image url('../img/thumb-down.svg')
-      .similar-btn
-        margin 0 15px
-        transition background .3s, transform .4s .1s, opacity .3s .1s, visibility .3s .1s
-        .icon
-          background-image url('../img/thumb-up.svg')
-      .not-similar-btn,
-      .similar-btn
-        width 40px
-        height 40px
-        border-radius 40px
-        cursor pointer
-        background rgb(30, 36, 48)
-        transform translateY(-10px)
-        visibility hidden
-        opacity 0
-        bottom 10px
-        &:hover
-          background rgb(62, 73, 97)
-        .icon
-          background-position center
-          background-repeat no-repeat
-          background-size cover
-          position absolute
-          top 50%
-          left 50%
-          width 19px
-          height 19px
-          transform translate(-50%, -50%)
-      .favorite-btn
-        background rgb(30, 36, 48)
-        &:hover,
-        &.active
-          background rgb(27, 189, 126)
-        .icon
-          background-image url('../img/white-favorite-icon.svg')
-          width 18px
-          height 18px
 
 .stores-container
   .container-title
@@ -535,62 +330,8 @@ body
           letter-spacing 0.3px
           font-size 16px
 
-.info-container
-  .container-title
-    margin-bottom 5px !important
-  .container-description
-    margin 0 auto
-    text-align center
-    color rgb(162, 162, 162)
-    font-size 12px
-    line-height 130%
-    width 92%
-  .info-content
-    width 92%
-    margin 20px auto 0
-    .section-wrap
-      margin-bottom 20px
-      .section-title
-        color #4d4d4d
-        font-weight 500
-        font-size 17.5px
-        text-align center
-        margin 0 0 20px
-      &.navigation
-        .flex-wrap
-          display flex
-          justify-content center
-          align-items center
-        .nav-icon-wrap
-          margin-bottom 20px
-          width 50%
-          &.stores-nav .icon
-            background-image url('../img/navIcons/green-stores-icon.svg')
-          &.similar-clothing-nav .icon
-            background-image url('../img/navIcons/green-similar-clothing-icon.svg')
-          &.favorites-nav .icon
-            background-image url('../img/navIcons/green-favorite-icon.svg')
-          &.info-nav
-            .icon
-              background-image url('../img/navIcons/green-info-icon.svg')
-          .icon
-            background-repeat no-repeat
-            background-size cover
-            background-position center
-            width 35px
-            height 35px
-            margin 0 auto 5px
-            opacity 0.8
-          .nav-description
-            margin 0
-            font-size 12px
-            color rgb(152, 152, 152)
-            text-align center
-
-
-.favorite-message-wrap
+.message-wrap
   position fixed
-  padding-right 15px
   height 30px
   width fit-content
   border-radius .3em
@@ -629,7 +370,6 @@ body
     height 100%
     width 30px
     position relative
-    margin-right 10px
     .icon
       background-size cover
       background-position center
@@ -642,7 +382,7 @@ body
       transform translate(-50%, -50%)
   p.msg
     color white
-    margin 0
+    margin 0 15px
     font-size 12px
     width fit-content
     font-weight 600

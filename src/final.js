@@ -952,8 +952,8 @@ async function getProducts(data) {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if(request.from === "popup" && request.subject === "getProducts") {
-    console.log(allProducts)
-    sendResponse(allProducts)
+    updateProducts(allProducts).then(sendResponse);
+    return true;
   }
 })
 $(() => {

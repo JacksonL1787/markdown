@@ -5,12 +5,48 @@ let getProductsTimer;
 let allStores = []
 
 const setLoader = (status, container) => {
-
   if(status) {
     $(`.${container}`).addClass('active-loader')
   } else {
     $(`.${container}`).removeClass('active-loader')
   }
+}
+
+const userMessage = (status) => {
+  if($('.message-wrap').hasClass('active')) {
+    clearTimeout(elemTimeout)
+  }
+  $('.message-wrap').empty().removeClass('active').removeClass('red').removeClass('green')
+  setTimeout(() => {
+    $('.message-wrap').addClass('active')
+    if(status === "added favorite") {
+      $('.message-wrap').addClass('green')
+      $('.message-wrap')
+        .append(`
+          <div class="icon-wrap">
+            <div class="icon added"></div>
+          </div>
+          <p class="msg">Added Item to Favorites</p>
+        `)
+    } else if (status === "removed favorite") {
+      $('.message-wrap').addClass('red')
+      $('.message-wrap')
+        .append(`
+          <div class="icon-wrap">
+            <div class="icon removed"></div>
+          </div>
+          <p class="msg">Removed Item from Favorites</p>
+        `)
+    } else if (status === "feedback") {
+      $('.message-wrap').addClass('green')
+      $('.message-wrap').append(`
+        <p class="msg">Thanks for the feedback!
+        `)
+    }
+    elemTimeout = setTimeout(() => {
+      $('.message-wrap').removeClass('active')
+    }, 2500)
+  }, 100)
 }
 
 const appendProduct = (data, container) => {
@@ -24,10 +60,17 @@ const appendProduct = (data, container) => {
       <div class="product-img-wrap" data-link="${data.link}">
         <img src="${data.img}" alt="${data.name}">
         <div class="button-wrap">
-          <div class="action-btn favorite-btn ${data.favorite ? "active" : ""}">
-            <p class="tooltip">Favorite</p>
+          <div data-tooltip="${data.favorite ? "Remove Favorite" : "Favorite"}" class="action-btn favorite-btn${data.favorite ? " active" : ""}">
             <div class="icon"></div>
           </div>
+          ${container === '.similar-clothing-container .clothing-content' ? `
+            <div class="similar-btn action-btn" data-tooltip="Similar">
+              <div class="icon"></div>
+            </div>
+            <div class="not-similar-btn action-btn" data-tooltip="Not Similar">
+              <div class="icon"></div>
+            </div>`
+              : ""}
         </div>
         <div class="favorited-tag ${data.favorite ? "active reverse-transition" : ""}">
           <div class="banner">
@@ -54,7 +97,6 @@ const appendProduct = (data, container) => {
 }
 
 
-
 $(document).on('click', '.product-img-wrap',function(e) {
   const $elem = $(e.target)
   if($elem.hasClass('img-darken-overlay')) {
@@ -65,9 +107,28 @@ $(document).on('click', '.product-img-wrap',function(e) {
   }
 })
 
-$(document).on('hover', '.product .button-wrap div', function() {
-
+$(document).on('click', '.product .button-wrap .similar-btn, .product .button-wrap .not-similar-btn', function() {
+  userMessage('feedback')
+  // TODO: POST to DB
 })
+
+$(() => { // Action Button Tooltips
+  let TooltipTimeout;
+  $(document).on('mouseover', '.product .button-wrap .action-btn', function() {
+    const elem = $(this);
+    TooltipTimeout = setTimeout(() => {
+      console.log(elem)
+      elem.append(`<div class="tooltip"><p class="tooltip-text">${elem.attr('data-tooltip')}</p></div>`)
+    }, 500);
+  });
+  $(document).on('mouseout', '.product .button-wrap .action-btn', function(e) {
+    let elem = $(e.toElement)
+    clearTimeout(TooltipTimeout);
+    if(! (elem.hasClass('icon') || elem.hasClass('action-btn'))) {
+      $('.product .action-btn .tooltip').remove()
+    }
+  });
+});
 
 const getAllStores = async () => {
   const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
@@ -148,7 +209,7 @@ const handlePageStatus = (status) => {
   if(status.status === "processing") {
     $('.similar-clothing-container .container-msg').removeClass('show')
     $('.similar-clothing-container .loading-products').addClass('show')
-    getSimilarProductInfo()
+    startSimilarProductsPoll()
     return;
   }
 }
@@ -200,7 +261,7 @@ const stopSimilarProductsPoll = () => {
 const startSimilarProductsPoll = () => {
   setLoader(true, 'similar-clothing-container')
   getSimilarProductInfo()
-  //getProductsTimer = setInterval(getSimilarProductInfo, 100)
+  getProductsTimer = setInterval(getSimilarProductInfo, 100)
 }
 
 const handleSimilarItems = (similarItems) => {
@@ -305,8 +366,6 @@ $(() => {
   })
 })
 
-
-
 $(() => {
   let elemTimeout;
 
@@ -366,38 +425,6 @@ $(() => {
     })
   }
 
-  const favoriteMessage = (status) => {
-    if($('.favorite-message-wrap').hasClass('active')) {
-      clearTimeout(elemTimeout)
-    }
-    $('.favorite-message-wrap').empty().removeClass('active').removeClass('red').removeClass('green')
-    setTimeout(() => {
-      $('.favorite-message-wrap').addClass('active')
-      if(status === "added") {
-        $('.favorite-message-wrap').addClass('green')
-        $('.favorite-message-wrap')
-          .append(`
-            <div class="icon-wrap">
-              <div class="icon added"></div>
-            </div>
-            <p class="msg">Added Item to Favorites</p>
-          `)
-      } else if (status === "removed") {
-        $('.favorite-message-wrap').addClass('red')
-        $('.favorite-message-wrap')
-          .append(`
-            <div class="icon-wrap">
-              <div class="icon removed"></div>
-            </div>
-            <p class="msg">Removed Item from Favorites</p>
-          `)
-      }
-      elemTimeout = setTimeout(() => {
-        $('.favorite-message-wrap').removeClass('active')
-      }, 2500)
-    }, 100)
-  }
-
   $(document).on('click', '.clothing-content .favorite-btn', async function() {
     const wrap = $(this).parents('.product')
     const favoriteData = {
@@ -418,21 +445,26 @@ $(() => {
       })
     }
     let newFavorites = [];
+    const allProductElems = $(`.product .product-desc .product-title[href="${favoriteData.link}"]`).parents('.product')
     if(subject === 'removeFavorite') {
-      favoriteMessage("removed")
-      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').removeClass('active')
+      userMessage("removed favorite")
+      allProductElems.find('.favorited-tag').removeClass('active')
       setTimeout(() => {
-        $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').removeClass('reverse-transition')
+        allProductElems.find('.favorited-tag').removeClass('reverse-transition')
       }, 600)
-      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').removeClass('active')
+      allProductElems.find('.favorite-btn').removeClass('active')
+      allProductElems.find('.favorite-btn').attr('data-tooltip', 'Favorite')
+      allProductElems.find('.favorite-btn .tooltip .tooltip-text').text('Favorite')
       newFavorites = await removeFavoriteProducts(favoriteData)
     } else if (subject === 'setFavorite') {
-      favoriteMessage("added")
-      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').addClass('active')
+      userMessage("added favorite")
+      allProductElems.find('.favorited-tag').addClass('active')
       setTimeout(() => {
-        $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorited-tag').addClass('reverse-transition')
+        allProductElems.find('.favorited-tag').addClass('reverse-transition')
       }, 600)
-      $(`.clothing-content .product .product-title[href="${favoriteData.link}"]`).parent().siblings('.product-img-wrap').children('.favorite-btn').addClass('active')
+      allProductElems.find('.favorite-btn').addClass('active')
+      allProductElems.find('.favorite-btn').attr('data-tooltip', 'Remove Favorite')
+      allProductElems.find('.favorite-btn .tooltip .tooltip-text').text('Remove Favorite')
       newFavorites = await setFavoriteProducts(favoriteData)
     }
     setLoader(true, 'favorites-container')

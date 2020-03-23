@@ -15,5 +15,7 @@
   "dependencies": {
     "gulp-minify": "^3.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp-prettier": "^3.0.0"
+  }
 }
