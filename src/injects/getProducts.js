@@ -107,16 +107,9 @@ const updateProducts = (products) => {
 
 const appendNotification = (products) => {
   if(!products) {
-    console.log(products);
     return;
   }
-  $(document).on('click', '.markdown-close-btn', function() {
-    const elem = $(this).parent()
-    elem.addClass('slide-out')
-    setTimeout(() => {
-      elem.remove()
-    }, 400)
-  })
+  $('.markdown-loading-items-notification').remove()
   $('body').append(`
     <div class="markdown-similar-item-notification">
       <div class="markdown-logo"></div>
@@ -261,6 +254,7 @@ async function getPageData() {
 async function getProducts(data) {
   let products = await searchSimilarStores(data)
   allProducts = products
+  appendNotification(products)
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

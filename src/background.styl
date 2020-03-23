@@ -10,15 +10,11 @@
  font-weight: 700;
  src: url("chrome-extension://__MSG_@@extension_id__/src/fonts/Poppins-Bold.ttf");
 
-
+.markdown-loading-items-notification,
 .markdown-similar-item-notification
   all initial
-  background #00CA72
-  padding 12px 0
-  width 100%
   position fixed
   top 0
-  left 0
   z-index 10000000000000
   font-family 'Poppins', sans-serif !important
   box-shadow 0 0 12px 4px rgba(0,0,0,0.1)
@@ -26,7 +22,7 @@
   &.slide-out
     animation markdownNotificationSlideOut .5s
   .markdown-logo
-    background-image url('https://i.ibb.co/LJMB72D/green-markdown-logo900.png')
+    background-image url('https://markdown-images-369543.s3-us-west-2.amazonaws.com/white-logo-transparent.png')
     background-size cover
     background-position center
     background-repeat no-repeat
@@ -34,19 +30,14 @@
     height 25px
     z-index 1000000000000000000
     position absolute
-    top 50%
-    left 10px
     transform translateY(-50%)
   .markdown-notification-msg
     color white
     margin 0
     text-align center
     font-size 15.5px
-    span
-      font-weight 700
-      text-decoration underline
   .markdown-close-btn
-    background-image url('https://i.ibb.co/cw9hrmS/close.png')
+    background-image url('https://markdown-images-369543.s3-us-west-2.amazonaws.com/close.png')
     background-size cover
     background-position center
     background-repeat no-repeat
@@ -54,10 +45,69 @@
     height 20px
     z-index 1000000000000000000
     position absolute
-    top 50%
     cursor pointer
-    right 10px
     transform translateY(-50%)
+
+
+.markdown-loading-items-notification
+  background #1e2430
+  padding 15px 0 10px
+  width 400px
+  border-bottom-right-radius .5em
+  border-bottom-left-radius .5em
+  left 50%
+  transform translateX(-50%)
+  border 5px solid #1e2430
+  .markdown-logo
+    top calc(50% + 2px)
+    left 10px
+  .loader
+    position absolute
+    top 0
+    border-radius 5px
+    left 0
+    width 100%
+    height 5px
+    background #2b3445
+    overflow hidden
+    .loader-runner
+      position absolute
+      width 500px
+      height 100%
+      top 0
+      background linear-gradient(0.25turn, rgba(255,255,255,0.1), #7383a2, rgba(255,255,255,0.1))
+      animation load infinite 1s
+  .markdown-close-btn
+    top calc(50% + 2px)
+    right 10px
+
+.markdown-similar-item-notification
+  background #00c06c
+  padding 18px 0
+  width 100%
+  top 0
+  left 0
+  .markdown-logo
+    top 50%
+    left 20px
+  .markdown-notification-msg span
+    font-weight 700
+    text-decoration underline
+  .markdown-close-btn
+    top 50%
+    right 20px
+
+@keyframes load
+  0%
+    left -400px
+    opacity 0
+  10%
+    opacity 1
+  90%
+    opacity 1
+  100%
+    left 100%
+    opacty 0
 
 @keyframes markdownNotificationSlideIn
   0%

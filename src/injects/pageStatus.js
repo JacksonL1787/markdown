@@ -1,4 +1,12 @@
 $(() => {
+  $(document).on('click', '.markdown-close-btn', function() {
+    const elem = $(this).parent()
+    elem.addClass('slide-out')
+    setTimeout(() => {
+      elem.remove()
+    }, 400)
+  })
+
   const isStorePage = async () => {
     const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
     const stores = await response.json()
@@ -35,8 +43,15 @@ $(() => {
     }
   }
 
-  const loadingProductsMessage = async () => {
-    
+  const loadingProductsMessage = () => {
+    $('body').append(`
+      <div class="markdown-loading-items-notification">
+        <div class="loader"><div class="loader-runner"></div></div>
+        <div class="markdown-logo"></div>
+        <p class="markdown-notification-msg">Finding Similar Items</p>
+        <div class="markdown-close-btn"></div>
+      </div>
+    `)
   }
 
   const setProcessingStatus = async () => {

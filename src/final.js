@@ -794,16 +794,9 @@ const updateProducts = (products) => {
 
 const appendNotification = (products) => {
   if(!products) {
-    console.log(products);
     return;
   }
-  $(document).on('click', '.markdown-close-btn', function() {
-    const elem = $(this).parent()
-    elem.addClass('slide-out')
-    setTimeout(() => {
-      elem.remove()
-    }, 400)
-  })
+  $('.markdown-loading-items-notification').remove()
   $('body').append(`
     <div class="markdown-similar-item-notification">
       <div class="markdown-logo"></div>
@@ -948,6 +941,7 @@ async function getPageData() {
 async function getProducts(data) {
   let products = await searchSimilarStores(data)
   allProducts = products
+  appendNotification(products)
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -957,6 +951,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 })
 $(() => {
+  $(document).on('click', '.markdown-close-btn', function() {
+    const elem = $(this).parent()
+    elem.addClass('slide-out')
+    setTimeout(() => {
+      elem.remove()
+    }, 400)
+  })
+
   const isStorePage = async () => {
     const response = await fetch(chrome.runtime.getURL('/src/stores.json'))
     const stores = await response.json()
@@ -993,9 +995,21 @@ $(() => {
     }
   }
 
+  const loadingProductsMessage = () => {
+    $('body').append(`
+      <div class="markdown-loading-items-notification">
+        <div class="loader"><div class="loader-runner"></div></div>
+        <div class="markdown-logo"></div>
+        <p class="markdown-notification-msg">Finding Similar Items</p>
+        <div class="markdown-close-btn"></div>
+      </div>
+    `)
+  }
+
   const setProcessingStatus = async () => {
     if (await isStorePage() && await isProductPage()) {
       getPageData()
+      loadingProductsMessage()
     }
   }
 
