@@ -3,7 +3,7 @@
 body
 	width 360px
 	height 600px
-	background white
+	background #221F2E
 	font-family poppins, sans-serif !important
 	overflow-y hidden
 	overflow-x hidden
@@ -20,107 +20,26 @@ a
 	margin 0
 
 #logo-container
-	background #141515
+	background-image url("../img/header-bg.svg")
+	background-size cover
+	background-repeat no-repeat
+	background-position center
 	width 100%
 	position relative
-	height 45px
+	height 100px
 	display flex
-	align-items center
 	justify-content center
 	.logo
-		background-image url("../img/logo.png")
+		background-image url("../img/white-logo.png")
 		background-size cover
 		background-repeat no-repeat
 		background-position center
-		min-width 30px
-		min-height 30px
+		width 30px
+		height 30px
+		margin-top 22px
 	h1
 		color white
 		font-size 22px
 		letter-spacing .5px
 		font-weight 600
-		margin 3px 0 0 8px
-
-#nav-container
-	background #FFD80B
-	width calc(100% - 20px)
-	height 50px
-	box-shadow 0 0 12px 6px rgba(0,0,0,0.1)
-	display flex
-	align-items center
-	padding 0 10px
-	&.favorites-page
-		justify-content left
-		.back-btn
-			display flex
-		.nav-items
-			display none
-	&.similar-items-page
-		justify-content center
-		.back-btn
-			display none
-		.nav-items
-			display flex
-		&.active
-			justify-content space-between
-	.nav-items
-		display flex
-		justify-content center
-		align-items center
-		a
-			text-decoration none
-		.item
-			color #141515
-			font-size 15px
-			letter-spacing .3px
-			font-weight 400
-			position relative
-			margin-right 10px
-			cursor pointer
-			transition color .3s
-			z-index 10
-			padding 3px 10px
-			&.active
-				color #FFD80B
-				&::after
-					width 100%
-			&.right::after
-				right 0
-			&.left::after
-				left 0
-			&:last-child
-				margin-right 0 !important
-			&::after
-				content ""
-				width 0
-				position absolute
-				height 100%
-				top 50%
-				transform translateY(-50%)
-				background #141515
-				z-index -1
-				transition width .3s
-	.back-btn
-		display flex
-		cursor pointer
-		align-items center
-		.icon
-			background-image url("../img/back.svg")
-			background-size cover
-			background-position center
-			background-repeat no-repeat
-			width 15px
-			height 15px
-			margin-right 10px
-		.value
-			color #141515
-			font-size 15px
-			letter-spacing .3px
-			font-weight 400
-
-.page-container
-	height calc(100% - 95px)
-	width 100%
-	display none
-	&.active
-		display block
+		margin 22px 0 0 12px
