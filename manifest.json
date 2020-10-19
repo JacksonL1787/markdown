@@ -5,7 +5,7 @@
   "description": "Automatically interprets the clothing you are viewing and presents you with alternatives from other online clothing stores.",
   "author": "Jackson Lawrence",
   "icons": {
-    "128": "icons/display-logo.png"
+    "128": "icons/markdown-logo-active128.png"
   },
   "permissions": [
     "tabs",
@@ -18,7 +18,7 @@
   },
   "browser_action": {
     "default_icon": {
-      "128": "icons/markdown-logo128.png"
+      "128": "icons/markdown-logo-active128.png"
     },
     "default_title": "Markdown",
     "default_popup": "/src/popup.html"

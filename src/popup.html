@@ -1,119 +1,40 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Markdown</title>
-    <link rel="stylesheet" href="static/css/popup.css">
-    <script src="https://browser.sentry-cdn.com/5.12.0/bundle.min.js" integrity="sha384-628yQYiY4aWhtsw5Qy17Mmuij8Qwsu5EeUbhpWDRUBkxa41oNaPoXwVJ7+dH7CJb" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="apis/jquery.js"></script>
-    <script type="text/javascript" src="apis/fa.js"></script>
-    <script type="text/javascript" src="apis/mixpanel.js"></script>
-    <script type="text/javascript" src="apis/sentry.js"></script>
-  </head>
-  <body>
-    <div id="main">
+	<head>
+		<title>Markdown</title>
+		<link rel="stylesheet" href="static/css/popup.css">
+		<script type="text/javascript" src="apis/jquery.js"></script>
+	</head>
+	<body>
 
+		<div id="logo-container">
+			<div class="logo"></div>
+			<h1>Markdown</h1>
+		</div>
 
+		<div id="nav-container" class="similar-items-page">
+			<div class="similar-items-nav">
+				<div class="nav-items">
+					<p class="favorites-btn item">Favorites</p>
+					<a class="item" href="https://teammarkdown.com/support" target="_blank">Support</a>
+				</div>
+			</div>
+			<div class="favorites-nav">
+				<div class="back-btn">
+					<div class="icon"></div>
+					<p class="value">Back</p>
+				</div>
+				<h1 class="title">Your Favorites</h1>
+			</div>
+		</div>
+		<div id="favorites-container" class="page-container">
+			<p>Favorites</p>
+		</div>
 
+		<div id="similar-items-container" class="page-container active">
+			<p>Similar Items</p>
+		</div>
 
-      <div class="header">
-        <div class="header-content">
-          <h1 class="header-title">Markdown</h1>
-          <div class="nav-wrap">
-            <div class="nav-item nav-stores active" data-linked-container="stores-container">
-              <div class="icon"></div>
-            </div>
-            <div class="nav-item nav-similar-clothing" data-linked-container="similar-clothing-container">
-              <div class="clothes-active"></div>
-              <div class="icon"></div>
-            </div>
-            <div class="nav-item nav-favorites" data-linked-container="favorites-container">
-              <div class="icon"></div>
-            </div>
-            <!-- <div class="nav-item nav-info" data-linked-container="info-container">
-              <div class="icon"></div>
-            </div> -->
-          </div>
-        </div>
-      </div>
-
-      <div class="container stores-container active">
-        <div class="loader">
-          <div class="loader-runner"></div>
-        </div>
-        <h1 class="container-title">Stores</h1>
-        <div class="search-bar-wrap">
-          <div class="search-icon"></div>
-          <input type="text" class="search-bar-inpt" placeholder="Store Name">
-        </div>
-        <div class="content">
-          <p class="no-stores-found" style="display: none;">No stores found matching "<span class="search-text"></span>"</p>
-          <div class="stores-list"></div>
-        </div>
-      </div>
-
-      <div class="container similar-clothing-container">
-        <div class="loader">
-          <div class="loader-runner"></div>
-        </div>
-        <div class="back-to-top-btn"><p>Back to Top</p></div>
-        <h1 class="container-title">Similar Clothing</h1>
-        <div class="content">
-          <div class="go-to-product-page container-msg" >
-            <div class="logo"></div>
-            <h2 class="title">You're Almost There!</h2>
-            <p class="desc">To get similar clothing results you need go to a product page.</p>
-          </div>
-          <div class="loading-products container-msg" >
-            <div class="logo"></div>
-            <h2 class="title">Finding Similar Clothing!</h2>
-            <p class="desc">Currently finding similar items. This could take up to 5 seconds.</p>
-          </div>
-          <div class="not-store-page container-msg" >
-            <div class="logo"></div>
-            <h2 class="title">Not a Store</h2>
-            <p class="desc">You can get similar clothing by looking at stores supported by Markdown.</p>
-            <a class="all-stores-link">All Stores</a>
-          </div>
-          <div class="no-similar-clothing container-msg">
-            <div class="search-logo logo"></div>
-            <h2 class="no-similar-clothing-title title">No Similar Clothing</h2>
-            <p class="no-clothes desc">Sorry, we couldn't find any clothing related to the product you're looking at.</p>
-          </div>
-          <div class="sort-by-container">
-            <p class="sort-option active" data-option="relevant">Relevant</p>
-            <p class="sort-option" data-option="cheapest">Cheapest</p>
-            <p class="sort-option" data-option="expensive">Expensive</p>
-          </div>
-          <div class="clothing-content"></div>
-        </div>
-      </div>
-
-      <div class="container favorites-container">
-        <div class="loader">
-          <div class="loader-runner"></div>
-        </div>
-        <div class="back-to-top-btn"><p>Back to Top</p></div>
-        <h1 class="container-title">My Favorites</h1>
-        <div class="content">
-          <div class="no-favorites container-msg">
-            <div class="logo"></div>
-            <h2 class="title">No Favorites Yet!</h2>
-            <p class="desc ">Hover over product images and click <img src="static/img/white-favorite-icon.svg" align="center"></img> to add a favorite.</p>
-          </div>
-          <div class="clothing-content"></div>
-        </div>
-      </div>
-
-
-    </div>
-
-    <div class="message-wrap">
-      <div class="icon-wrap">
-        <div class="icon"></div>
-      </div>
-      <p class="msg"></p>
-    </div>
-
-    <script type="text/javascript" src="static/js/popup.js"></script>
-  </body>
+		<script type="text/javascript" src="static/js/popup.js"></script>
+	</body>
 </html>

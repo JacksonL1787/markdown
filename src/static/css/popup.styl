@@ -1,388 +1,126 @@
 @import url("https://use.typekit.net/jft6rmf.css");
 
-@import "sheets/products.styl"
-
 body
-  width 360px
-  height 600px
-  background white
-  font-family poppins, sans-serif !important
-  overflow-y hidden
-  overflow-x hidden
-  position relative
-  margin 0
+	width 360px
+	height 600px
+	background white
+	font-family poppins, sans-serif !important
+	overflow-y hidden
+	overflow-x hidden
+	position relative
+	margin 0
 
-#main
-  overflow-y auto
-  height 600px
-  width 360px
+h1,
+h2,
+h3,
+h4,
+p,
+span,
+a
+	margin 0
 
-.header
-  background #ececec
-  height 60px
-  width 100%
-  .header-content
-    position relative
-    width calc(100% - 40px)
-    margin 0 auto
-    height 100%
-    h1.header-title
-      color #333
-      margin 0
-      font-size 17px
-      position absolute
-      top 50%
-      left 0
-      letter-spacing 0.3px
-      transform translateY(-50%)
-    .nav-wrap
-      display flex
-      justify-content center
-      align-items center
-      width fit-content
-      position absolute
-      top 50%
-      right -10px
-      transform translateY(-50%)
-      .nav-item
-        margin 0 10px
-        position relative
-        &.active
-          .icon
-            opacity 0.8 !important
-        &.nav-favorites .icon
-          background-image url('../img/navIcons/favorite-icon.svg')
-          margin-top -2px
-        &.nav-stores .icon
-          background-image url('../img/navIcons/stores-icon.svg')
-          margin-top -1px
-        &.nav-similar-clothing
-          margin 0 8px
-          .clothes-active
-            background rgb(23, 173, 115)
-            width 7px
-            height 7px
-            border-radius 5px
-            position absolute
-            top -3px
-            right -3px
-            z-index 2
-            display none
-          .icon
-            background-image url('../img/navIcons/similar-clothing-icon.svg')
-        &.nav-info
-          margin-left 5px !important
-          .icon
-            background-image url('../img/navIcons/info-icon.svg')
-            margin-top -2px
-            width 19px !important
-            height 19px !important
-        .icon
-          background-position center
-          background-repeat no-repeat
-          background-size cover
-          width 20px
-          height 20px
-          opacity 0.3
-          cursor pointer
-          transition opacity .3s
-          &:hover
-            opacity 0.8
+#logo-container
+	background #141515
+	width 100%
+	position relative
+	height 45px
+	display flex
+	align-items center
+	justify-content center
+	.logo
+		background-image url("../img/logo.png")
+		background-size cover
+		background-repeat no-repeat
+		background-position center
+		min-width 30px
+		min-height 30px
+	h1
+		color white
+		font-size 22px
+		letter-spacing .5px
+		font-weight 600
+		margin 3px 0 0 8px
 
-.loader
-  position absolute
-  top 0
-  left 0
-  width 100%
-  height 2px
-  background rgb(27, 189, 126)
-  overflow hidden
-  display none
-  .loader-runner
-    position absolute
-    width 500px
-    height 100%
-    top 0
-    background linear-gradient(0.25turn, rgba(255,255,255,0.05), rgb(107, 228, 180), rgba(255,255,255,0.05))
-    animation load infinite 1s
+#nav-container
+	background #FFD80B
+	width calc(100% - 20px)
+	height 50px
+	box-shadow 0 0 12px 6px rgba(0,0,0,0.1)
+	display flex
+	align-items center
+	padding 0 10px
+	&.favorites-page
+		justify-content left
+		.back-btn
+			display flex
+		.nav-items
+			display none
+	&.similar-items-page
+		justify-content center
+		.back-btn
+			display none
+		.nav-items
+			display flex
+		&.active
+			justify-content space-between
+	.nav-items
+		display flex
+		justify-content center
+		align-items center
+		a
+			text-decoration none
+		.item
+			color #141515
+			font-size 15px
+			letter-spacing .3px
+			font-weight 400
+			position relative
+			margin-right 10px
+			cursor pointer
+			transition color .3s
+			z-index 10
+			padding 3px 10px
+			&.active
+				color #FFD80B
+				&::after
+					width 100%
+			&.right::after
+				right 0
+			&.left::after
+				left 0
+			&:last-child
+				margin-right 0 !important
+			&::after
+				content ""
+				width 0
+				position absolute
+				height 100%
+				top 50%
+				transform translateY(-50%)
+				background #141515
+				z-index -1
+				transition width .3s
+	.back-btn
+		display flex
+		cursor pointer
+		align-items center
+		.icon
+			background-image url("../img/back.svg")
+			background-size cover
+			background-position center
+			background-repeat no-repeat
+			width 15px
+			height 15px
+			margin-right 10px
+		.value
+			color #141515
+			font-size 15px
+			letter-spacing .3px
+			font-weight 400
 
-@keyframes load
-  0%
-    left -400px
-    opacity 0
-  10%
-    opacity 1
-  90%
-    opacity 1
-  100%
-    left 100%
-    opacty 0
-
-.container
-  display none
-  width 100%
-  position relative
-  padding-top 10px
-  &.active
-    display block
-  &.active-loader
-    .loader
-      display block
-  h1.container-title
-    color #333
-    text-align center
-    margin 0 0 30px
-    font-size 20px
-    font-weight 500
-
-.similar-clothing-container,
-.favorites-container
-  .content
-    width calc(100% - 40px)
-    margin 0 auto
-  .container-msg
-    width 300px
-    margin 50px auto 0
-    text-align center
-    &.no-favorites
-      width 225px
-      .logo
-        background-image url('../img/empty-icon.svg')
-      .desc
-        img
-          background rgb(30, 36, 48)
-          width 10px
-          height 14px
-          padding 5px 7px
-          border-radius 20000px
-          margin 0 2px
-    &.go-to-product-page
-      .logo
-        background-image url('../img/go-to-product-icon.svg')
-    &.loading-products
-      .logo
-        background-image url('../img/loading-icon.svg')
-    &.not-store-page
-      .logo
-        background-image url('../img/store-icon.svg')
-    &.no-similar-clothing
-      .logo
-        background-image url('../img/search-icon.svg')
-    &.not-store-page
-      .all-stores-link
-        color rgb(27, 189, 126)
-        text-decoration none
-        cursor pointer
-        font-size 14px
-        margin-top 10px
-        display block
-        &:hover
-          text-decoration underline
-    .logo
-      background-image url('../img/go-to-product-icon.svg')
-      background-size cover
-      background-position center
-      background-repeat no-repeat
-      width 100px
-      height 100px
-      margin 0 auto 20px
-      opacity 0.1
-    .title
-      color #333
-      font-size 16px
-      font-weight 500
-      letter-spacing 0.3px
-      margin 0 0 5px
-    .desc
-      color grey
-      margin 0
-      font-size 13px
-  .back-to-top-btn
-    width 100%
-    height 45px
-    z-index 5
-    position fixed
-    top -45px
-    left 0
-    background rgb(30, 36, 48)
-    cursor pointer
-    overflow hidden
-    transition background .3s, top .2s
-    &.active
-      top 0
-    &:hover
-      background rgb(42, 50, 65)
-    p
-      color white
-      position absolute
-      top 50%
-      left 50%
-      transform translate(-50%, -50%)
-      margin 0
-      font-size 14px
-      font-weight 600
-      letter-spacing 0.3px
-
-.similar-clothing-container,
-.favorites-container
-  .container-msg
-    display none
-    &.show
-      display block
-
-.similar-clothing-container
-  .sort-by-container
-    justify-content center
-    align-items center
-    width 100%
-    margin -20px auto 40px
-    position relative
-    display none
-    &.active
-      display flex
-    .sort-option
-      color #9f9f9f
-      font-size 12px
-      text-transform uppercase
-      margin 0 10px
-      cursor pointer
-      font-weight 600
-      letter-spacing 0.3px
-      position relative
-      transition color .3s
-      &.active
-        color #1bbd7e !important
-        &::before
-          height 2px !important
-      &:hover
-        color #1bbd7e
-      &::before
-        content ""
-        position absolute
-        left calc(50% - 0.5px)
-        transform translateX(-50%)
-        bottom 1px
-        width 100%
-        height 0
-        background #1bbd7e
-        transition height .3s
-
-.stores-container
-  .container-title
-    margin-bottom 10px !important
-  .search-bar-wrap
-    width fit-content
-    margin 0 auto
-    position relative
-    height fit-content
-    .search-icon
-      background-image url('../img/search-icon.svg')
-      background-size cover
-      background-position center
-      background-repeat no-repeat
-      opacity 0.4
-      width 17px
-      height 17px
-      position absolute
-      top calc(50% - 7px)
-      left 9px
-      transform translateY(-50%)
-    .search-bar-inpt
-      width 200px
-      padding 8px 0 8px 35px
-      outline none
-      border none
-      background rgb(227, 227, 227)
-      color #333
-      border-radius .3em
-      font-size 14px
-      margin-bottom 15px
-  .content
-    .no-stores-found
-      max-width 90%
-      word-break break-word
-      font-size 14px
-      color rgb(152, 152, 152)
-      text-align center
-      margin 20px auto
-      display block
-    .stores-list
-      .divider
-        height 1px
-        width 90%
-        margin 0 auto
-        background rgb(225, 233, 238)
-      .store-wrap
-        width 90%
-        cursor pointer
-        height 75px
-        margin 0 auto
-        display flex
-        justify-content left
-        align-items center
-        .logo
-          width 60px
-          margin-right 20px
-        .store-name
-          color #333
-          font-weight 400
-          margin 0
-          letter-spacing 0.3px
-          font-size 16px
-
-.message-wrap
-  position fixed
-  height 30px
-  width fit-content
-  border-radius .3em
-  z-index 5
-  opacity 0
-  visibility hidden
-  bottom 5px
-  left 50%
-  transform translateX(-50%)
-  display flex
-  justify-content left
-  align-items center
-  overflow hidden
-  transition opacity .25s, visibility .25s, bottom .3s
-  &.green
-    background rgb(24, 176, 117)
-    .icon-wrap
-      .icon
-        background-image url('../img/checkmark.svg')
-  &.red
-    background rgb(212, 30, 30)
-    .icon-wrap
-      background rgba(0,0,0,0.15)
-      .icon
-        width 12.5px !important
-        height 12.5px !important
-        top 50% !important
-        left 50% !important
-        background-image url('../img/removed.svg')
-  &.active
-    opacity 1
-    visibility visible
-    bottom 20px
-  .icon-wrap
-    background rgba(0,0,0,0.1)
-    height 100%
-    width 30px
-    position relative
-    .icon
-      background-size cover
-      background-position center
-      background-repeat no-repeat
-      width 16px
-      height 18px
-      position absolute
-      top calc(50% + 1.5px)
-      left calc(50% + 1px)
-      transform translate(-50%, -50%)
-  p.msg
-    color white
-    margin 0 15px
-    font-size 12px
-    width fit-content
-    font-weight 600
+.page-container
+	height calc(100% - 95px)
+	width 100%
+	display none
+	&.active
+		display block
