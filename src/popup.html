@@ -6,10 +6,11 @@
 		<script type="text/javascript" src="apis/jquery.js"></script>
 		<link rel="stylesheet" href="static/css/popup.css">
 	</head>
-	<body>
+	<body class="settings-page-active">
 		<div id="nav">
 			<div class="nav-items">
 				<p class="nav-item favorites-link-btn" active-transition="false">Favorites</p>
+				<p class="nav-item settings-link-btn" active-transition="false">Settings</p>
 				<a active-transition="false" href="https://teammarkdown.com/support" class="nav-item support-link-btn" target="_blank">Support</a>
 			</div>
 		</div>
@@ -36,9 +37,32 @@
 					<div class="icon"></div>
 					<p class="value">Back</p>
 				</div>
-				<h1 class="header-title">Favorites</h1>
+				<div class="header-title-container">
+					<h1 class="header-title">Favorites</h1>
+					<p class="number-of-items">7 Items</p>
+				</div>
 			</div>
 		</div>
+
+		<div class="settings-container">
+			<div class="settings-header">
+				<div class="back-btn">
+					<div class="icon"></div>
+					<p class="value">Back</p>
+				</div>
+				<h1 class="header-title">Settings</h1>
+			</div>
+			<h2 class="section-label">Select Theme</h2>
+			<div class="theme-selector-container">
+				<p class="select-option-label">Light</p>
+				<div class="theme-select">
+					<div class="button"></div>
+				</div>
+				<p class="select-option-label">Dark</p>
+			</div>
+			<h2 class="section-label">Manage Favorite Stores</h2>
+		</div>
+
 
 		<script type="text/javascript" src="static/js/popup.js"></script>
 	</body>
