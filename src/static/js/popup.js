@@ -1,20 +1,16 @@
-$(".favorites-btn").click(() => {
-    $("#nav-container").addClass("favorites-page").removeClass("similar-items-page")
-    $(".page-container").removeClass("active")
-    $("#favorites-container").addClass("active")
+$(".menu-btn").click(() => {
+    $("body").toggleClass("nav-active")
+    $(".menu-btn").toggleClass("is-active")
 })
 
-$(".back-btn").click(() => {
-    $("#nav-container").removeClass("favorites-page").addClass("similar-items-page")
-    $(".page-container").removeClass("active")
-    $("#similar-items-container").addClass("active")
+$(".favorites-link-btn").click(() => {
+    $("body").addClass("favorites-page-active")
+    $(".similar-items-container, .favorites-container").removeAttr("style")
 })
 
-$(".nav-items .item").mouseenter(function() {
-    $(this).addClass("left").removeClass("right").addClass("active")
+$(".favorites-container .back-btn").click(() => {
+    $("body").removeClass("favorites-page-active").removeClass("nav-active")
+    $(".menu-btn").removeClass("is-active")
+    $(".similar-items-container").css("transition", "left .3s")
+    $(".favorites-container").css("transition", "left .3s").css("left", "100%")
 })
-
-$(".nav-items .item").mouseleave(function() {
-    $(this).removeClass("left").addClass("right").removeClass("active")
-})
-
